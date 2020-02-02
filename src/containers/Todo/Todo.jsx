@@ -12,11 +12,19 @@ export default function Todo() {
     setTodos(newTodos);
   }
 
+  const todoToggle = (todoId) => {
+    const newTodos = [...todos];
+    const index = newTodos.findIndex((todo) => todo.id === todoId);
+    newTodos[index].isCompleted = !newTodos[index].isCompleted;
+
+    setTodos(newTodos);
+  }
+
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} onToggle={todoToggle} />
     </div>
   )
 }
