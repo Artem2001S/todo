@@ -28,11 +28,19 @@ export default function Todo() {
     setTodos(newTodos);
   }
 
+  const updateTodoText = (todoId, text) => {
+    const newTodos = [...todos];
+    const index = newTodos.findIndex((todo) => todo.id === todoId);
+    newTodos[index].text = text;
+
+    setTodos(newTodos);
+  }
+
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
-      <TodoList todos={todos} onToggle={todoToggle} onRemove={removeTodo} />
+      <TodoList todos={todos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
     </div>
   )
 }
