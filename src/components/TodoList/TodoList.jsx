@@ -2,9 +2,9 @@ import React from 'react'
 import TodoItem from '../TodoItem/TodoItem'
 import classes from './TodoList.module.scss'
 
-export default function TodoList({ todos, onToggle }) {
+export default function TodoList({ todos, onToggle, onRemove }) {
   const $todos = todos.map((todo, index) => {
-    return (<TodoItem key={`${index}a`} todo={todo} onToggle={onToggle} />)
+    return (<TodoItem key={`${index}a`} todo={todo} onToggle={onToggle} onRemove={onRemove} />)
   });
 
   return (

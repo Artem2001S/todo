@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './TodoItem.module.scss'
 
-export default function TodoItem({ todo, onToggle }) {
+export default function TodoItem({ todo, onToggle, onRemove }) {
   const rnd = Math.random();
 
   const inputRef = React.createRef();
@@ -24,7 +24,7 @@ export default function TodoItem({ todo, onToggle }) {
         </span>
         <input ref={inputRef} type="text" className={classes.inputForEdit} />
       </div>
-      <div className={classes.removeBtn}></div>
+      <div className={classes.removeBtn} onClick={onRemove.bind(this, todo.id)}></div>
     </div>
   )
 }

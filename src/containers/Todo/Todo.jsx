@@ -20,11 +20,19 @@ export default function Todo() {
     setTodos(newTodos);
   }
 
+  const removeTodo = (todoId) => {
+    const newTodos = [...todos];
+    const index = newTodos.findIndex((todo) => todo.id === todoId);
+
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  }
+
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
-      <TodoList todos={todos} onToggle={todoToggle} />
+      <TodoList todos={todos} onToggle={todoToggle} onRemove={removeTodo} />
     </div>
   )
 }
