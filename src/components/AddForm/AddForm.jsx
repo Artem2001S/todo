@@ -12,7 +12,7 @@ export default function AddForm({ sumbitHandler }) {
           type="text"
           placeholder="What needs to be done ?"
           value={value}
-          onChange={(e) => { setValue(e.target.value); }}
+          onChange={(e) => { setValue(e.target.value.trim()); }}
         />
       </div>
     </form>

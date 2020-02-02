@@ -5,10 +5,9 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   const inputRef = React.createRef();
   const [valueToUpdate, setValueToUpdate] = useState(todo.text)
   let needUpdate = true;
- 
+
   return (
     <div className={classes.TodoItem}>
-
       <label htmlFor={todo.id} className={classes.ToggleBlock}>
         <input type="checkbox" id={todo.id} onChange={onToggle.bind(this, todo.id)} defaultChecked={todo.isCompleted} />
         <div className={classes.checkboxToggle}></div>

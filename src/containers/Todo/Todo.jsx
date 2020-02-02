@@ -5,11 +5,10 @@ import AddForm from '../../components/AddForm/AddForm'
 import TodoList from '../../components/TodoList/TodoList'
 
 export default function Todo() {
-  const [todos, setTodos] = useState([{ id: 1, text: 'todo1', isCompleted: false }, { id: 2, text: 'todo2', isCompleted: true }]);
+  const [todos, setTodos] = useState([{ id: 321, text: 'todo1', isCompleted: false }, { id: 123122, text: 'todo2', isCompleted: true }]);
 
   const addTodo = (text) => {
-    const newTodos = [createTodoObject(text), ...todos];
-    setTodos(newTodos);
+    setTodos([createTodoObject(text), ...todos]);
   }
 
   const todoToggle = (todoId) => {
@@ -21,10 +20,7 @@ export default function Todo() {
   }
 
   const removeTodo = (todoId) => {
-    const newTodos = [...todos];
-    const index = newTodos.findIndex((todo) => todo.id === todoId);
-
-    newTodos.splice(index, 1);
+    const newTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(newTodos);
   }
 
