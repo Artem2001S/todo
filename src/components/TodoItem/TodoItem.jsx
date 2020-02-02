@@ -1,10 +1,11 @@
 import React from 'react'
 import classes from './TodoItem.module.scss'
 
-export default function TodoItem() {
+export default function TodoItem({ todo }) {
   const rnd = Math.random();
 
   const inputRef = React.createRef();
+
   return (
     <div className={classes.TodoItem}>
 
@@ -18,7 +19,9 @@ export default function TodoItem() {
         title="Double click to edit"
         onDoubleClick={() => { inputRef.current.style.display = 'block'; inputRef.current.focus() }}
       >
-        <span className={classes.Completed}>todo 1 L!</span>
+        <span className={todo.isCompleted ? classes.Completed : ''}>
+          {todo.text}
+        </span>
         <input ref={inputRef} type="text" className={classes.inputForEdit} />
       </div>
       <div className={classes.removeBtn}></div>
