@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '../UI/Button/Button'
+import classes from './Filters.module.scss'
 
 export default function Filters({ activeFilter, onClickHandler }) {
   const buttons = [
@@ -8,9 +9,8 @@ export default function Filters({ activeFilter, onClickHandler }) {
     { name: 'completed', content: 'Completed' }
   ];
 
-
   return (
-    <div>
+    <div className={classes.Filters}>
       {
         buttons.map((btn) => {
           return <Button key={btn.name}
