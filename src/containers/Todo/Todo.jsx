@@ -8,7 +8,7 @@ import Filters from '../../components/Filters/Filters'
 export default function Todo() {
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
-  
+
   const [todos, setTodos] = useState([]);
 
   const initialFilter = localStorage.getItem(LOCAL_STORAGE_KEY_FILTER) || 'all';
@@ -68,11 +68,14 @@ export default function Todo() {
 
   const visibleTodos = filter(todos, activeFilter);
 
+  const isEmpty = todos.length === 0;
+
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
-      <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
+      {isEmpty ? null : <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />}
+
       <TodoList todos={visibleTodos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
     </div>
   )
