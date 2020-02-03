@@ -1,12 +1,12 @@
 import React from 'react'
 import classes from './ProgressIndicator.module.scss'
 
-export default function ProgressIndicator() {
+export default function ProgressIndicator({ progressValue }) {
   return (
     <div className={classes.ProgressIndicator}>
-      <span className={classes.ProgressValue}>22%</span>
+      <span className={classes.ProgressValue}>{progressValue}%</span>
       <div className={classes.ProgressGraphic}>
-        <div className={classes.ProgressDone} style={{width: '20%'}}></div>
+        <div className={classes.ProgressDone} style={{ width: `${progressValue}%` }}></div>
       </div>
     </div>
   )
