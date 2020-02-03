@@ -1,11 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './Todo.module.css'
 import Header from '../../components/Header/Header'
 import AddForm from '../../components/AddForm/AddForm'
 import TodoList from '../../components/TodoList/TodoList'
 
 export default function Todo() {
-  const [todos, setTodos] = useState([{ id: 321, text: 'todo1', isCompleted: false }, { id: 123122, text: 'todo2', isCompleted: true }]);
+  const LOCAL_STORAGE_KEY = 'todos';
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const todosFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY) || '[]';
+    setTodos(JSON.parse(todosFromStorage));
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+  }, [todos])
+
 
   const addTodo = (text) => {
     setTodos([createTodoObject(text), ...todos]);
