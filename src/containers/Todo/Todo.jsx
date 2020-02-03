@@ -6,19 +6,23 @@ import TodoList from '../../components/TodoList/TodoList'
 import Filters from '../../components/Filters/Filters'
 
 export default function Todo() {
-  const LOCAL_STORAGE_KEY = 'todos';
+  const LOCAL_STORAGE_KEY_TODOS = 'todos';
+  const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
+  
   const [todos, setTodos] = useState([]);
-  const [activeFilter, setActiveFilter] = useState('all');
+
+  const initialFilter = localStorage.getItem(LOCAL_STORAGE_KEY_FILTER) || 'all';
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
 
   useEffect(() => {
-    const todosFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY) || '[]';
+    const todosFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY_TODOS) || '[]';
     setTodos(JSON.parse(todosFromStorage));
   }, [])
 
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-  }, [todos])
-
+    localStorage.setItem(LOCAL_STORAGE_KEY_TODOS, JSON.stringify(todos));
+    localStorage.setItem(LOCAL_STORAGE_KEY_FILTER, activeFilter);
+  }, [todos, activeFilter])
 
   const addTodo = (text) => {
     setTodos([createTodoObject(text), ...todos]);
