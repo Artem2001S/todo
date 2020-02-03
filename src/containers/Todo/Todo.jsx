@@ -4,6 +4,7 @@ import Header from '../../components/Header/Header'
 import AddForm from '../../components/AddForm/AddForm'
 import TodoList from '../../components/TodoList/TodoList'
 import Filters from '../../components/Filters/Filters'
+import Button from '../../components/UI/Button/Button'
 
 export default function Todo() {
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
@@ -41,6 +42,11 @@ export default function Todo() {
     setTodos(newTodos);
   }
 
+  const removeCompleted = () => {
+    const newTodos = todos.filter((todo) => !todo.isCompleted);
+    setTodos(newTodos);
+  }
+
   const updateTodoText = (todoId, text) => {
     const newTodos = [...todos];
     const index = newTodos.findIndex((todo) => todo.id === todoId);
@@ -69,6 +75,10 @@ export default function Todo() {
   const visibleTodos = filter(todos, activeFilter);
 
   const isEmpty = todos.length === 0;
+  const completedCount = todos.reduce((accum, todo) => {
+    if (todo.isCompleted) return accum + 1;
+    return accum;
+  }, 0)
 
   return (
     <div className={classes.TodoContainer}>
@@ -77,6 +87,8 @@ export default function Todo() {
       {isEmpty ? null : <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />}
 
       <TodoList todos={visibleTodos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
+
+      {completedCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
     </div>
   )
 }
