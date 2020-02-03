@@ -15,7 +15,7 @@ export default function Filters({ activeFilter, onClickHandler }) {
         buttons.map((btn) => {
           return <Button key={btn.name}
             isActive={activeFilter === btn.name}
-           
+            onClick={onClickHandler.bind(this, btn.name)}
           >
             {btn.content}
           </Button>

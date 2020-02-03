@@ -45,16 +45,31 @@ export default function Todo() {
     setTodos(newTodos);
   }
 
- 
+  const changeFilter = (filter) => {
+    setActiveFilter(filter);
+  }
 
-  
+  const filter = (items, filter) => {
+    switch (filter) {
+      case 'all':
+        return items;
+      case 'active':
+        return items.filter((item) => !item.isCompleted);
+      case 'completed':
+        return items.filter((item) => item.isCompleted);
+      default:
+        return items;
+    }
+  }
+
+  const visibleTodos = filter(todos, activeFilter);
 
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
-      <Filters activeFilter={activeFilter} />
-      <TodoList todos={todos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
+      <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
+      <TodoList todos={visibleTodos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
     </div>
   )
 }
