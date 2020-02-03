@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classes from './AddForm.module.scss'
 
-export default function AddForm() {
+export default function AddForm({ sumbitHandler }) {
+  const [value, setValue] = useState('');
+
   return (
-    <form onSubmit={(e) => e.preventDefault()} className={classes.AddForm}>
+    <form className={classes.AddForm} onSubmit={(e) => { e.preventDefault(); sumbitHandler.call(this, value.trim()); setValue(''); }} >
       <div>
-        <input className={classes.Input} type="text" placeholder="What needs to be done ?" />
+        <input
+          className={classes.Input}
+          type="text"
+          placeholder="What needs to be done ?"
+          value={value}
+          onChange={(e) => { setValue(e.target.value); }}
+        />
       </div>
     </form>
   )
