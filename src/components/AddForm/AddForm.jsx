@@ -7,6 +7,9 @@ export default function AddForm({ sumbitHandler }) {
   return (
     <form className={classes.AddForm} onSubmit={(e) => { e.preventDefault(); sumbitHandler.call(this, value.trim()); setValue(''); }} >
       <div>
+        <div className={classes.ToggleAllBtn + ' ' + classes.Active}>
+          ❯
+        </div>
         <input
           className={classes.Input}
           type="text"
