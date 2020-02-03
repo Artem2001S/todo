@@ -32,35 +32,33 @@
   margin-right: 20px;
 }
 
-input[type="checkbox"] {
-  display: none;
-  & + .checkboxToggle {
-    display: block;
-    width: 40px;
-    height: 40px;
+.checkboxToggle {
+  display: block;
+  width: 40px;
+  height: 40px;
 
-    border: 1px solid #bdbdbd;
-    border-radius: 50%;
+  border: 1px solid #bdbdbd;
+  border-radius: 50%;
 
-    cursor: pointer;
-    transition: border-color 0.5s;
+  cursor: pointer;
+  transition: border-color 0.5s;
 
-    &:hover {
-      border: 1px solid rgba(31, 141, 31, 0.7);
-      &::after {
-        @include makeChecked();
-        opacity: 0.4;
-      }
+  &:hover {
+    border: 1px solid rgba(31, 141, 31, 0.7);
+    &::after {
+      @include makeChecked();
+      opacity: 0.4;
     }
   }
 
-  &:checked + .checkboxToggle {
+  &.Active {
     border: 1px solid rgb(31, 141, 31);
     &:hover {
       &::after {
         opacity: 1;
       }
     }
+
     &::after {
       @include makeChecked();
     }
@@ -143,7 +141,7 @@ input[type="checkbox"] {
   height: 100%;
   padding: 0.5rem 1.5rem;
   padding-right: 2.8rem;
-  
+
   font-size: 22px;
   border-radius: 25px;
 

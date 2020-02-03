@@ -5,14 +5,15 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   const inputRef = React.createRef();
   const checkboxRef = React.createRef();
 
-  const [valueToUpdate, setValueToUpdate] = useState(todo.text)
+  const [valueToUpdate, setValueToUpdate] = useState(todo.text);
   let needToUpdate = true;
 
+  const checkboxClasses = [classes.checkboxToggle];
+  if (todo.isCompleted) { checkboxClasses.push(classes.Active); }
   return (
     <div className={classes.TodoItem}>
       <label ref={checkboxRef} htmlFor={todo.id} className={classes.ToggleBlock}>
-        <input type="checkbox" id={todo.id} onChange={onToggle.bind(this, todo.id)} defaultChecked={todo.isCompleted} />
-        <div className={classes.checkboxToggle}></div>
+        <div className={checkboxClasses.join(' ')} onClick={onToggle.bind(this, todo.id)}></div>
       </label>
 
       <div className={classes.ContentBlock} title="Double click to edit"
@@ -32,7 +33,8 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
               const finalValue = needToUpdate ? valueToUpdate : todo.text;
               onUpdate.call(this, todo.id, finalValue);
               setValueToUpdate(finalValue.trim());
-            }}
+            }
+          }
 
           onKeyUp={
             (e) => {
