@@ -60,6 +60,17 @@ export default function Todo() {
     setActiveFilter(filter);
   }
 
+  const toggleAllTodos = () => {
+    let newTodos = [...todos];
+    if (newTodos.length === getCompletedTodosCount()) {
+      newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: false } });
+    } else {
+      newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: true } });
+    }
+
+    setTodos(newTodos);
+  }
+
   const filter = (items, filter) => {
     switch (filter) {
       case 'all':
@@ -91,12 +102,10 @@ export default function Todo() {
   const isEmpty = todos.length === 0;
   const completedCount = getCompletedTodosCount();
 
-
-
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
-      <AddForm sumbitHandler={addTodo} />
+      <AddForm sumbitHandler={addTodo} onToggleAll={toggleAllTodos} />
       {
         isEmpty ? null :
           <>
