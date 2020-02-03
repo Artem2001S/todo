@@ -27,7 +27,7 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
             inputRef.current.style.display = 'none';
             const finalValue = needUpdate ? valueToUpdate : todo.text;
             onUpdate.call(this, todo.id, finalValue);
-            setValueToUpdate(finalValue);
+            setValueToUpdate(finalValue.trim());
           }}
 
           onKeyUp={

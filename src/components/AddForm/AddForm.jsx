@@ -5,14 +5,14 @@ export default function AddForm({ sumbitHandler }) {
   const [value, setValue] = useState('');
 
   return (
-    <form className={classes.AddForm} onSubmit={(e) => { e.preventDefault(); sumbitHandler.call(this, value); setValue(''); }} >
+    <form className={classes.AddForm} onSubmit={(e) => { e.preventDefault(); sumbitHandler.call(this, value.trim()); setValue(''); }} >
       <div>
         <input
           className={classes.Input}
           type="text"
           placeholder="What needs to be done ?"
           value={value}
-          onChange={(e) => { setValue(e.target.value.trim()); }}
+          onChange={(e) => { setValue(e.target.value); }}
         />
       </div>
     </form>
