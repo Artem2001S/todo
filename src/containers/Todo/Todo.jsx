@@ -5,6 +5,7 @@ import AddForm from '../../components/AddForm/AddForm'
 import TodoList from '../../components/TodoList/TodoList'
 import Filters from '../../components/Filters/Filters'
 import Button from '../../components/UI/Button/Button'
+import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
 
 export default function Todo() {
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
@@ -84,7 +85,13 @@ export default function Todo() {
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
-      {isEmpty ? null : <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />}
+      {isEmpty ? null :
+        (<>
+          <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
+          <ProgressIndicator />
+        </>
+        )
+      }
 
       <TodoList todos={visibleTodos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
 
