@@ -5,6 +5,7 @@ import AddForm from '../../components/AddForm/AddForm'
 import TodoList from '../../components/TodoList/TodoList'
 import Filters from '../../components/Filters/Filters'
 import Button from '../../components/UI/Button/Button'
+import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
 
 export default function Todo() {
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
@@ -72,19 +73,37 @@ export default function Todo() {
     }
   }
 
+  const getCompletedTodosCount = () => {
+    return todos.reduce((accum, todo) => {
+      if (todo.isCompleted) return accum + 1;
+      return accum;
+    }, 0);
+  }
+
+  const getCompletedPercent = () => {
+    const all = todos.length;
+    const percent = (getCompletedTodosCount() * 100) / all;
+    return Math.round(percent);
+  }
+
   const visibleTodos = filter(todos, activeFilter);
 
   const isEmpty = todos.length === 0;
-  const completedCount = todos.reduce((accum, todo) => {
-    if (todo.isCompleted) return accum + 1;
-    return accum;
-  }, 0)
+  const completedCount = getCompletedTodosCount();
+
+
 
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
-      {isEmpty ? null : <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />}
+      {
+        isEmpty ? null :
+          <>
+            <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
+            <ProgressIndicator progressValue={getCompletedPercent()} />
+          </>
+      }
 
       <TodoList todos={visibleTodos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
 
