@@ -3,10 +3,12 @@ import classes from './Todo.module.css'
 import Header from '../../components/Header/Header'
 import AddForm from '../../components/AddForm/AddForm'
 import TodoList from '../../components/TodoList/TodoList'
+import Filters from '../../components/Filters/Filters'
 
 export default function Todo() {
   const LOCAL_STORAGE_KEY = 'todos';
   const [todos, setTodos] = useState([]);
+  const [activeFilter, setActiveFilter] = useState('all');
 
   useEffect(() => {
     const todosFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY) || '[]';
@@ -43,10 +45,15 @@ export default function Todo() {
     setTodos(newTodos);
   }
 
+ 
+
+  
+
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
       <AddForm sumbitHandler={addTodo} />
+      <Filters activeFilter={activeFilter} />
       <TodoList todos={todos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
     </div>
   )
