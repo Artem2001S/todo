@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import classes from './AddForm.module.scss'
+import Alert from '../UI/Alert/Alert';
 
 export default function AddForm({ sumbitHandler, onToggleAll }) {
   const [value, setValue] = useState('');
@@ -12,6 +13,7 @@ export default function AddForm({ sumbitHandler, onToggleAll }) {
         setValue('');
       }
     } >
+      <Alert >Enter data;</Alert>
       <div>
         <div onClick={onToggleAll} className={classes.ToggleAllBtn + ' ' + classes.Active}>
           ❯
