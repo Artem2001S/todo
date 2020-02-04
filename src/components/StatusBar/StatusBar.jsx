@@ -3,9 +3,9 @@ import classes from './StatusBar.module.scss';
 
 export default function StatusBar({ statusText }) {
   return (
-    <div className={classes.StatusBar}>
+    <div>
       <div className={classes.StatusLine}>
-        1 item left
+        {statusText}
       </div>
     </div>
   )

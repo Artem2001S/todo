@@ -98,10 +98,21 @@ export default function Todo() {
     return Math.round(percent);
   }
 
+  const getStatusBarContent = () => {
+    let statusBarContnet = `${completedCount} item`;
+    if (completedCount === 1) {
+      statusBarContnet += ' left';
+    } else {
+      statusBarContnet += 's left';
+    }
+    return statusBarContnet;
+  }
+
   const visibleTodos = filter(todos, activeFilter);
 
   const isEmpty = todos.length === 0;
   const completedCount = getCompletedTodosCount();
+  const statusBarContnet = getStatusBarContent();
 
 
   return (
@@ -112,7 +123,7 @@ export default function Todo() {
         isEmpty ? null :
           <>
             <div className={classes.TodosHeader}>
-              <StatusBar />
+              <StatusBar statusText={statusBarContnet} />
               <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
             </div>
             <ProgressIndicator progressValue={getCompletedPercent()} />
