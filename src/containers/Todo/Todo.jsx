@@ -107,7 +107,7 @@ export default function Todo() {
     } else {
       statusBarContnet += 's left';
     }
-    
+
     return statusBarContnet;
   }
 

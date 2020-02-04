@@ -4,6 +4,7 @@ import classes from './TodoItem.module.scss'
 export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   const inputRef = React.createRef();
   const checkboxRef = React.createRef();
+  const todoTitleRef = React.createRef();
 
   const [valueToUpdate, setValueToUpdate] = useState(todo.text);
   let needToUpdate = true;
@@ -17,8 +18,18 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
       </label>
 
       <div className={classes.ContentBlock} title="Double click to edit"
-        onDoubleClick={() => { inputRef.current.style.display = 'block'; hideElement(checkboxRef); inputRef.current.focus(); }}>
-        <span className={todo.isCompleted ? classes.Completed : ''}>
+        onDoubleClick={
+          () => {
+            inputRef.current.style.display = 'block';
+            hideElement(checkboxRef);
+            inputRef.current.focus();
+
+            // set short value (for displaying input with small height)
+            todoTitleRef.current.textContent = '1';
+          }
+        }>
+          
+        <span ref={todoTitleRef} className={todo.isCompleted ? classes.Completed : ''}>
           {todo.text}
         </span>
 
@@ -30,9 +41,11 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
             () => {
               showElement(checkboxRef);
               inputRef.current.style.display = 'none';
-              const finalValue = needToUpdate ? valueToUpdate : todo.text;
+              const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
+
               onUpdate.call(this, todo.id, finalValue);
-              setValueToUpdate(finalValue.trim());
+              setValueToUpdate(finalValue);
+              todoTitleRef.current.textContent = todo.text;
             }
           }
 
@@ -41,7 +54,8 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
               if (e.key === 'Enter') { e.target.blur(); }
               if (e.key === 'Escape') { inputRef.current.style.display = 'none'; needToUpdate = false; }
             }
-          } />
+          }
+        />
       </div>
       <div className={classes.removeBtn} onClick={onRemove.bind(this, todo.id)}></div>
     </div>
@@ -50,7 +64,7 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
 
 
 function hideElement(ref) {
-  ref.current.style.visibility = 'hidden';
+  ref.current.style.display = 'hidden';
 }
 
 function showElement(ref) {
