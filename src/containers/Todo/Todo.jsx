@@ -102,10 +102,11 @@ export default function Todo() {
   const isEmpty = todos.length === 0;
   const completedCount = getCompletedTodosCount();
 
+
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
-      <AddForm sumbitHandler={addTodo} onToggleAll={toggleAllTodos} />
+      <AddForm sumbitHandler={addTodo} onToggleAll={toggleAllTodos} isToggleBtnActive={completedCount === todos.length} isEmpty={isEmpty} />
       {
         isEmpty ? null :
           <>
