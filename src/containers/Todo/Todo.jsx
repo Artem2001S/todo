@@ -99,12 +99,15 @@ export default function Todo() {
   }
 
   const getStatusBarContent = () => {
-    let statusBarContnet = `${completedCount} item`;
-    if (completedCount === 1) {
+    const value = todos.length - getCompletedTodosCount();
+    let statusBarContnet = `${value} item`;
+
+    if (value === 1) {
       statusBarContnet += ' left';
     } else {
       statusBarContnet += 's left';
     }
+    
     return statusBarContnet;
   }
 
