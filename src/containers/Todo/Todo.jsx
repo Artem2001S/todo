@@ -6,6 +6,7 @@ import TodoList from '../../components/TodoList/TodoList'
 import Filters from '../../components/Filters/Filters'
 import Button from '../../components/UI/Button/Button'
 import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
+import StatusBar from '../../components/StatusBar/StatusBar'
 
 export default function Todo() {
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
@@ -97,10 +98,21 @@ export default function Todo() {
     return Math.round(percent);
   }
 
+  const getStatusBarContent = () => {
+    let statusBarContnet = `${completedCount} item`;
+    if (completedCount === 1) {
+      statusBarContnet += ' left';
+    } else {
+      statusBarContnet += 's left';
+    }
+    return statusBarContnet;
+  }
+
   const visibleTodos = filter(todos, activeFilter);
 
   const isEmpty = todos.length === 0;
   const completedCount = getCompletedTodosCount();
+  const statusBarContnet = getStatusBarContent();
 
 
   return (
@@ -110,7 +122,10 @@ export default function Todo() {
       {
         isEmpty ? null :
           <>
-            <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
+            <div className={classes.TodosHeader}>
+              <StatusBar statusText={statusBarContnet} />
+              <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
+            </div>
             <ProgressIndicator progressValue={getCompletedPercent()} />
           </>
       }
