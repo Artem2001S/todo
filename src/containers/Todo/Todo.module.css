@@ -2,3 +2,12 @@
   width: 55%;
   margin: 20px auto;
 }
+
+.TodosHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+  margin-top: 5px;
+  padding: 0 15px;
+}
