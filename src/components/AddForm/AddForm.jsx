@@ -4,16 +4,24 @@ import Alert from '../UI/Alert/Alert';
 
 export default function AddForm({ sumbitHandler, onToggleAll }) {
   const [value, setValue] = useState('');
+  const [errorMessage, setErrorMessage] = useState(false);
 
   return (
     <form className={classes.AddForm} onSubmit={
       (e) => {
         e.preventDefault();
+        if (value === '') {
+          setErrorMessage(true);
+          return;
+        }
+
         sumbitHandler.call(this, value.trim());
         setValue('');
+        setErrorMessage(false);
       }
     } >
-      <Alert >Enter data;</Alert>
+
+      {errorMessage ? <Alert>Enter data!</Alert> : null}
       <div>
         <div onClick={onToggleAll} className={classes.ToggleAllBtn + ' ' + classes.Active}>
           ❯
