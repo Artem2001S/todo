@@ -7,7 +7,6 @@ const initialState = {
 
 initialState.completedTodosCount = getCompletedTodosCount(initialState.todos);
 
-
 export default function rootReducer(state = initialState, action) {
   let newTodos = [...state.todos];
   const { payload } = action;
@@ -20,40 +19,30 @@ export default function rootReducer(state = initialState, action) {
 
   switch (action.type) {
     case ADD_TODO:
-      return {
-        todos: [createTodoObject(action.payload.todoTitle), ...newTodos]
-      };
-
+      newTodos = [createTodoObject(action.payload.todoTitle), ...newTodos];
+      break;
     case TOGGLE_TODO:
       newTodos[index].isCompleted = !newTodos[index].isCompleted;
-      return {
-        todos: newTodos
-      };
-
+      break;
     case DELETE_TODO:
       newTodos.splice(index, 1);
-      return {
-        todos: newTodos
-      };
-
+      break;
     case DELETE_COMPLETED_TODOS:
       newTodos = newTodos.filter((todo) => !todo.isCompleted);
-      return {
-        todos: newTodos
-      };
-
+      break;
     case TOGGLE_ALL_TODOS:
       if (newTodos.length === getCompletedTodosCount(newTodos)) {
         newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: false } });
       } else {
         newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: true } });
       }
-
-      return {
-        todos: newTodos
-      };
-
+      break;
     default:
       return state;
   }
+
+  return {
+    todos: newTodos,
+    completedTodosCount: getCompletedTodosCount(newTodos),
+  };
 }
