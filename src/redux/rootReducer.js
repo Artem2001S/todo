@@ -1,11 +1,11 @@
 import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS, CHANGE_TODO_TITLE } from "./actions/actionTypes";
-import { getCompletedTodosCount, createTodoObject } from "./utils";
+import { getCompletedTodosCount, createTodoObject, getStatusBarContent } from "./utils";
 
 const initialState = {
   todos: [],
+  statusBarConent: '0 items left',
+  completedTodosCount: 0,
 };
-
-initialState.completedTodosCount = getCompletedTodosCount(initialState.todos);
 
 export default function rootReducer(state = initialState, action) {
   let newTodos = [...state.todos];
@@ -48,5 +48,6 @@ export default function rootReducer(state = initialState, action) {
   return {
     todos: newTodos,
     completedTodosCount: getCompletedTodosCount(newTodos),
+    statusBarConent: getStatusBarContent(newTodos),
   };
 }

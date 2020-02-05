@@ -12,3 +12,16 @@ export function createTodoObject(todoTitle) {
     isCompleted: false
   }
 }
+
+export function getStatusBarContent(todos) {
+  const uncompletedTodosCount = todos.length - getCompletedTodosCount(todos);
+  let statusBarContnet = `${uncompletedTodosCount} item`;
+
+  if (uncompletedTodosCount === 1) {
+    statusBarContnet += ' left';
+  } else {
+    statusBarContnet += 's left';
+  }
+
+  return statusBarContnet;
+}
