@@ -40,6 +40,7 @@ export default function rootReducer(state = initialState, action) {
     case CHANGE_TODO_TITLE:
       const { newTitle } = payload;
       newTodos[index].text = newTitle;
+      break;
     default:
       return state;
   }

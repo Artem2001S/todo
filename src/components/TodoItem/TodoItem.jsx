@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classes from './TodoItem.module.scss';
-import { dispatchChangeTodoTitle } from '../../redux/actions/actions';
+import { dispatchChangeTodoTitle, dispatchToggleTodo, dispatchDeleteTodo } from '../../redux/actions/actions';
 
 function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   const inputRef = React.createRef();
@@ -66,7 +66,9 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdate: (todoId, newTitle) => { dispatch(dispatchChangeTodoTitle(todoId, newTitle)); }
+    onUpdate: (todoId, newTitle) => dispatch(dispatchChangeTodoTitle(todoId, newTitle)),
+    onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId)),
+    onRemove: (todoId) => dispatch(dispatchDeleteTodo(todoId)),
   }
 }
 

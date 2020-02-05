@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TodoItem from '../TodoItem/TodoItem';
 import classes from './TodoList.module.scss';
-import { dispatchToggleTodo, dispatchDeleteTodo } from '../../redux/actions/actions';
 
-function TodoList({ todos, onToggle, onRemove }) {
+function TodoList({ todos }) {
   const $todos = todos.map((todo) => {
-    return (<TodoItem key={`${todo.id}a`} todo={todo} onToggle={onToggle} onRemove={onRemove} />)
+    return (<TodoItem key={`${todo.id}a`} todo={todo} isCompleted={todo.isCompleted} />)
   });
 
   return (
@@ -16,11 +15,10 @@ function TodoList({ todos, onToggle, onRemove }) {
   )
 }
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
   return {
-    onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId)),
-    onRemove: (todoId) => dispatch(dispatchDeleteTodo(todoId)),
+    todos: state.todos
   }
 }
 
-export default connect(null, mapDispatchToProps)(TodoList);
+export default connect(mapStateToProps)(TodoList);

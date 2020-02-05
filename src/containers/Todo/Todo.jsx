@@ -140,7 +140,7 @@ function Todo(props) {
           </>
       }
 
-      <TodoList todos={todosRedux} />
+      <TodoList />
 
       {completedCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
     </div>
