@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classes from './AddForm.module.scss';
 import Alert from '../UI/Alert/Alert';
-import { dispatchAddTodo } from '../../redux/actions/actions';
+import { dispatchAddTodo, dispatchToggleAllTodos } from '../../redux/actions/actions';
 
 function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
   const [value, setValue] = useState('');
@@ -51,6 +51,7 @@ function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
 function mapDispatchToProps(dispatch) {
   return {
     sumbitHandler: (todoTitle) => dispatch(dispatchAddTodo(todoTitle)),
+    onToggleAll: () => dispatch(dispatchToggleAllTodos()),
   }
 }
 

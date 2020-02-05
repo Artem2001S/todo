@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS } from "./actionTypes";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS } from "./actionTypes";
 
 export function dispatchAddTodo(todoTitle) {
   return {
@@ -24,5 +24,11 @@ export function dispatchDeleteTodo(todoId) {
 export function dispatchDeleteCompletedTodos() {
   return {
     type: DELETE_COMPLETED_TODOS
+  }
+}
+
+export function dispatchToggleAllTodos() {
+  return {
+    type: TOGGLE_ALL_TODOS
   }
 }

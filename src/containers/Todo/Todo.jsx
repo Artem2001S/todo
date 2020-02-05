@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import classes from './Todo.module.css'
 import Header from '../../components/Header/Header'
@@ -8,7 +8,7 @@ import Filters from '../../components/Filters/Filters'
 import Button from '../../components/UI/Button/Button'
 import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
 import StatusBar from '../../components/StatusBar/StatusBar'
-import { dispatchDeleteCompletedTodos } from '../../redux/actions/actions'
+import { dispatchDeleteCompletedTodos, dispatchToggleAllTodos } from '../../redux/actions/actions'
 
 function Todo(props) {
   const { removeCompleted, todosRedux } = props;
@@ -68,16 +68,16 @@ function Todo(props) {
     setActiveFilter(filter);
   }
 
-  const toggleAllTodos = () => {
-    let newTodos = [...todos];
-    if (newTodos.length === getCompletedTodosCount()) {
-      newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: false } });
-    } else {
-      newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: true } });
-    }
+  // const toggleAllTodos = () => {
+  //   let newTodos = [...todos];
+  //   if (newTodos.length === getCompletedTodosCount()) {
+  //     newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: false } });
+  //   } else {
+  //     newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: true } });
+  //   }
 
-    setTodos(newTodos);
-  }
+  //   setTodos(newTodos);
+  // }
 
   const filter = (items, filter) => {
     switch (filter) {
@@ -129,7 +129,7 @@ function Todo(props) {
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
-      <AddForm onToggleAll={toggleAllTodos} isToggleBtnActive={completedCount === todosLength} isEmpty={isEmpty} />
+      <AddForm isToggleBtnActive={completedCount === todosLength} isEmpty={isEmpty} />
       {
         isEmpty ? null :
           <>

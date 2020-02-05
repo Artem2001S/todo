@@ -1,8 +1,12 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS } from "./actions/actionTypes";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS } from "./actions/actionTypes";
+import { getCompletedTodosCount, createTodoObject } from "./utils";
 
 const initialState = {
-  todos: []
-}
+  todos: [],
+};
+
+initialState.completedTodosCount = getCompletedTodosCount(initialState.todos);
+
 
 export default function rootReducer(state = initialState, action) {
   let newTodos = [...state.todos];
@@ -18,31 +22,38 @@ export default function rootReducer(state = initialState, action) {
     case ADD_TODO:
       return {
         todos: [createTodoObject(action.payload.todoTitle), ...newTodos]
-      }
+      };
+
     case TOGGLE_TODO:
       newTodos[index].isCompleted = !newTodos[index].isCompleted;
       return {
         todos: newTodos
-      }
+      };
+
     case DELETE_TODO:
       newTodos.splice(index, 1);
       return {
         todos: newTodos
-      }
+      };
+
     case DELETE_COMPLETED_TODOS:
       newTodos = newTodos.filter((todo) => !todo.isCompleted);
       return {
         todos: newTodos
+      };
+
+    case TOGGLE_ALL_TODOS:
+      if (newTodos.length === getCompletedTodosCount(newTodos)) {
+        newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: false } });
+      } else {
+        newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: true } });
       }
+
+      return {
+        todos: newTodos
+      };
+
     default:
       return state;
-  }
-}
-
-const createTodoObject = (todoTitle) => {
-  return {
-    id: new Date().valueOf(),
-    text: todoTitle,
-    isCompleted: false
   }
 }
