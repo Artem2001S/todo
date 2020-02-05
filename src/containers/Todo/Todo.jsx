@@ -11,7 +11,7 @@ import StatusBar from '../../components/StatusBar/StatusBar'
 import { dispatchDeleteCompletedTodos, dispatchToggleAllTodos } from '../../redux/actions/actions'
 
 function Todo(props) {
-  const { removeCompleted, todosRedux, completedTodosCount, statusBarConent, completedPercent } = props;
+  const { removeCompleted, todosRedux, completedTodosCount, statusBarContnet, completedPercent } = props;
 
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
@@ -44,9 +44,7 @@ function Todo(props) {
 
   const isEmpty = todosLength === 0;
   const completedCount = completedTodosCount;
-  const statusBarContnet = statusBarConent;
-
-
+  
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
@@ -73,7 +71,7 @@ function mapStateToProps(state) {
   return {
     todosRedux: state.todos,
     completedTodosCount: state.completedTodosCount,
-    statusBarConent: state.statusBarConent,
+    statusBarContnet: state.statusBarContnet,
     completedPercent: state.completedPercent,
   }
 }

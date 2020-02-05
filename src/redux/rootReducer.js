@@ -3,7 +3,7 @@ import { getCompletedTodosCount, createTodoObject, getStatusBarContent, getCompl
 
 const initialState = {
   todos: [],
-  statusBarConent: '0 items left',
+  statusBarContnet: '0 items left',
   completedTodosCount: 0,
   completedPercent: 0,
 };
@@ -49,7 +49,7 @@ export default function rootReducer(state = initialState, action) {
   return {
     todos: newTodos,
     completedTodosCount: getCompletedTodosCount(newTodos),
-    statusBarConent: getStatusBarContent(newTodos),
+    statusBarContnet: getStatusBarContent(newTodos),
     completedPercent: getCompletedPercent(newTodos),
   };
 }
