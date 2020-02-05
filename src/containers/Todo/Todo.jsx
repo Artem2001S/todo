@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import classes from './Todo.module.css'
 import Header from '../../components/Header/Header'
 import AddForm from '../../components/AddForm/AddForm'
@@ -8,7 +9,9 @@ import Button from '../../components/UI/Button/Button'
 import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
 import StatusBar from '../../components/StatusBar/StatusBar'
 
-export default function Todo() {
+function Todo(props) {
+  console.log(props);
+  
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
 
@@ -140,3 +143,14 @@ export default function Todo() {
   )
 }
 
+function mapStateToProps(state) {
+  return {
+    todos: state.todos
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);
