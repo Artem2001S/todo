@@ -8,8 +8,11 @@ import Filters from '../../components/Filters/Filters'
 import Button from '../../components/UI/Button/Button'
 import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
 import StatusBar from '../../components/StatusBar/StatusBar'
+import { dispatchDeleteCompletedTodos } from '../../redux/actions/actions'
 
 function Todo(props) {
+  const { removeCompleted } = props;
+
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
 
@@ -28,6 +31,7 @@ function Todo(props) {
     localStorage.setItem(LOCAL_STORAGE_KEY_FILTER, activeFilter);
   }, [todos, activeFilter])
 
+
   // const addTodo = (text) => {
   //   setTodos([createTodoObject(text), ...todos]);
   // }
@@ -40,15 +44,15 @@ function Todo(props) {
   //   setTodos(newTodos);
   // }
 
-  const removeTodo = (todoId) => {
-    const newTodos = todos.filter((todo) => todo.id !== todoId);
-    setTodos(newTodos);
-  }
+  // const removeTodo = (todoId) => {
+  //   const newTodos = todos.filter((todo) => todo.id !== todoId);
+  //   setTodos(newTodos);
+  // }
 
-  const removeCompleted = () => {
-    const newTodos = todos.filter((todo) => !todo.isCompleted);
-    setTodos(newTodos);
-  }
+  // const removeCompleted = () => {
+  //   const newTodos = todos.filter((todo) => !todo.isCompleted);
+  //   setTodos(newTodos);
+  // }
 
   const updateTodoText = (todoId, text) => {
     const newTodos = [...todos];
@@ -148,7 +152,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    removeCompleted: () => dispatch(dispatchDeleteCompletedTodos()),
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

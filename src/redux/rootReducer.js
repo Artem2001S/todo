@@ -1,11 +1,11 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO } from "./actions/actionTypes";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS } from "./actions/actionTypes";
 
 const initialState = {
   todos: []
 }
 
 export default function rootReducer(state = initialState, action) {
-  const newTodos = [...state.todos];
+  let newTodos = [...state.todos];
   const { payload } = action;
 
   let index;
@@ -26,6 +26,11 @@ export default function rootReducer(state = initialState, action) {
       }
     case DELETE_TODO:
       newTodos.splice(index, 1);
+      return {
+        todos: newTodos
+      }
+    case DELETE_COMPLETED_TODOS:
+      newTodos = newTodos.filter((todo) => !todo.isCompleted);
       return {
         todos: newTodos
       }
