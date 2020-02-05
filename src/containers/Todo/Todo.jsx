@@ -9,7 +9,7 @@ import Button from '../../components/UI/Button/Button'
 import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
 import StatusBar from '../../components/StatusBar/StatusBar'
 
-function Todo() {
+function Todo(props) {
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
 
@@ -134,7 +134,7 @@ function Todo() {
           </>
       }
 
-      <TodoList todos={visibleTodos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
+      <TodoList todos={props.todos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
 
       {completedCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
     </div>
