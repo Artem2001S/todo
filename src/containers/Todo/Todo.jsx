@@ -19,11 +19,6 @@ function Todo(props) {
   const [todos, setTodos] = useState([]);
 
   const initialFilter = localStorage.getItem(LOCAL_STORAGE_KEY_FILTER) || 'all';
-  const [activeFilter, setActiveFilter] = useState(initialFilter);
-
-  const changeFilter = (filter) => {
-    setActiveFilter(filter);
-  }
 
   const filter = (items, filter) => {
     switch (filter) {
@@ -38,8 +33,6 @@ function Todo(props) {
     }
   }
 
-
-  const visibleTodos = filter(todos, activeFilter);
   const todosLength = todosRedux.length;
 
   const isEmpty = todosLength === 0;
@@ -54,7 +47,7 @@ function Todo(props) {
           <>
             <div className={classes.TodosHeader}>
               <StatusBar statusText={statusBarContnet} />
-              <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
+              <Filters />
             </div>
             <ProgressIndicator progressValue={completedPercent} />
           </>
@@ -70,6 +63,7 @@ function Todo(props) {
 function mapStateToProps(state) {
   return {
     todosRedux: state.todos,
+    filteredTodos: state.filteredTodos,
     completedTodosCount: state.completedTodosCount,
     statusBarContnet: state.statusBarContnet,
     completedPercent: state.completedPercent,

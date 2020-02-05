@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import TodoItem from '../TodoItem/TodoItem';
 import classes from './TodoList.module.scss';
 
-function TodoList({ todos }) {
-  const $todos = todos.map((todo) => {
+function TodoList({ filteredTodos }) {
+  const $todos = filteredTodos.map((todo) => {
     return (<TodoItem key={`${todo.id}a`} todo={todo} isCompleted={todo.isCompleted} />)
   });
 
@@ -17,7 +17,7 @@ function TodoList({ todos }) {
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos
+    filteredTodos: state.filteredTodos
   }
 }
 

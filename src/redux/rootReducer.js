@@ -47,6 +47,7 @@ export default function rootReducer(state = initialState, action) {
     case APPLY_FILTER:
       const { newFilter } = payload;
       state.activeFilter = newFilter;
+      break;
     default:
       return state;
   }

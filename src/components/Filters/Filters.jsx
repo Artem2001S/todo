@@ -1,8 +1,10 @@
-import React from 'react'
-import Button from '../UI/Button/Button'
-import classes from './Filters.module.scss'
+import React from 'react';
+import { connect } from 'react-redux';
+import Button from '../UI/Button/Button';
+import classes from './Filters.module.scss';
+import { dispatchApplyFilter } from '../../redux/actions/actions';
 
-export default function Filters({ activeFilter, onClickHandler }) {
+function Filters({ activeFilter, changeFilter }) {
   const buttons = [
     { name: 'all', content: 'All' },
     { name: 'active', content: 'Active' },
@@ -15,7 +17,7 @@ export default function Filters({ activeFilter, onClickHandler }) {
         buttons.map((btn) => {
           return <Button key={btn.name}
             isActive={activeFilter === btn.name}
-            onClick={onClickHandler.bind(this, btn.name)}
+            onClick={changeFilter.bind(this, btn.name)}
           >
             {btn.content}
           </Button>
@@ -24,3 +26,17 @@ export default function Filters({ activeFilter, onClickHandler }) {
     </div>
   )
 }
+
+function mapStateToProps(state) {
+  return {
+    activeFilter: state.activeFilter
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeFilter: (newFilterValue) => dispatch(dispatchApplyFilter(newFilterValue))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filters);
