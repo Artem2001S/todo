@@ -11,7 +11,7 @@ import StatusBar from '../../components/StatusBar/StatusBar'
 import { dispatchDeleteCompletedTodos } from '../../redux/actions/actions'
 
 function Todo(props) {
-  const { removeCompleted } = props;
+  const { removeCompleted, todosRedux } = props;
 
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
@@ -21,15 +21,15 @@ function Todo(props) {
   const initialFilter = localStorage.getItem(LOCAL_STORAGE_KEY_FILTER) || 'all';
   const [activeFilter, setActiveFilter] = useState(initialFilter);
 
-  useEffect(() => {
-    const todosFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY_TODOS) || '[]';
-    setTodos(JSON.parse(todosFromStorage));
-  }, [])
+  // useEffect(() => {
+  //   const todosFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY_TODOS) || '[]';
+  //   setTodos(JSON.parse(todosFromStorage));
+  // }, [])
 
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY_TODOS, JSON.stringify(todos));
-    localStorage.setItem(LOCAL_STORAGE_KEY_FILTER, activeFilter);
-  }, [todos, activeFilter])
+  // useEffect(() => {
+  //   localStorage.setItem(LOCAL_STORAGE_KEY_TODOS, JSON.stringify(todos));
+  //   localStorage.setItem(LOCAL_STORAGE_KEY_FILTER, activeFilter);
+  // }, [todos, activeFilter])
 
 
   // const addTodo = (text) => {
@@ -54,6 +54,8 @@ function Todo(props) {
   //   setTodos(newTodos);
   // }
 
+
+  // TODO 
   const updateTodoText = (todoId, text) => {
     const newTodos = [...todos];
     const index = newTodos.findIndex((todo) => todo.id === todoId);
@@ -91,20 +93,20 @@ function Todo(props) {
   }
 
   const getCompletedTodosCount = () => {
-    return todos.reduce((accum, todo) => {
+    return todosRedux.reduce((accum, todo) => {
       if (todo.isCompleted) return accum + 1;
       return accum;
     }, 0);
   }
 
   const getCompletedPercent = () => {
-    const all = todos.length;
+    const all = todosRedux.length;
     const percent = (getCompletedTodosCount() * 100) / all;
     return Math.round(percent);
   }
 
   const getStatusBarContent = () => {
-    const value = todos.length - getCompletedTodosCount();
+    const value = todosRedux.length - getCompletedTodosCount();
     let statusBarContnet = `${value} item`;
 
     if (value === 1) {
@@ -117,8 +119,9 @@ function Todo(props) {
   }
 
   const visibleTodos = filter(todos, activeFilter);
+  const todosLength = todosRedux.length;
 
-  const isEmpty = todos.length === 0;
+  const isEmpty = todosLength === 0;
   const completedCount = getCompletedTodosCount();
   const statusBarContnet = getStatusBarContent();
 
@@ -126,7 +129,7 @@ function Todo(props) {
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
-      <AddForm onToggleAll={toggleAllTodos} isToggleBtnActive={completedCount === todos.length} isEmpty={isEmpty} />
+      <AddForm onToggleAll={toggleAllTodos} isToggleBtnActive={completedCount === todosLength} isEmpty={isEmpty} />
       {
         isEmpty ? null :
           <>
@@ -138,7 +141,7 @@ function Todo(props) {
           </>
       }
 
-      <TodoList todos={props.todos} onUpdate={updateTodoText} />
+      <TodoList todos={todosRedux} onUpdate={updateTodoText} />
 
       {completedCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
     </div>
@@ -147,7 +150,7 @@ function Todo(props) {
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos
+    todosRedux: state.todos
   }
 }
 
