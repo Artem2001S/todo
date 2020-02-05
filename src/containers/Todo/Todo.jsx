@@ -9,9 +9,7 @@ import Button from '../../components/UI/Button/Button'
 import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator'
 import StatusBar from '../../components/StatusBar/StatusBar'
 
-function Todo(props) {
-  console.log(props);
-  
+function Todo() {
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
 
@@ -124,7 +122,7 @@ function Todo(props) {
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
-      <AddForm sumbitHandler={addTodo} onToggleAll={toggleAllTodos} isToggleBtnActive={completedCount === todos.length} isEmpty={isEmpty} />
+      <AddForm onToggleAll={toggleAllTodos} isToggleBtnActive={completedCount === todos.length} isEmpty={isEmpty} />
       {
         isEmpty ? null :
           <>
