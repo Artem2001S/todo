@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS } from "./actions/actionTypes";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS, CHANGE_TODO_TITLE } from "./actions/actionTypes";
 import { getCompletedTodosCount, createTodoObject } from "./utils";
 
 const initialState = {
@@ -37,6 +37,9 @@ export default function rootReducer(state = initialState, action) {
         newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: true } });
       }
       break;
+    case CHANGE_TODO_TITLE:
+      const { newTitle } = payload;
+      newTodos[index].text = newTitle;
     default:
       return state;
   }

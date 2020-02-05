@@ -4,9 +4,9 @@ import TodoItem from '../TodoItem/TodoItem';
 import classes from './TodoList.module.scss';
 import { dispatchToggleTodo, dispatchDeleteTodo } from '../../redux/actions/actions';
 
-function TodoList({ todos, onToggle, onRemove, onUpdate }) {
+function TodoList({ todos, onToggle, onRemove }) {
   const $todos = todos.map((todo) => {
-    return (<TodoItem key={`${todo.id}a`} todo={todo} onToggle={onToggle} onRemove={onRemove} onUpdate={onUpdate} />)
+    return (<TodoItem key={`${todo.id}a`} todo={todo} onToggle={onToggle} onRemove={onRemove} />)
   });
 
   return (

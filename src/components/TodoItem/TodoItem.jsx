@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import classes from './TodoItem.module.scss'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import classes from './TodoItem.module.scss';
+import { dispatchChangeTodoTitle } from '../../redux/actions/actions';
 
-export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
+function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   const inputRef = React.createRef();
   const checkboxRef = React.createRef();
   const todoTitleRef = React.createRef();
@@ -28,7 +30,7 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
             todoTitleRef.current.textContent = '1';
           }
         }>
-          
+
         <span ref={todoTitleRef} className={todo.isCompleted ? classes.Completed : ''}>
           {todo.text}
         </span>
@@ -62,6 +64,13 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   )
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onUpdate: (todoId, newTitle) => { dispatch(dispatchChangeTodoTitle(todoId, newTitle)); }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(TodoItem);
 
 function hideElement(ref) {
   ref.current.style.display = 'hidden';

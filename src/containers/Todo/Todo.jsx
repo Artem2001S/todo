@@ -55,13 +55,13 @@ function Todo(props) {
   // }
 
 
-  const updateTodoText = (todoId, text) => {
-    const newTodos = [...todos];
-    const index = newTodos.findIndex((todo) => todo.id === todoId);
-    newTodos[index].text = text;
+  // const updateTodoText = (todoId, text) => {
+  //   const newTodos = [...todos];
+  //   const index = newTodos.findIndex((todo) => todo.id === todoId);
+  //   newTodos[index].text = text;
 
-    setTodos(newTodos);
-  }
+  //   setTodos(newTodos);
+  // }
 
   const changeFilter = (filter) => {
     setActiveFilter(filter);
@@ -140,7 +140,7 @@ function Todo(props) {
           </>
       }
 
-      <TodoList todos={todosRedux} onUpdate={updateTodoText} />
+      <TodoList todos={todosRedux} />
 
       {completedCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
     </div>
