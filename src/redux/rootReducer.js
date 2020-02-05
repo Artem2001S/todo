@@ -1,11 +1,13 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS, CHANGE_TODO_TITLE } from "./actions/actionTypes";
-import { getCompletedTodosCount, createTodoObject, getStatusBarContent, getCompletedPercent } from "./utils";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS, CHANGE_TODO_TITLE, APPLY_FILTER } from "./actions/actionTypes";
+import { getCompletedTodosCount, createTodoObject, getStatusBarContent, getCompletedPercent, filter } from "./utils";
 
 const initialState = {
   todos: [],
+  filteredTodos: [],
   statusBarContnet: '0 items left',
   completedTodosCount: 0,
   completedPercent: 0,
+  activeFilter: 'all',
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -42,14 +44,19 @@ export default function rootReducer(state = initialState, action) {
       const { newTitle } = payload;
       newTodos[index].text = newTitle;
       break;
+    case APPLY_FILTER:
+      const { newFilter } = payload;
+      state.activeFilter = newFilter;
     default:
       return state;
   }
 
   return {
     todos: newTodos,
+    filteredTodos: filter(newTodos, state.activeFilter),
     completedTodosCount: getCompletedTodosCount(newTodos),
     statusBarContnet: getStatusBarContent(newTodos),
     completedPercent: getCompletedPercent(newTodos),
+    activeFilter: state.activeFilter,
   };
 }

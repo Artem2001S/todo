@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS, CHANGE_TODO_TITLE } from "./actionTypes";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS, CHANGE_TODO_TITLE, APPLY_FILTER } from "./actionTypes";
 
 export function dispatchAddTodo(todoTitle) {
   return {
@@ -37,5 +37,15 @@ export function dispatchChangeTodoTitle(todoId, newTitle) {
   return {
     type: CHANGE_TODO_TITLE,
     payload: { todoId, newTitle }
+  }
+}
+
+export function dispatchApplyFilter(newFilterValue) {
+  const filters = ['all', 'active', 'completed'];
+  const filter = filters.includes(newFilterValue) ? newFilterValue : 'all';
+
+  return {
+    type: APPLY_FILTER,
+    payload: { newFilter: filter }
   }
 }

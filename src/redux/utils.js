@@ -31,3 +31,16 @@ export function getCompletedPercent(todos) {
   const percent = (getCompletedTodosCount(todos) * 100) / all;
   return Math.round(percent);
 }
+
+export function filter(todos, filter) {
+  switch (filter) {
+    case 'all':
+      return todos;
+    case 'active':
+      return todos.filter((item) => !item.isCompleted);
+    case 'completed':
+      return todos.filter((item) => item.isCompleted);
+    default:
+      return todos;
+  }
+}
