@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TodoItem from '../TodoItem/TodoItem';
 import classes from './TodoList.module.scss';
-import { dispatchToggleTodo } from '../../redux/actions/actions';
+import { dispatchToggleTodo, dispatchDeleteTodo } from '../../redux/actions/actions';
 
 function TodoList({ todos, onToggle, onRemove, onUpdate }) {
   const $todos = todos.map((todo) => {
@@ -18,7 +18,8 @@ function TodoList({ todos, onToggle, onRemove, onUpdate }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId))
+    onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId)),
+    onRemove: (todoId) => dispatch(dispatchDeleteTodo(todoId)),
   }
 }
 

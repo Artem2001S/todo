@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO } from "./actions/actionTypes";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO } from "./actions/actionTypes";
 
 const initialState = {
   todos: []
@@ -21,6 +21,11 @@ export default function rootReducer(state = initialState, action) {
       }
     case TOGGLE_TODO:
       newTodos[index].isCompleted = !newTodos[index].isCompleted;
+      return {
+        todos: newTodos
+      }
+    case DELETE_TODO:
+      newTodos.splice(index, 1);
       return {
         todos: newTodos
       }

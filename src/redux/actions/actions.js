@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO } from "./actionTypes";
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO } from "./actionTypes";
 
 export function dispatchAddTodo(todoTitle) {
   return {
@@ -10,6 +10,14 @@ export function dispatchAddTodo(todoTitle) {
 export function dispatchToggleTodo(todoId) {
   return {
     type: TOGGLE_TODO,
+    payload: { todoId }
+  }
+}
+
+
+export function dispatchDeleteTodo(todoId) {
+  return {
+    type: DELETE_TODO,
     payload: { todoId }
   }
 }

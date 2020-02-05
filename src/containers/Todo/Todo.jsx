@@ -134,7 +134,7 @@ function Todo(props) {
           </>
       }
 
-      <TodoList todos={props.todos} onRemove={removeTodo} onUpdate={updateTodoText} />
+      <TodoList todos={props.todos} onUpdate={updateTodoText} />
 
       {completedCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
     </div>
