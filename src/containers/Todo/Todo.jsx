@@ -28,17 +28,17 @@ function Todo(props) {
     localStorage.setItem(LOCAL_STORAGE_KEY_FILTER, activeFilter);
   }, [todos, activeFilter])
 
-  const addTodo = (text) => {
-    setTodos([createTodoObject(text), ...todos]);
-  }
+  // const addTodo = (text) => {
+  //   setTodos([createTodoObject(text), ...todos]);
+  // }
 
-  const todoToggle = (todoId) => {
-    const newTodos = [...todos];
-    const index = newTodos.findIndex((todo) => todo.id === todoId);
-    newTodos[index].isCompleted = !newTodos[index].isCompleted;
+  // const todoToggle = (todoId) => {
+  //   const newTodos = [...todos];
+  //   const index = newTodos.findIndex((todo) => todo.id === todoId);
+  //   newTodos[index].isCompleted = !newTodos[index].isCompleted;
 
-    setTodos(newTodos);
-  }
+  //   setTodos(newTodos);
+  // }
 
   const removeTodo = (todoId) => {
     const newTodos = todos.filter((todo) => todo.id !== todoId);
@@ -134,7 +134,7 @@ function Todo(props) {
           </>
       }
 
-      <TodoList todos={props.todos} onToggle={todoToggle} onRemove={removeTodo} onUpdate={updateTodoText} />
+      <TodoList todos={props.todos} onRemove={removeTodo} onUpdate={updateTodoText} />
 
       {completedCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
     </div>

@@ -1,8 +1,10 @@
-import React from 'react'
-import TodoItem from '../TodoItem/TodoItem'
-import classes from './TodoList.module.scss'
+import React from 'react';
+import { connect } from 'react-redux';
+import TodoItem from '../TodoItem/TodoItem';
+import classes from './TodoList.module.scss';
+import { dispatchToggleTodo } from '../../redux/actions/actions';
 
-export default function TodoList({ todos, onToggle, onRemove, onUpdate }) {
+function TodoList({ todos, onToggle, onRemove, onUpdate }) {
   const $todos = todos.map((todo) => {
     return (<TodoItem key={`${todo.id}a`} todo={todo} onToggle={onToggle} onRemove={onRemove} onUpdate={onUpdate} />)
   });
@@ -13,3 +15,11 @@ export default function TodoList({ todos, onToggle, onRemove, onUpdate }) {
     </div>
   )
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(TodoList);
