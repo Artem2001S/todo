@@ -11,7 +11,7 @@ import StatusBar from '../../components/StatusBar/StatusBar'
 import { dispatchDeleteCompletedTodos, dispatchToggleAllTodos } from '../../redux/actions/actions'
 
 function Todo(props) {
-  const { removeCompleted, todosRedux, completedTodosCount, statusBarConent } = props;
+  const { removeCompleted, todosRedux, completedTodosCount, statusBarConent, completedPercent } = props;
 
   const LOCAL_STORAGE_KEY_TODOS = 'todos';
   const LOCAL_STORAGE_KEY_FILTER = 'activeFilter';
@@ -38,11 +38,6 @@ function Todo(props) {
     }
   }
 
-  const getCompletedPercent = () => {
-    const all = todosRedux.length;
-    const percent = (completedTodosCount * 100) / all;
-    return Math.round(percent);
-  }
 
   const visibleTodos = filter(todos, activeFilter);
   const todosLength = todosRedux.length;
@@ -63,7 +58,7 @@ function Todo(props) {
               <StatusBar statusText={statusBarContnet} />
               <Filters activeFilter={activeFilter} onClickHandler={changeFilter} />
             </div>
-            <ProgressIndicator progressValue={getCompletedPercent()} />
+            <ProgressIndicator progressValue={completedPercent} />
           </>
       }
 
@@ -79,6 +74,7 @@ function mapStateToProps(state) {
     todosRedux: state.todos,
     completedTodosCount: state.completedTodosCount,
     statusBarConent: state.statusBarConent,
+    completedPercent: state.completedPercent,
   }
 }
 

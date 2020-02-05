@@ -25,3 +25,9 @@ export function getStatusBarContent(todos) {
 
   return statusBarContnet;
 }
+
+export function getCompletedPercent(todos) {
+  const all = todos.length;
+  const percent = (getCompletedTodosCount(todos) * 100) / all;
+  return Math.round(percent);
+}
