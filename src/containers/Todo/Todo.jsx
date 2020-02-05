@@ -140,10 +140,3 @@ export default function Todo() {
   )
 }
 
-const createTodoObject = (text) => {
-  return {
-    id: new Date().valueOf(),
-    text: text,
-    isCompleted: false
-  }
-}
