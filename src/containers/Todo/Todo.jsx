@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classes from './Todo.module.css';
+import classes from './Todo.module.scss';
 import Header from '../../components/Header/Header';
 import AddForm from '../../components/AddForm/AddForm';
 import TodoList from '../../components/TodoList/TodoList';

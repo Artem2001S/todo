@@ -1,9 +1,15 @@
+@import "../../globalStyles/variables.scss";
+
 .HeaderTitle {
-  padding: 1rem;
+  padding: 12px;
   text-align: center;
-  color: rgba(221, 19, 59, 0.8);
-  
+  color: rgba($crimson, 0.8);
+
   font-size: 3rem;
   font-weight: 900;
   text-transform: uppercase;
+
+  @include media-mobile_S {
+    font-size: 2.5rem;
+  }
 }

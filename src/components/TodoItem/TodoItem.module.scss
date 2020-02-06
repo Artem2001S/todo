@@ -1,50 +1,35 @@
+@import "../../globalStyles/variables.scss";
+
 .TodoItem {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   user-select: none;
 
   & + & {
-    margin-top: 20px;
+    margin-top: 1.1rem;
   }
-}
-
-@mixin makeChecked() {
-  content: "✓";
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-
-  font-size: 22px;
-  color: rgb(31, 141, 31);
-  font-weight: 900;
 }
 
 .ToggleBlock {
   display: inline-block;
   border-radius: 50%;
-  overflow: hidden;
-  margin-right: 20px;
+  margin-right: 1rem;
 }
 
 .checkboxToggle {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 2rem;
+  height: 2rem;
 
-  border: 1px solid #bdbdbd;
+  border: 1px solid $gray;
   border-radius: 50%;
 
   cursor: pointer;
   transition: border-color 0.5s;
 
   &:hover {
-    border: 1px solid rgba(31, 141, 31, 0.7);
+    border: 1px solid $green;
     &::after {
       @include makeChecked();
       opacity: 0.4;
@@ -52,7 +37,7 @@
   }
 
   &.Active {
-    border: 1px solid rgb(31, 141, 31);
+    border: 1px solid $green;
     &:hover {
       &::after {
         opacity: 1;
@@ -67,20 +52,22 @@
 
 .ContentBlock {
   position: relative;
+  right: 0;
+  top: 0;
 
-  width: 90%;
+  width: 95%;
   padding: 0.5rem 1.5rem;
   padding-right: 2.8rem;
 
   border-radius: 25px;
-  font-size: 22px;
+  font-size: 1.1rem;
 
   overflow: hidden;
   word-break: break-word;
   transition: color 0.5s ease;
   cursor: pointer;
 
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 10px rgba($black, 0.15);
 
   &:hover + .removeBtn {
     opacity: 0.5;
@@ -89,19 +76,19 @@
 
 .Completed {
   text-decoration: line-through;
-  color: rgba(221, 19, 59, 0.6);
+  color: rgba($crimson, 0.6);
 }
 
 .removeBtn {
   position: absolute;
   bottom: 50%;
-  right: 10px;
+  right: 0.5rem;
 
-  width: 30px;
-  height: 30px;
+  width: 1.5rem;
+  height: 1.5rem;
 
   border-radius: 50%;
-  background-color: #dd133b;
+  background-color: $crimson;
 
   transform: translateY(50%);
   transition: opacity 0.5s;
@@ -111,7 +98,7 @@
 
   &:hover {
     opacity: 0.9;
-    box-shadow: 0 0 10px rgba($color: #dd133b, $alpha: 0.7);
+    box-shadow: 0 0 10px rgba($color: $crimson, $alpha: 0.7);
   }
 
   &::after {
@@ -126,26 +113,26 @@
 
     border-radius: 3px;
     transform: translate(-50%, -50%);
-    background-color: whitesmoke;
+    background-color: $whitesmoke;
   }
 }
 
 .inputForEdit {
-  position: absolute;
   display: none;
+  position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
-
+  
   width: 100%;
   height: 100%;
   padding: 0.5rem 1.5rem;
   padding-right: 2.8rem;
-
+  
   font-size: 22px;
   border-radius: 25px;
-
+  
+  transform: translateY(-50%);
   outline: none;
   border: none;
-  box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0px 0px 6px rgba($black, 0.15);
 }
