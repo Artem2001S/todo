@@ -2,10 +2,10 @@
 
 .TodoContainer {
   padding: 0 23%;
-  margin: 50px auto;
+  margin: 2.5rem auto;
 
   @include media-laptop() {
-    width: 70%;
+    padding: 0 13%;
   }
 }
 
@@ -15,5 +15,5 @@
   align-items: center;
 
   margin-top: 5px;
-  padding: 0 15px;
+  padding: 0 0.75rem;
 }
