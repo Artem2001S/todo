@@ -1,5 +1,19 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, DELETE_COMPLETED_TODOS, TOGGLE_ALL_TODOS, CHANGE_TODO_TITLE, APPLY_FILTER } from "./actions/actionTypes";
-import { getCompletedTodosCount, createTodoObject, getStatusBarContent, getCompletedPercent, filter } from "./utils";
+import {
+  ADD_TODO,
+  TOGGLE_TODO,
+  DELETE_TODO,
+  DELETE_COMPLETED_TODOS,
+  TOGGLE_ALL_TODOS,
+  CHANGE_TODO_TITLE,
+  APPLY_FILTER
+} from './actions/actionTypes';
+import {
+  getCompletedTodosCount,
+  createTodoObject,
+  getStatusBarContent,
+  getCompletedPercent,
+  filter
+} from './utils';
 
 const initialState = {
   todos: [],
@@ -7,7 +21,7 @@ const initialState = {
   statusBarContnet: '0 items left',
   completedTodosCount: 0,
   completedPercent: 0,
-  activeFilter: 'all',
+  activeFilter: 'all'
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -17,7 +31,7 @@ export default function rootReducer(state = initialState, action) {
   let index;
 
   if (payload !== undefined && payload.todoId) {
-    index = newTodos.findIndex((todo) => todo.id === payload.todoId);
+    index = newTodos.findIndex(todo => todo.id === payload.todoId);
   }
 
   switch (action.type) {
@@ -31,13 +45,17 @@ export default function rootReducer(state = initialState, action) {
       newTodos.splice(index, 1);
       break;
     case DELETE_COMPLETED_TODOS:
-      newTodos = newTodos.filter((todo) => !todo.isCompleted);
+      newTodos = newTodos.filter(todo => !todo.isCompleted);
       break;
     case TOGGLE_ALL_TODOS:
       if (newTodos.length === getCompletedTodosCount(newTodos)) {
-        newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: false } });
+        newTodos = newTodos.map(todo => {
+          return { ...todo, isCompleted: false };
+        });
       } else {
-        newTodos = newTodos.map((todo) => { return { ...todo, isCompleted: true } });
+        newTodos = newTodos.map(todo => {
+          return { ...todo, isCompleted: true };
+        });
       }
       break;
     case CHANGE_TODO_TITLE:
@@ -58,6 +76,6 @@ export default function rootReducer(state = initialState, action) {
     completedTodosCount: getCompletedTodosCount(newTodos),
     statusBarContnet: getStatusBarContent(newTodos),
     completedPercent: getCompletedPercent(newTodos),
-    activeFilter: state.activeFilter,
+    activeFilter: state.activeFilter
   };
 }
