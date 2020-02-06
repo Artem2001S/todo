@@ -1,5 +1,6 @@
-import React from 'react'
-import classes from './ProgressIndicator.module.scss'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classes from './ProgressIndicator.module.scss';
 
 export default function ProgressIndicator({ progressValue }) {
   return (
@@ -10,4 +11,8 @@ export default function ProgressIndicator({ progressValue }) {
       </div>
     </div>
   )
+}
+
+ProgressIndicator.propTypes = {
+  progressValue: PropTypes.number,
 }

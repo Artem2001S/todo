@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import classes from './Todo.module.css';
 import Header from '../../components/Header/Header';
 import AddForm from '../../components/AddForm/AddForm';
@@ -51,6 +52,13 @@ function mapDispatchToProps(dispatch) {
   return {
     removeCompleted: () => dispatch(dispatchDeleteCompletedTodos()),
   }
+}
+
+Todo.propTypes = {
+  todos: PropTypes.array.isRequired,
+  completedTodosCount: PropTypes.number.isRequired,
+  statusBarContnet: PropTypes.string.isRequired,
+  completedPercent: PropTypes.number.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

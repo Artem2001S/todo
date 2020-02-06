@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '../UI/Button/Button';
 import classes from './Filters.module.scss';
@@ -37,6 +38,11 @@ function mapDispatchToProps(dispatch) {
   return {
     changeFilter: (newFilterValue) => dispatch(dispatchApplyFilter(newFilterValue))
   }
+}
+
+Filters.propTypes = {
+  activeFilter: PropTypes.string.isRequired,
+  changeFilter: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

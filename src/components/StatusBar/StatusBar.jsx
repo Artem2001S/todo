@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classes from './StatusBar.module.scss';
 
 export default function StatusBar({ statusText }) {
@@ -9,4 +10,8 @@ export default function StatusBar({ statusText }) {
       </div>
     </div>
   )
+}
+
+StatusBar.propTypes = {
+  statusText: PropTypes.string.isRequired
 }

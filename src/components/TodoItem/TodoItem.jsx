@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classes from './TodoItem.module.scss';
 import { dispatchChangeTodoTitle, dispatchToggleTodo, dispatchDeleteTodo } from '../../redux/actions/actions';
@@ -82,6 +83,17 @@ function mapDispatchToProps(dispatch) {
     onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId)),
     onRemove: (todoId) => dispatch(dispatchDeleteTodo(todoId)),
   }
+}
+
+TodoItem.propTypes = {
+  todo: PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    isCompleted: PropTypes.bool.isRequired,
+  }),
+  onToggle: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 }
 
 export default connect(null, mapDispatchToProps)(TodoItem);
