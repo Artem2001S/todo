@@ -1,5 +1,5 @@
-import React from 'react'
-import classes from './Alert.module.scss'
+import React from 'react';
+import classes from './Alert.module.scss';
 
 export default class Alert extends React.Component {
   constructor() {
@@ -9,10 +9,10 @@ export default class Alert extends React.Component {
 
   render() {
     return (
-      <div ref={this.alertRef} className={classes.Alert} >
+      <div ref={this.alertRef} className={classes.Alert}>
         {this.props.children}
       </div>
-    )
+    );
   }
 
   componentDidMount() {

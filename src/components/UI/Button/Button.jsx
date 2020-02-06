@@ -11,11 +11,11 @@ export default function Button({ onClick, children, isActive, type }) {
     <button className={clazz.join(' ')} onClick={onClick}>
       {children}
     </button>
-  )
+  );
 }
 
 Button.propTypes = {
   onClick: PropTypes.func,
   isActive: PropTypes.bool,
-  type: PropTypes.string,
-}
+  type: PropTypes.string
+};

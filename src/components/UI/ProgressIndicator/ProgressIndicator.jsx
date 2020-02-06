@@ -7,12 +7,15 @@ export default function ProgressIndicator({ progressValue }) {
     <div className={classes.ProgressIndicator}>
       <span className={classes.ProgressValue}>{progressValue}%</span>
       <div className={classes.ProgressGraphic}>
-        <div className={classes.ProgressDone} style={{ width: `${progressValue}%` }}></div>
+        <div
+          className={classes.ProgressDone}
+          style={{ width: `${progressValue}%` }}
+        ></div>
       </div>
     </div>
-  )
+  );
 }
 
 ProgressIndicator.propTypes = {
-  progressValue: PropTypes.number,
-}
+  progressValue: PropTypes.number
+};

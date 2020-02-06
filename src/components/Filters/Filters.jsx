@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '../UI/Button/Button';
 import classes from './Filters.module.scss';
@@ -14,35 +13,32 @@ function Filters({ activeFilter, changeFilter }) {
 
   return (
     <div className={classes.Filters}>
-      {
-        buttons.map((btn) => {
-          return <Button key={btn.name}
+      {buttons.map(btn => {
+        return (
+          <Button
+            key={btn.name}
             isActive={activeFilter === btn.name}
             onClick={changeFilter.bind(this, btn.name)}
           >
             {btn.content}
           </Button>
-        })
-      }
+        );
+      })}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
   return {
     activeFilter: state.activeFilter
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeFilter: (newFilterValue) => dispatch(dispatchApplyFilter(newFilterValue))
-  }
-}
-
-Filters.propTypes = {
-  activeFilter: PropTypes.string.isRequired,
-  changeFilter: PropTypes.func.isRequired,
+    changeFilter: newFilterValue =>
+      dispatch(dispatchApplyFilter(newFilterValue))
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);
