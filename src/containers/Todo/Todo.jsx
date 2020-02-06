@@ -11,9 +11,9 @@ import StatusBar from '../../components/StatusBar/StatusBar';
 import { dispatchDeleteCompletedTodos } from '../../redux/actions/actions';
 
 function Todo(props) {
-  const { removeCompleted, todosRedux, completedTodosCount, statusBarContnet, completedPercent } = props;
+  const { removeCompleted, todos, completedTodosCount, statusBarContnet, completedPercent } = props;
 
-  const todosLength = todosRedux.length;
+  const todosLength = todos.length;
   const isEmpty = todosLength === 0;
 
   return (
@@ -40,7 +40,7 @@ function Todo(props) {
 
 function mapStateToProps(state) {
   return {
-    todosRedux: state.todos,
+    todos: state.todos,
     completedTodosCount: state.completedTodosCount,
     statusBarContnet: state.statusBarContnet,
     completedPercent: state.completedPercent,
