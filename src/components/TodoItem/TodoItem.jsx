@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import classes from './TodoItem.module.scss'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import classes from './TodoItem.module.scss';
+import { dispatchChangeTodoTitle, dispatchToggleTodo, dispatchDeleteTodo } from '../../redux/actions/actions';
 
-export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
+function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   const inputRef = React.createRef();
   const checkboxRef = React.createRef();
   const todoTitleRef = React.createRef();
@@ -11,6 +13,7 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
 
   const checkboxClasses = [classes.checkboxToggle];
   if (todo.isCompleted) { checkboxClasses.push(classes.Active); }
+
   return (
     <div className={classes.TodoItem}>
       <label ref={checkboxRef} htmlFor={todo.id} className={classes.ToggleBlock}>
@@ -22,27 +25,38 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
           () => {
             inputRef.current.style.display = 'block';
             hideElement(checkboxRef);
+
             inputRef.current.focus();
 
             // set short value (for displaying input with small height)
             todoTitleRef.current.textContent = '1';
           }
         }>
-          
+
         <span ref={todoTitleRef} className={todo.isCompleted ? classes.Completed : ''}>
           {todo.text}
         </span>
 
         {/* input for edit todo */}
         <input ref={inputRef} type="text" className={classes.inputForEdit} value={valueToUpdate}
-          onChange={(e) => { setValueToUpdate(e.target.value); }}
+          onChange={
+            (e) => {
+              setValueToUpdate(e.target.value);
+
+              // set short value (for displaying input with small height)
+              todoTitleRef.current.textContent = '1';
+            }
+          }
 
           onBlur={
             () => {
               showElement(checkboxRef);
               inputRef.current.style.display = 'none';
               const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
-
+              if (finalValue === '') {
+                onRemove.call(this, todo.id);
+                return;
+              }
               onUpdate.call(this, todo.id, finalValue);
               setValueToUpdate(finalValue);
               todoTitleRef.current.textContent = todo.text;
@@ -62,9 +76,18 @@ export default function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   )
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onUpdate: (todoId, newTitle) => dispatch(dispatchChangeTodoTitle(todoId, newTitle)),
+    onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId)),
+    onRemove: (todoId) => dispatch(dispatchDeleteTodo(todoId)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(TodoItem);
 
 function hideElement(ref) {
-  ref.current.style.display = 'hidden';
+  ref.current.style.visibility = 'hidden';
 }
 
 function showElement(ref) {

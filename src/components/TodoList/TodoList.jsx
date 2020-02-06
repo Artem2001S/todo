@@ -1,10 +1,11 @@
-import React from 'react'
-import TodoItem from '../TodoItem/TodoItem'
-import classes from './TodoList.module.scss'
+import React from 'react';
+import { connect } from 'react-redux';
+import TodoItem from '../TodoItem/TodoItem';
+import classes from './TodoList.module.scss';
 
-export default function TodoList({ todos, onToggle, onRemove, onUpdate }) {
-  const $todos = todos.map((todo) => {
-    return (<TodoItem key={`${todo.id}a`} todo={todo} onToggle={onToggle} onRemove={onRemove} onUpdate={onUpdate} />)
+function TodoList({ filteredTodos }) {
+  const $todos = filteredTodos.map((todo) => {
+    return (<TodoItem key={`${todo.id}a`} todo={todo} isCompleted={todo.isCompleted} />)
   });
 
   return (
@@ -13,3 +14,11 @@ export default function TodoList({ todos, onToggle, onRemove, onUpdate }) {
     </div>
   )
 }
+
+function mapStateToProps(state) {
+  return {
+    filteredTodos: state.filteredTodos
+  }
+}
+
+export default connect(mapStateToProps)(TodoList);
