@@ -12,7 +12,13 @@ import StatusBar from '../../components/StatusBar/StatusBar';
 import { dispatchDeleteCompletedTodos } from '../../redux/actions/actions';
 
 function Todo(props) {
-  const { removeCompleted, todos, completedTodosCount, statusBarContnet, completedPercent } = props;
+  const {
+    removeCompleted,
+    todos,
+    completedTodosCount,
+    statusBarContnet,
+    completedPercent
+  } = props;
 
   const todosLength = todos.length;
   const isEmpty = todosLength === 0;
@@ -20,23 +26,29 @@ function Todo(props) {
   return (
     <div className={classes.TodoContainer}>
       <Header headerContent={'To do list'} />
-      <AddForm isToggleBtnActive={completedTodosCount === todosLength} isEmpty={isEmpty} />
-      {
-        isEmpty ? null :
-          <>
-            <div className={classes.TodosHeader}>
-              <StatusBar statusText={statusBarContnet} />
-              <Filters />
-            </div>
-            <ProgressIndicator progressValue={completedPercent} />
-          </>
-      }
+      <AddForm
+        isToggleBtnActive={completedTodosCount === todosLength}
+        isEmpty={isEmpty}
+      />
+      {isEmpty ? null : (
+        <>
+          <div className={classes.TodosHeader}>
+            <StatusBar statusText={statusBarContnet} />
+            <Filters />
+          </div>
+          <ProgressIndicator progressValue={completedPercent} />
+        </>
+      )}
 
       <TodoList />
 
-      {completedTodosCount > 0 ? <Button type={'transparent'} onClick={removeCompleted}>Clear completed</Button> : null}
+      {completedTodosCount > 0 ? (
+        <Button type={'transparent'} onClick={removeCompleted}>
+          Clear completed
+        </Button>
+      ) : null}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
@@ -44,21 +56,21 @@ function mapStateToProps(state) {
     todos: state.todos,
     completedTodosCount: state.completedTodosCount,
     statusBarContnet: state.statusBarContnet,
-    completedPercent: state.completedPercent,
-  }
+    completedPercent: state.completedPercent
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeCompleted: () => dispatch(dispatchDeleteCompletedTodos()),
-  }
+    removeCompleted: () => dispatch(dispatchDeleteCompletedTodos())
+  };
 }
 
 Todo.propTypes = {
   todos: PropTypes.array.isRequired,
   completedTodosCount: PropTypes.number.isRequired,
   statusBarContnet: PropTypes.string.isRequired,
-  completedPercent: PropTypes.number.isRequired,
-}
+  completedPercent: PropTypes.number.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

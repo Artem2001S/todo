@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classes from './TodoItem.module.scss';
-import { dispatchChangeTodoTitle, dispatchToggleTodo, dispatchDeleteTodo } from '../../redux/actions/actions';
+import {
+  dispatchChangeTodoTitle,
+  dispatchToggleTodo,
+  dispatchDeleteTodo
+} from '../../redux/actions/actions';
 
 function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   const inputRef = React.createRef();
@@ -13,88 +17,109 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   let needToUpdate = true;
 
   const checkboxClasses = [classes.checkboxToggle];
-  if (todo.isCompleted) { checkboxClasses.push(classes.Active); }
+  if (todo.isCompleted) {
+    checkboxClasses.push(classes.Active);
+  }
 
   return (
     <div className={classes.TodoItem}>
-      <label ref={checkboxRef} htmlFor={todo.id} className={classes.ToggleBlock}>
-        <div className={checkboxClasses.join(' ')} onClick={onToggle.bind(this, todo.id)}></div>
+      <label
+        ref={checkboxRef}
+        htmlFor={todo.id}
+        className={classes.ToggleBlock}
+      >
+        <div
+          className={checkboxClasses.join(' ')}
+          onClick={onToggle.bind(this, todo.id)}
+        ></div>
       </label>
 
-      <div className={classes.ContentBlock} title="Double click to edit"
-        onDoubleClick={
-          () => {
-            inputRef.current.style.display = 'block';
-            hideElement(checkboxRef);
+      <div
+        className={classes.ContentBlock}
+        title="Double click to edit"
+        onDoubleClick={() => {
+          inputRef.current.style.display = 'block';
+          hideElement(checkboxRef);
 
-            inputRef.current.focus();
+          inputRef.current.focus();
 
-            // set short value (for displaying input with small height)
-            todoTitleRef.current.textContent = '1';
-          }
-        }>
-
-        <span ref={todoTitleRef} className={todo.isCompleted ? classes.Completed : ''}>
+          // set short value (for displaying input with small height)
+          todoTitleRef.current.textContent = '1';
+        }}
+      >
+        <span
+          ref={todoTitleRef}
+          className={todo.isCompleted ? classes.Completed : ''}
+        >
           {todo.text}
         </span>
 
         {/* input for edit todo */}
-        <input ref={inputRef} type="text" className={classes.inputForEdit} value={valueToUpdate}
-          onChange={
-            (e) => {
-              setValueToUpdate(e.target.value);
+        <input
+          ref={inputRef}
+          type="text"
+          className={classes.inputForEdit}
+          value={valueToUpdate}
+          onChange={e => {
+            setValueToUpdate(e.target.value);
+            // set short value (for displaying input with small height)
+            todoTitleRef.current.textContent = '1';
+          }}
+          onBlur={() => {
+            showElement(checkboxRef);
+            inputRef.current.style.display = 'none';
+            const finalValue = (needToUpdate
+              ? valueToUpdate
+              : todo.text
+            ).trim();
 
-              // set short value (for displaying input with small height)
-              todoTitleRef.current.textContent = '1';
+            if (finalValue === '') {
+              onRemove.call(this, todo.id);
+              return;
             }
-          }
 
-          onBlur={
-            () => {
-              showElement(checkboxRef);
+            onUpdate.call(this, todo.id, finalValue);
+            setValueToUpdate(finalValue);
+            todoTitleRef.current.textContent = todo.text;
+          }}
+          onKeyUp={e => {
+            if (e.key === 'Enter') {
+              e.target.blur();
+            }
+            if (e.key === 'Escape') {
               inputRef.current.style.display = 'none';
-              const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
-              if (finalValue === '') {
-                onRemove.call(this, todo.id);
-                return;
-              }
-              onUpdate.call(this, todo.id, finalValue);
-              setValueToUpdate(finalValue);
-              todoTitleRef.current.textContent = todo.text;
+              needToUpdate = false;
             }
-          }
-
-          onKeyUp={
-            (e) => {
-              if (e.key === 'Enter') { e.target.blur(); }
-              if (e.key === 'Escape') { inputRef.current.style.display = 'none'; needToUpdate = false; }
-            }
-          }
+          }}
         />
       </div>
-      <div className={classes.removeBtn} onClick={onRemove.bind(this, todo.id)}></div>
+      <div
+        className={classes.removeBtn}
+        onClick={onRemove.bind(this, todo.id)}
+      ></div>
     </div>
-  )
+  );
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdate: (todoId, newTitle) => dispatch(dispatchChangeTodoTitle(todoId, newTitle)),
-    onToggle: (todoId) => dispatch(dispatchToggleTodo(todoId)),
-    onRemove: (todoId) => dispatch(dispatchDeleteTodo(todoId)),
-  }
+    onUpdate: (todoId, newTitle) =>
+      dispatch(dispatchChangeTodoTitle(todoId, newTitle)),
+    onToggle: todoId => dispatch(dispatchToggleTodo(todoId)),
+    onRemove: todoId => dispatch(dispatchDeleteTodo(todoId))
+  };
 }
 
 TodoItem.propTypes = {
   todo: PropTypes.exact({
     id: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
-    isCompleted: PropTypes.bool.isRequired,
+    isCompleted: PropTypes.bool.isRequired
   }),
   onToggle: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-}
+  onUpdate: PropTypes.func.isRequired
+};
 
 export default connect(null, mapDispatchToProps)(TodoItem);
 
