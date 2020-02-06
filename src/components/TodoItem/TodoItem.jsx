@@ -13,6 +13,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
 
   const checkboxClasses = [classes.checkboxToggle];
   if (todo.isCompleted) { checkboxClasses.push(classes.Active); }
+
   return (
     <div className={classes.TodoItem}>
       <label ref={checkboxRef} htmlFor={todo.id} className={classes.ToggleBlock}>
@@ -24,8 +25,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
           () => {
             inputRef.current.style.display = 'block';
             hideElement(checkboxRef);
-            console.log(checkboxRef.current);
-            
+
             inputRef.current.focus();
 
             // set short value (for displaying input with small height)
@@ -39,14 +39,24 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
 
         {/* input for edit todo */}
         <input ref={inputRef} type="text" className={classes.inputForEdit} value={valueToUpdate}
-          onChange={(e) => { setValueToUpdate(e.target.value); }}
+          onChange={
+            (e) => {
+              setValueToUpdate(e.target.value);
+
+              // set short value (for displaying input with small height)
+              todoTitleRef.current.textContent = '1';
+            }
+          }
 
           onBlur={
             () => {
               showElement(checkboxRef);
               inputRef.current.style.display = 'none';
               const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
-
+              if (finalValue === '') {
+                onRemove.call(this, todo.id);
+                return;
+              }
               onUpdate.call(this, todo.id, finalValue);
               setValueToUpdate(finalValue);
               todoTitleRef.current.textContent = todo.text;
