@@ -24,6 +24,8 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
           () => {
             inputRef.current.style.display = 'block';
             hideElement(checkboxRef);
+            console.log(checkboxRef.current);
+            
             inputRef.current.focus();
 
             // set short value (for displaying input with small height)
@@ -75,7 +77,7 @@ function mapDispatchToProps(dispatch) {
 export default connect(null, mapDispatchToProps)(TodoItem);
 
 function hideElement(ref) {
-  ref.current.style.display = 'hidden';
+  ref.current.style.visibility = 'hidden';
 }
 
 function showElement(ref) {
