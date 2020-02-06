@@ -114,7 +114,9 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
           className={classes.removeBtn}
           onClick={onRemove.bind(this, todo.id)}
         ></div>
-        {isTabletVersion() ? <div className={classes.editBtn}></div> : null}
+        {isTabletVersion() ? (
+          <div className={classes.editBtn} onClick={startTodoEditing}></div>
+        ) : null}
       </div>
     </div>
   );
