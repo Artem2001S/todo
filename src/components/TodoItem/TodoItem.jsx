@@ -55,6 +55,11 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
     ref.current.style.visibility = 'visible';
   };
 
+  const MOBILE_WIDTH = 610;
+  const isMobileVersion = () => {
+    return window.innerWidth <= MOBILE_WIDTH;
+  };
+
   return (
     <div className={classes.TodoItem}>
       <label
@@ -104,10 +109,13 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
           }}
         />
       </div>
-      <div
-        className={classes.removeBtn}
-        onClick={onRemove.bind(this, todo.id)}
-      ></div>
+      <div className={classes.actions}>
+        <div
+          className={classes.removeBtn}
+          onClick={onRemove.bind(this, todo.id)}
+        ></div>
+        <div className={classes.editBtn}></div>
+      </div>
     </div>
   );
 }
