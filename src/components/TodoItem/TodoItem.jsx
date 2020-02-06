@@ -17,9 +17,43 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   let needToUpdate = true;
 
   const checkboxClasses = [classes.checkboxToggle];
+
   if (todo.isCompleted) {
     checkboxClasses.push(classes.Active);
   }
+
+  const startTodoEditing = () => {
+    inputRef.current.style.display = 'block';
+    hideElement(checkboxRef);
+
+    inputRef.current.focus();
+
+    // set short value (for displaying input with small height)
+    todoTitleRef.current.textContent = '1';
+  };
+
+  const endTodoEditing = () => {
+    showElement(checkboxRef);
+    inputRef.current.style.display = 'none';
+    const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
+
+    if (finalValue === '') {
+      onRemove.call(this, todo.id);
+      return;
+    }
+
+    onUpdate.call(this, todo.id, finalValue);
+    setValueToUpdate(finalValue);
+    todoTitleRef.current.textContent = todo.text;
+  };
+
+  const hideElement = ref => {
+    ref.current.style.visibility = 'hidden';
+  };
+
+  const showElement = ref => {
+    ref.current.style.visibility = 'visible';
+  };
 
   return (
     <div className={classes.TodoItem}>
@@ -37,15 +71,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
       <div
         className={classes.ContentBlock}
         title="Double click to edit"
-        onDoubleClick={() => {
-          inputRef.current.style.display = 'block';
-          hideElement(checkboxRef);
-
-          inputRef.current.focus();
-
-          // set short value (for displaying input with small height)
-          todoTitleRef.current.textContent = '1';
-        }}
+        onDoubleClick={startTodoEditing}
       >
         <span
           ref={todoTitleRef}
@@ -65,27 +91,12 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
             // set short value (for displaying input with small height)
             todoTitleRef.current.textContent = '1';
           }}
-          onBlur={() => {
-            showElement(checkboxRef);
-            inputRef.current.style.display = 'none';
-            const finalValue = (needToUpdate
-              ? valueToUpdate
-              : todo.text
-            ).trim();
-
-            if (finalValue === '') {
-              onRemove.call(this, todo.id);
-              return;
-            }
-
-            onUpdate.call(this, todo.id, finalValue);
-            setValueToUpdate(finalValue);
-            todoTitleRef.current.textContent = todo.text;
-          }}
+          onBlur={endTodoEditing}
           onKeyUp={e => {
             if (e.key === 'Enter') {
               e.target.blur();
             }
+
             if (e.key === 'Escape') {
               inputRef.current.style.display = 'none';
               needToUpdate = false;
@@ -122,11 +133,3 @@ TodoItem.propTypes = {
 };
 
 export default connect(null, mapDispatchToProps)(TodoItem);
-
-function hideElement(ref) {
-  ref.current.style.visibility = 'hidden';
-}
-
-function showElement(ref) {
-  ref.current.style.visibility = 'visible';
-}
