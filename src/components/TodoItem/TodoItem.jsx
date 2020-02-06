@@ -17,9 +17,48 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   let needToUpdate = true;
 
   const checkboxClasses = [classes.checkboxToggle];
+
   if (todo.isCompleted) {
     checkboxClasses.push(classes.Active);
   }
+
+  const startTodoEditing = () => {
+    inputRef.current.style.display = 'block';
+    hideElement(checkboxRef);
+
+    inputRef.current.focus();
+
+    // set short value (for displaying input with small height)
+    todoTitleRef.current.textContent = '1';
+  };
+
+  const endTodoEditing = () => {
+    showElement(checkboxRef);
+    inputRef.current.style.display = 'none';
+    const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
+
+    if (finalValue === '') {
+      onRemove.call(this, todo.id);
+      return;
+    }
+
+    onUpdate.call(this, todo.id, finalValue);
+    setValueToUpdate(finalValue);
+    todoTitleRef.current.textContent = todo.text;
+  };
+
+  const hideElement = ref => {
+    ref.current.style.visibility = 'hidden';
+  };
+
+  const showElement = ref => {
+    ref.current.style.visibility = 'visible';
+  };
+
+  const TABLET_WIDTH = 768;
+  const isTabletVersion = () => {
+    return window.innerWidth <= TABLET_WIDTH;
+  };
 
   return (
     <div className={classes.TodoItem}>
@@ -37,15 +76,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
       <div
         className={classes.ContentBlock}
         title="Double click to edit"
-        onDoubleClick={() => {
-          inputRef.current.style.display = 'block';
-          hideElement(checkboxRef);
-
-          inputRef.current.focus();
-
-          // set short value (for displaying input with small height)
-          todoTitleRef.current.textContent = '1';
-        }}
+        onDoubleClick={startTodoEditing}
       >
         <span
           ref={todoTitleRef}
@@ -65,27 +96,12 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
             // set short value (for displaying input with small height)
             todoTitleRef.current.textContent = '1';
           }}
-          onBlur={() => {
-            showElement(checkboxRef);
-            inputRef.current.style.display = 'none';
-            const finalValue = (needToUpdate
-              ? valueToUpdate
-              : todo.text
-            ).trim();
-
-            if (finalValue === '') {
-              onRemove.call(this, todo.id);
-              return;
-            }
-
-            onUpdate.call(this, todo.id, finalValue);
-            setValueToUpdate(finalValue);
-            todoTitleRef.current.textContent = todo.text;
-          }}
+          onBlur={endTodoEditing}
           onKeyUp={e => {
             if (e.key === 'Enter') {
               e.target.blur();
             }
+
             if (e.key === 'Escape') {
               inputRef.current.style.display = 'none';
               needToUpdate = false;
@@ -93,10 +109,15 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
           }}
         />
       </div>
-      <div
-        className={classes.removeBtn}
-        onClick={onRemove.bind(this, todo.id)}
-      ></div>
+      <div className={classes.actions}>
+        <div
+          className={classes.removeBtn}
+          onClick={onRemove.bind(this, todo.id)}
+        ></div>
+        {isTabletVersion() ? (
+          <div className={classes.editBtn} onClick={startTodoEditing}></div>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -122,11 +143,3 @@ TodoItem.propTypes = {
 };
 
 export default connect(null, mapDispatchToProps)(TodoItem);
-
-function hideElement(ref) {
-  ref.current.style.visibility = 'hidden';
-}
-
-function showElement(ref) {
-  ref.current.style.visibility = 'visible';
-}
