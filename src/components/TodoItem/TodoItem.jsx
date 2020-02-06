@@ -55,9 +55,9 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
     ref.current.style.visibility = 'visible';
   };
 
-  const MOBILE_WIDTH = 610;
-  const isMobileVersion = () => {
-    return window.innerWidth <= MOBILE_WIDTH;
+  const TABLET_WIDTH = 768;
+  const isTabletVersion = () => {
+    return window.innerWidth <= TABLET_WIDTH;
   };
 
   return (
@@ -114,7 +114,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
           className={classes.removeBtn}
           onClick={onRemove.bind(this, todo.id)}
         ></div>
-        <div className={classes.editBtn}></div>
+        {isTabletVersion() ? <div className={classes.editBtn}></div> : null}
       </div>
     </div>
   );
