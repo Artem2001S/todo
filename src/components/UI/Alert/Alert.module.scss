@@ -1,3 +1,5 @@
+@import "../../../globalStyles/variables.scss";
+
 .Alert {
   position: fixed;
   bottom: 10px;
@@ -6,9 +8,9 @@
   padding: 12px;
 
   border-radius: 5px;
-  background-color: #dd133b;
+  background-color: $crimson;
   font-size: 18px;
-  color: #ffffff;
+  color: $white;
 
   transition: opacity 2s, left 0.8s;
   opacity: 0.5;

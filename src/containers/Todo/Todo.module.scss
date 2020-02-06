@@ -1,8 +1,5 @@
-@mixin media-laptop {
-  @media screen and (max-width: 1224px) {
-    @content;
-  }
-}
+@import "../../globalStyles/variables.scss";
+
 .TodoContainer {
   padding: 0 23%;
   margin: 50px auto;

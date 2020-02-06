@@ -1,9 +1,11 @@
+@import "../../../globalStyles/variables.scss";
+
 .ProgressIndicator {
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   width: 70%;
   margin: 5px auto;
 }
@@ -16,13 +18,13 @@ $borderRadius: 8px;
 
   width: 90%;
   height: 8px;
-  
+
   border-radius: $borderRadius;
-  background-color: #bdbdbd;
+  background-color: $gray;
 }
 
 .ProgressValue {
-  color: #5e5e5e;
+  color: $gray_dark;
   font-weight: 600;
   font-size: 18px;
 }
@@ -33,11 +35,11 @@ $borderRadius: 8px;
   top: 0;
 
   height: 100%;
-  
+
   border-radius: $borderRadius;
 
-  box-shadow: 0 0 20px rgba(221, 19, 59, 0.5);
-  background-color: #dd133b;
-  
-  transition: width 1s ease;
+  box-shadow: 0 0 20px rgba($crimson, 0.5);
+  background-color: $crimson;
+
+  transition: width 1.2s ease;
 }

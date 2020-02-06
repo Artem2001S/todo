@@ -11,21 +11,6 @@
   }
 }
 
-@mixin makeChecked() {
-  content: "✓";
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-
-  font-size: 22px;
-  color: rgb(31, 141, 31);
-  font-weight: 900;
-}
-
 .ToggleBlock {
   display: inline-block;
   border-radius: 50%;
@@ -37,7 +22,7 @@
   width: 40px;
   height: 40px;
 
-  border: 1px solid #bdbdbd;
+  border: 1px solid $gray;
   border-radius: 50%;
 
   cursor: pointer;
@@ -82,7 +67,7 @@
   transition: color 0.5s ease;
   cursor: pointer;
 
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 10px rgba($black, 0.15);
 
   &:hover + .removeBtn {
     opacity: 0.5;
@@ -91,7 +76,7 @@
 
 .Completed {
   text-decoration: line-through;
-  color: rgba(221, 19, 59, 0.6);
+  color: rgba($crimson, 0.6);
 }
 
 .removeBtn {
@@ -103,7 +88,7 @@
   height: 30px;
 
   border-radius: 50%;
-  background-color: #dd133b;
+  background-color: $crimson;
 
   transform: translateY(50%);
   transition: opacity 0.5s;
@@ -113,7 +98,7 @@
 
   &:hover {
     opacity: 0.9;
-    box-shadow: 0 0 10px rgba($color: #dd133b, $alpha: 0.7);
+    box-shadow: 0 0 10px rgba($color: $crimson, $alpha: 0.7);
   }
 
   &::after {
@@ -128,7 +113,7 @@
 
     border-radius: 3px;
     transform: translate(-50%, -50%);
-    background-color: whitesmoke;
+    background-color: $whitesmoke;
   }
 }
 
@@ -149,5 +134,5 @@
 
   outline: none;
   border: none;
-  box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0px 0px 6px rgba($black, 0.15);
 }
