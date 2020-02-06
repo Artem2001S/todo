@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TodoItem from '../TodoItem/TodoItem';
 import classes from './TodoList.module.scss';
@@ -17,8 +18,12 @@ function TodoList({ filteredTodos }) {
 
 function mapStateToProps(state) {
   return {
-    filteredTodos: state.filteredTodos
+    filteredTodos: state.filteredTodos,
   }
+}
+
+TodoList.propTypes = {
+  filteredTodos: PropTypes.array.isRequired,
 }
 
 export default connect(mapStateToProps)(TodoList);

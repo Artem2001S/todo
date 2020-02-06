@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classes from './AddForm.module.scss';
 import Alert from '../UI/Alert/Alert';
@@ -53,6 +54,11 @@ function mapDispatchToProps(dispatch) {
     sumbitHandler: (todoTitle) => dispatch(dispatchAddTodo(todoTitle)),
     onToggleAll: () => dispatch(dispatchToggleAllTodos()),
   }
+}
+
+AddForm.propTypes = {
+  sumbitHandler: PropTypes.func.isRequired,
+  onToggleAll: PropTypes.func.isRequired,
 }
 
 export default connect(null, mapDispatchToProps)(AddForm);

@@ -1,5 +1,6 @@
-import React from 'react'
-import classes from './Button.module.scss'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classes from './Button.module.scss';
 
 export default function Button({ onClick, children, isActive, type }) {
   const clazz = [classes.Button];
@@ -11,4 +12,10 @@ export default function Button({ onClick, children, isActive, type }) {
       {children}
     </button>
   )
+}
+
+Button.propTypes = {
+  onClick: PropTypes.func,
+  isActive: PropTypes.bool,
+  type: PropTypes.string,
 }
