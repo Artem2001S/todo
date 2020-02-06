@@ -1,0 +1,22 @@
+@mixin media-laptop {
+  @media screen and (max-width: 1224px) {
+    @content;
+  }
+}
+.TodoContainer {
+  padding: 0 23%;
+  margin: 50px auto;
+
+  @include media-laptop() {
+    width: 70%;
+  }
+}
+
+.TodosHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 5px;
+  padding: 0 15px;
+}

@@ -1,8 +1,9 @@
+@import "../../globalStyles/variables.scss";
+
 .TodoItem {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   user-select: none;
 
   & + & {
@@ -28,7 +29,6 @@
 .ToggleBlock {
   display: inline-block;
   border-radius: 50%;
-  overflow: hidden;
   margin-right: 20px;
 }
 
@@ -44,7 +44,7 @@
   transition: border-color 0.5s;
 
   &:hover {
-    border: 1px solid rgba(31, 141, 31, 0.7);
+    border: 1px solid $green;
     &::after {
       @include makeChecked();
       opacity: 0.4;
@@ -52,7 +52,7 @@
   }
 
   &.Active {
-    border: 1px solid rgb(31, 141, 31);
+    border: 1px solid $green;
     &:hover {
       &::after {
         opacity: 1;
@@ -67,8 +67,10 @@
 
 .ContentBlock {
   position: relative;
+  right: 0;
+  top: 0;
 
-  width: 90%;
+  width: 95%;
   padding: 0.5rem 1.5rem;
   padding-right: 2.8rem;
 
