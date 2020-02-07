@@ -40,7 +40,10 @@ export default function rootReducer(state = initialState, action) {
       newTodos = [...newTodos, createTodoObject(action.payload.todoTitle)];
       break;
     case TOGGLE_TODO:
-      newTodos[index].isCompleted = !newTodos[index].isCompleted;
+      newTodos[index] = {
+        ...newTodos[index],
+        isCompleted: !newTodos[index].isCompleted
+      };
       break;
     case DELETE_TODO:
       newTodos.splice(index, 1);
@@ -68,7 +71,10 @@ export default function rootReducer(state = initialState, action) {
       state.activeFilter = newFilter;
       break;
     case PIN_TODO:
-      newTodos[index].isPinned = !newTodos[index].isPinned;
+      newTodos[index] = {
+        ...newTodos[index],
+        isPinned: !newTodos[index].isPinned
+      };
       newTodos.sort((a, b) => {
         if (a.isPinned && !b.isPinned) return -1;
         if (a.isPinned && b.isPinned) return 0;
