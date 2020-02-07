@@ -37,7 +37,7 @@ export default function rootReducer(state = initialState, action) {
 
   switch (action.type) {
     case ADD_TODO:
-      newTodos = [createTodoObject(action.payload.todoTitle), ...newTodos];
+      newTodos = [...newTodos, createTodoObject(action.payload.todoTitle)];
       break;
     case TOGGLE_TODO:
       newTodos[index].isCompleted = !newTodos[index].isCompleted;
@@ -69,7 +69,11 @@ export default function rootReducer(state = initialState, action) {
       break;
     case PIN_TODO:
       newTodos[index].isPinned = !newTodos[index].isPinned;
-      newTodos.sort((a, b) => (a.isPinned ? -1 : 0));
+      newTodos.sort((a, b) => {
+        if (a.isPinned && !b.isPinned) return -1;
+        if (a.isPinned && b.isPinned) return 0;
+        if (!a.isPinned && b.isPinned) return 1;
+      });
       break;
     default:
       return state;
