@@ -9,8 +9,9 @@ export function createTodoObject(todoTitle) {
   return {
     id: new Date().valueOf(),
     text: todoTitle,
-    isCompleted: false
-  }
+    isCompleted: false,
+    isPinned: false
+  };
 }
 
 export function getStatusBarContent(todos) {
@@ -37,9 +38,9 @@ export function filter(todos, filter) {
     case 'all':
       return todos;
     case 'active':
-      return todos.filter((item) => !item.isCompleted);
+      return todos.filter(item => !item.isCompleted);
     case 'completed':
-      return todos.filter((item) => item.isCompleted);
+      return todos.filter(item => item.isCompleted);
     default:
       return todos;
   }
