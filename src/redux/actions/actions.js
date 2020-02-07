@@ -5,7 +5,8 @@ import {
   DELETE_COMPLETED_TODOS,
   TOGGLE_ALL_TODOS,
   CHANGE_TODO_TITLE,
-  APPLY_FILTER
+  APPLY_FILTER,
+  PIN_TODO
 } from './actionTypes';
 
 export function dispatchAddTodo(todoTitle) {
@@ -55,5 +56,12 @@ export function dispatchApplyFilter(newFilterValue) {
   return {
     type: APPLY_FILTER,
     payload: { newFilter: filter }
+  };
+}
+
+export function disptachPinTodo(todoId) {
+  return {
+    type: PIN_TODO,
+    payload: { todoId }
   };
 }
