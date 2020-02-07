@@ -5,10 +5,11 @@ import classes from './TodoItem.module.scss';
 import {
   dispatchChangeTodoTitle,
   dispatchToggleTodo,
-  dispatchDeleteTodo
+  dispatchDeleteTodo,
+  disptachPinTodo
 } from '../../redux/actions/actions';
 
-function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
+function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   const inputRef = React.createRef();
   const checkboxRef = React.createRef();
   const todoTitleRef = React.createRef();
@@ -17,9 +18,15 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
   let needToUpdate = true;
 
   const checkboxClasses = [classes.checkboxToggle];
+  const todoContentClasses = [classes.ContentBlock];
 
   if (todo.isCompleted) {
     checkboxClasses.push(classes.Active);
+  }
+
+  if (todo.isPinned) {
+    todoContentClasses.push(classes.Pinned);
+    checkboxClasses.push(classes.Pinned);
   }
 
   const startTodoEditing = () => {
@@ -74,9 +81,14 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate }) {
       </label>
 
       <div
-        className={classes.ContentBlock}
+        className={todoContentClasses.join(' ')}
         title="Double click to edit"
         onDoubleClick={startTodoEditing}
+        onContextMenu={e => {
+          e.preventDefault();
+          onTodoPinning.call(this, todo.id);
+        }}
+        onTouchEnd={() => onTodoPinning.call(this, todo.id)}
       >
         <span
           ref={todoTitleRef}
@@ -127,7 +139,8 @@ function mapDispatchToProps(dispatch) {
     onUpdate: (todoId, newTitle) =>
       dispatch(dispatchChangeTodoTitle(todoId, newTitle)),
     onToggle: todoId => dispatch(dispatchToggleTodo(todoId)),
-    onRemove: todoId => dispatch(dispatchDeleteTodo(todoId))
+    onRemove: todoId => dispatch(dispatchDeleteTodo(todoId)),
+    onTodoPinning: todoId => dispatch(disptachPinTodo(todoId))
   };
 }
 
@@ -135,11 +148,14 @@ TodoItem.propTypes = {
   todo: PropTypes.exact({
     id: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
-    isCompleted: PropTypes.bool.isRequired
+    isCompleted: PropTypes.bool.isRequired,
+    isPinned: PropTypes.bool.isRequired
   }),
+
   onToggle: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
+  onTodoPinning: PropTypes.func.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(TodoItem);
