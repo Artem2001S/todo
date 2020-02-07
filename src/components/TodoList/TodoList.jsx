@@ -11,6 +11,7 @@ function TodoList({ filteredTodos }) {
         key={`${todo.id}a`}
         todo={todo}
         isCompleted={todo.isCompleted}
+        isPinned={todo.isPinned}
       />
     );
   });

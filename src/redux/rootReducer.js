@@ -5,7 +5,8 @@ import {
   DELETE_COMPLETED_TODOS,
   TOGGLE_ALL_TODOS,
   CHANGE_TODO_TITLE,
-  APPLY_FILTER
+  APPLY_FILTER,
+  PIN_TODO
 } from './actions/actionTypes';
 import {
   getCompletedTodosCount,
@@ -36,7 +37,7 @@ export default function rootReducer(state = initialState, action) {
 
   switch (action.type) {
     case ADD_TODO:
-      newTodos = [createTodoObject(action.payload.todoTitle), ...newTodos];
+      newTodos = [...newTodos, createTodoObject(action.payload.todoTitle)];
       break;
     case TOGGLE_TODO:
       newTodos[index].isCompleted = !newTodos[index].isCompleted;
@@ -65,6 +66,14 @@ export default function rootReducer(state = initialState, action) {
     case APPLY_FILTER:
       const { newFilter } = payload;
       state.activeFilter = newFilter;
+      break;
+    case PIN_TODO:
+      newTodos[index].isPinned = !newTodos[index].isPinned;
+      newTodos.sort((a, b) => {
+        if (a.isPinned && !b.isPinned) return -1;
+        if (a.isPinned && b.isPinned) return 0;
+        if (!a.isPinned && b.isPinned) return 1;
+      });
       break;
     default:
       return state;
