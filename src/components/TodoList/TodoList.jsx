@@ -6,14 +6,7 @@ import classes from './TodoList.module.scss';
 
 function TodoList({ filteredTodos }) {
   const $todos = filteredTodos.map(todo => {
-    return (
-      <TodoItem
-        key={`${todo.id}a`}
-        todo={todo}
-        isCompleted={todo.isCompleted}
-        isPinned={todo.isPinned}
-      />
-    );
+    return <TodoItem key={`${todo.id}a`} todo={todo} />;
   });
 
   return <div className={classes.TodoList}>{$todos}</div>;
