@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classes from './TodoItem.module.scss';
@@ -11,14 +11,17 @@ import {
 
 function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   const inputRef = React.createRef();
-  const checkboxRef = React.createRef();
-  const todoTitleRef = React.createRef();
 
   const [valueToUpdate, setValueToUpdate] = useState(todo.text);
-  let needToUpdate = true;
+  const [isEditingMode, setIsEditingMode] = useState(false);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [inputRef]);
 
   const checkboxClasses = [classes.checkboxToggle];
   const todoContentClasses = [classes.ContentBlock];
+  const inputClasses = [classes.inputForEdit];
 
   if (todo.isCompleted) {
     checkboxClasses.push(classes.Active);
@@ -29,37 +32,28 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
     checkboxClasses.push(classes.Pinned);
   }
 
+  if (!isEditingMode) {
+    inputClasses.push(classes.hided);
+  } else {
+    checkboxClasses.push(classes.hided);
+  }
+
   const startTodoEditing = () => {
-    inputRef.current.style.display = 'block';
-    hideElement(checkboxRef);
-
-    inputRef.current.focus();
-
-    // set short value (for displaying input with small height)
-    todoTitleRef.current.textContent = '1';
+    setIsEditingMode(true);
   };
 
   const endTodoEditing = () => {
-    showElement(checkboxRef);
-    inputRef.current.style.display = 'none';
-    const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
-
-    if (finalValue === '') {
+    // if zero-value then delete todo, else update todo
+    if (valueToUpdate === '') {
       onRemove(todo.id);
       return;
     }
 
-    onUpdate(todo.id, finalValue);
-    setValueToUpdate(finalValue);
-    todoTitleRef.current.textContent = todo.text;
-  };
+    if (valueToUpdate !== todo.text) {
+      onUpdate(todo.id, valueToUpdate);
+    }
 
-  const hideElement = ref => {
-    ref.current.style.visibility = 'hidden';
-  };
-
-  const showElement = ref => {
-    ref.current.style.visibility = 'visible';
+    setIsEditingMode(false);
   };
 
   const TABLET_WIDTH = 768;
@@ -69,15 +63,11 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
 
   return (
     <div className={classes.TodoItem}>
-      <label
-        ref={checkboxRef}
-        htmlFor={todo.id}
-        className={classes.ToggleBlock}
-      >
+      <label htmlFor={todo.id} className={classes.ToggleBlock}>
         <div
           className={checkboxClasses.join(' ')}
           onClick={onToggle.bind(this, todo.id)}
-        ></div>
+        />
       </label>
 
       <div
@@ -90,23 +80,18 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
         }}
         onTouchEnd={() => onTodoPinning(todo.id)}
       >
-        <span
-          ref={todoTitleRef}
-          className={todo.isCompleted ? classes.Completed : ''}
-        >
-          {todo.text}
+        <span className={todo.isCompleted ? classes.Completed : ''}>
+          {isEditingMode ? '1' : todo.text}
         </span>
 
         {/* input for edit todo */}
         <input
           ref={inputRef}
           type="text"
-          className={classes.inputForEdit}
+          className={inputClasses.join(' ')}
           value={valueToUpdate}
           onChange={e => {
             setValueToUpdate(e.target.value);
-            // set short value (for displaying input with small height)
-            todoTitleRef.current.textContent = '1';
           }}
           onBlur={endTodoEditing}
           onKeyUp={e => {
@@ -115,21 +100,24 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
             }
 
             if (e.key === 'Escape') {
-              inputRef.current.style.display = 'none';
-              needToUpdate = false;
+              setValueToUpdate(todo.text);
+              setIsEditingMode(false);
             }
           }}
         />
       </div>
-      <div className={classes.actions}>
-        <div
-          className={classes.removeBtn}
-          onClick={onRemove.bind(this, todo.id)}
-        />
-        {isTabletVersion() && (
-          <div className={classes.editBtn} onClick={startTodoEditing} />
-        )}
-      </div>
+      {isEditingMode || (
+        <div className={classes.actions}>
+          <div
+            className={classes.removeBtn}
+            onClick={onRemove.bind(this, todo.id)}
+          />
+
+          {isTabletVersion() && (
+            <div className={classes.editBtn} onClick={startTodoEditing} />
+          )}
+        </div>
+      )}
     </div>
   );
 }

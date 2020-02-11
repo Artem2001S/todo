@@ -169,7 +169,6 @@
 }
 
 .inputForEdit {
-  display: none;
   position: absolute;
   left: 0;
   top: 50%;
@@ -190,4 +189,8 @@
   outline: none;
   border: none;
   box-shadow: inset 0px 0px 6px rgba($black, 0.15);
+}
+
+.hided {
+  visibility: hidden;
 }
