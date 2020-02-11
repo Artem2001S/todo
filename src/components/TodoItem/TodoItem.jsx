@@ -45,11 +45,11 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
     const finalValue = (needToUpdate ? valueToUpdate : todo.text).trim();
 
     if (finalValue === '') {
-      onRemove.call(this, todo.id);
+      onRemove(todo.id);
       return;
     }
 
-    onUpdate.call(this, todo.id, finalValue);
+    onUpdate(todo.id, finalValue);
     setValueToUpdate(finalValue);
     todoTitleRef.current.textContent = todo.text;
   };
@@ -86,9 +86,9 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
         onDoubleClick={startTodoEditing}
         onContextMenu={e => {
           e.preventDefault();
-          onTodoPinning.call(this, todo.id);
+          onTodoPinning(todo.id);
         }}
-        onTouchEnd={() => onTodoPinning.call(this, todo.id)}
+        onTouchEnd={() => onTodoPinning(todo.id)}
       >
         <span
           ref={todoTitleRef}
@@ -125,10 +125,10 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
         <div
           className={classes.removeBtn}
           onClick={onRemove.bind(this, todo.id)}
-        ></div>
-        {isTabletVersion() ? (
-          <div className={classes.editBtn} onClick={startTodoEditing}></div>
-        ) : null}
+        />
+        {isTabletVersion() && (
+          <div className={classes.editBtn} onClick={startTodoEditing} />
+        )}
       </div>
     </div>
   );

@@ -32,9 +32,9 @@ function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
         setErrorMessage(false);
       }}
     >
-      {errorMessage ? <Alert>Enter data!</Alert> : null}
+      {errorMessage && <Alert>Enter data!</Alert>}
       <div>
-        {isEmpty ? null : (
+        {!isEmpty && (
           <div onClick={onToggleAll} className={toggleAllBtnClasses.join(' ')}>
             ❯
           </div>

@@ -5,11 +5,13 @@ import TodoItem from '../TodoItem/TodoItem';
 import classes from './TodoList.module.scss';
 
 function TodoList({ filteredTodos }) {
-  const $todos = filteredTodos.map(todo => {
-    return <TodoItem key={`${todo.id}a`} todo={todo} />;
-  });
-
-  return <div className={classes.TodoList}>{$todos}</div>;
+  return (
+    <div className={classes.TodoList}>
+      {filteredTodos.map(todo => (
+        <TodoItem key={`${todo.id}a`} todo={todo} />
+      ))}
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
