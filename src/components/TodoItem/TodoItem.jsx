@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import classes from './TodoItem.module.scss';
 import {
@@ -19,24 +20,21 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
     inputRef.current.focus();
   }, [inputRef]);
 
-  const checkboxClasses = [classes.checkboxToggle];
-  const todoContentClasses = [classes.ContentBlock];
-  const inputClasses = [classes.inputForEdit];
+  const checkboxClasses = classNames(classes.checkboxToggle, {
+    [classes.Active]: todo.isCompleted,
+    [classes.Pinned]: todo.isPinned,
+    [classes.hided]: isEditingMode
+  });
 
-  if (todo.isCompleted) {
-    checkboxClasses.push(classes.Active);
-  }
+  const todoContentClasses = classNames(classes.ContentBlock, {
+    [classes.Pinned]: todo.isPinned
+  });
 
-  if (todo.isPinned) {
-    todoContentClasses.push(classes.Pinned);
-    checkboxClasses.push(classes.Pinned);
-  }
+  const inputClasses = classNames(classes.inputForEdit, {
+    [classes.hided]: !isEditingMode
+  });
 
-  if (!isEditingMode) {
-    inputClasses.push(classes.hided);
-  } else {
-    checkboxClasses.push(classes.hided);
-  }
+  const spanClasses = classNames({ [classes.Completed]: todo.isCompleted });
 
   const startTodoEditing = () => {
     setIsEditingMode(true);
@@ -44,7 +42,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
 
   const endTodoEditing = () => {
     // if zero-value then delete todo, else update todo
-    if (valueToUpdate === '') {
+    if (!valueToUpdate) {
       onRemove(todo.id);
       return;
     }
@@ -65,13 +63,13 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
     <div className={classes.TodoItem}>
       <label htmlFor={todo.id} className={classes.ToggleBlock}>
         <div
-          className={checkboxClasses.join(' ')}
+          className={checkboxClasses}
           onClick={onToggle.bind(this, todo.id)}
         />
       </label>
 
       <div
-        className={todoContentClasses.join(' ')}
+        className={todoContentClasses}
         title="Double click to edit"
         onDoubleClick={startTodoEditing}
         onContextMenu={e => {
@@ -80,15 +78,13 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
         }}
         onTouchEnd={() => onTodoPinning(todo.id)}
       >
-        <span className={todo.isCompleted ? classes.Completed : ''}>
-          {isEditingMode ? '1' : todo.text}
-        </span>
+        <span className={spanClasses}>{isEditingMode ? '1' : todo.text}</span>
 
         {/* input for edit todo */}
         <input
           ref={inputRef}
           type="text"
-          className={inputClasses.join(' ')}
+          className={inputClasses}
           value={valueToUpdate}
           onChange={e => {
             setValueToUpdate(e.target.value);

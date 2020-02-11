@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import classes from './AddForm.module.scss';
 import Alert from '../UI/Alert/Alert';
@@ -12,10 +13,9 @@ function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
 
-  const toggleAllBtnClasses = [classes.ToggleAllBtn];
-  if (isToggleBtnActive) {
-    toggleAllBtnClasses.push(classes.Active);
-  }
+  const toggleAllBtnClasses = classNames(classes.ToggleAllBtn, {
+    [classes.Active]: isToggleBtnActive
+  });
 
   return (
     <form
@@ -35,7 +35,7 @@ function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
       {errorMessage && <Alert>Enter data!</Alert>}
       <div>
         {!isEmpty && (
-          <div onClick={onToggleAll} className={toggleAllBtnClasses.join(' ')}>
+          <div onClick={onToggleAll} className={toggleAllBtnClasses}>
             ❯
           </div>
         )}
