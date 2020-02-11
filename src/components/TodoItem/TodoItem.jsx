@@ -7,7 +7,7 @@ import {
   dispatchToggleTodo,
   dispatchDeleteTodo,
   disptachPinTodo
-} from '../../redux/actions/actions';
+} from 'redux/actions/actions';
 
 function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   const inputRef = React.createRef();

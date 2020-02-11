@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classes from './Todo.module.scss';
-import Header from '../../components/Header/Header';
-import AddForm from '../../components/AddForm/AddForm';
-import TodoList from '../../components/TodoList/TodoList';
-import Filters from '../../components/Filters/Filters';
-import Button from '../../components/UI/Button/Button';
-import ProgressIndicator from '../../components/UI/ProgressIndicator/ProgressIndicator';
-import StatusBar from '../../components/StatusBar/StatusBar';
-import { dispatchDeleteCompletedTodos } from '../../redux/actions/actions';
+import Header from 'components/Header/Header';
+import AddForm from 'components/AddForm/AddForm';
+import TodoList from 'components/TodoList/TodoList';
+import Filters from 'components/Filters/Filters';
+import Button from 'components/UI/Button/Button';
+import ProgressIndicator from 'components/UI/ProgressIndicator/ProgressIndicator';
+import StatusBar from 'components/StatusBar/StatusBar';
+import { dispatchDeleteCompletedTodos } from 'redux/actions/actions';
 
 function Todo(props) {
   const {

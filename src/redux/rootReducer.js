@@ -1,13 +1,4 @@
-import {
-  ADD_TODO,
-  TOGGLE_TODO,
-  DELETE_TODO,
-  DELETE_COMPLETED_TODOS,
-  TOGGLE_ALL_TODOS,
-  CHANGE_TODO_TITLE,
-  APPLY_FILTER,
-  PIN_TODO
-} from './actions/actionTypes';
+import * as actionTypes from './actions/actionTypes';
 import {
   getCompletedTodosCount,
   createTodoObject,
@@ -36,22 +27,22 @@ export default function rootReducer(state = initialState, action) {
   }
 
   switch (action.type) {
-    case ADD_TODO:
+    case actionTypes.ADD_TODO:
       newTodos = [...newTodos, createTodoObject(action.payload.todoTitle)];
       break;
-    case TOGGLE_TODO:
+    case actionTypes.TOGGLE_TODO:
       newTodos[index] = {
         ...newTodos[index],
         isCompleted: !newTodos[index].isCompleted
       };
       break;
-    case DELETE_TODO:
+    case actionTypes.DELETE_TODO:
       newTodos.splice(index, 1);
       break;
-    case DELETE_COMPLETED_TODOS:
+    case actionTypes.DELETE_COMPLETED_TODOS:
       newTodos = newTodos.filter(todo => !todo.isCompleted);
       break;
-    case TOGGLE_ALL_TODOS:
+    case actionTypes.TOGGLE_ALL_TODOS:
       if (newTodos.length === getCompletedTodosCount(newTodos)) {
         newTodos = newTodos.map(todo => {
           return { ...todo, isCompleted: false };
@@ -62,15 +53,15 @@ export default function rootReducer(state = initialState, action) {
         });
       }
       break;
-    case CHANGE_TODO_TITLE:
+    case actionTypes.CHANGE_TODO_TITLE:
       const { newTitle } = payload;
       newTodos[index].text = newTitle;
       break;
-    case APPLY_FILTER:
+    case actionTypes.APPLY_FILTER:
       const { newFilter } = payload;
       state.activeFilter = newFilter;
       break;
-    case PIN_TODO:
+    case actionTypes.PIN_TODO:
       newTodos[index] = {
         ...newTodos[index],
         isPinned: !newTodos[index].isPinned

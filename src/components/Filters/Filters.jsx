@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Button from '../UI/Button/Button';
 import classes from './Filters.module.scss';
-import { dispatchApplyFilter } from '../../redux/actions/actions';
+import { dispatchApplyFilter } from 'redux/actions/actions';
 
 function Filters({ activeFilter, changeFilter }) {
   const buttons = [
