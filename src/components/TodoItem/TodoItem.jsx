@@ -104,13 +104,13 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
       </div>
       {isEditingMode || (
         <div className={classes.actions}>
-          <div
+          <button
             className={classes.removeBtn}
             onClick={onRemove.bind(this, todo.id)}
           />
 
           {isTabletVersion() && (
-            <div className={classes.editBtn} onClick={startTodoEditing} />
+            <button className={classes.editBtn} onClick={startTodoEditing} />
           )}
         </div>
       )}
