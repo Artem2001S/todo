@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { UIParametersContext } from 'Contexts/UIParametersContext';
 import classes from './TodoItem.module.scss';
 import {
   dispatchChangeTodoTitle,
@@ -10,7 +11,6 @@ import {
   disptachPinTodo
 } from 'redux/actions/actions';
 import Checkbox from 'components/UI/Checkbox/Checkbox';
-import { TABLET_WIDTH } from 'constants.js';
 
 function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   const inputRef = React.createRef();
@@ -54,9 +54,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
     setIsEditingMode(false);
   };
 
-  const isTabletVersion = () => {
-    return window.innerWidth <= TABLET_WIDTH;
-  };
+  const { isTabletVersion } = useContext(UIParametersContext);
 
   return (
     <div className={classes.TodoItem}>
@@ -109,7 +107,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
             onClick={onRemove.bind(this, todo.id)}
           />
 
-          {isTabletVersion() && (
+          {isTabletVersion && (
             <button className={classes.editBtn} onClick={startTodoEditing} />
           )}
         </div>
