@@ -55,7 +55,10 @@ export default function todos(state = initialState, action) {
       break;
     case actionTypes.CHANGE_TODO_TITLE:
       const { newTitle } = payload;
-      newTodos[index].text = newTitle;
+      newTodos[index] = {
+        ...newTodos[index],
+        text: newTitle
+      };
       break;
     case actionTypes.APPLY_FILTER:
       const { newFilter } = payload;
@@ -70,6 +73,7 @@ export default function todos(state = initialState, action) {
         if (a.isPinned && !b.isPinned) return -1;
         if (a.isPinned && b.isPinned) return 0;
         if (!a.isPinned && b.isPinned) return 1;
+        return 0;
       });
       break;
     default:
