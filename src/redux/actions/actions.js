@@ -56,3 +56,10 @@ export function disptachPinTodo(todoId) {
     payload: { todoId }
   };
 }
+
+export function dispatchChangeIsTabletVersion(newValue) {
+  return {
+    type: actionTypes.CHANGE_IS_TABLET_VERSION,
+    payload: { newValue }
+  };
+}
