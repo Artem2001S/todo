@@ -20,7 +20,7 @@ const store = createStore(
 
 store.subscribe(() => {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(store.getState()));
-})
+});
 
 const app = (
   <Provider store={store}>

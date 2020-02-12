@@ -53,10 +53,10 @@ function Todo(props) {
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos,
-    completedTodosCount: state.completedTodosCount,
-    statusBarContnet: state.statusBarContnet,
-    completedPercent: state.completedPercent
+    todos: state.todos.todoList,
+    completedTodosCount: state.todos.completedTodosCount,
+    statusBarContnet: state.todos.statusBarContnet,
+    completedPercent: state.todos.completedPercent
   };
 }
 

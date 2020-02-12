@@ -30,7 +30,7 @@ function Filters({ activeFilter, changeFilter }) {
 
 function mapStateToProps(state) {
   return {
-    activeFilter: state.activeFilter
+    activeFilter: state.todos.activeFilter
   };
 }
 

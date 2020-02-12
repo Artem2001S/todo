@@ -16,7 +16,7 @@ function TodoList({ filteredTodos }) {
 
 function mapStateToProps(state) {
   return {
-    filteredTodos: state.filteredTodos
+    filteredTodos: state.todos.filteredTodos
   };
 }
 
