@@ -40,13 +40,10 @@ export function dispatchChangeTodoTitle(todoId, newTitle) {
   };
 }
 
-export function dispatchApplyFilter(newFilterValue) {
-  const filters = ['all', 'active', 'completed'];
-  const filter = filters.includes(newFilterValue) ? newFilterValue : 'all';
-
+export function dispatchApplyFilter(newFilter) {
   return {
     type: actionTypes.APPLY_FILTER,
-    payload: { newFilter: filter }
+    payload: { newFilter }
   };
 }
 
