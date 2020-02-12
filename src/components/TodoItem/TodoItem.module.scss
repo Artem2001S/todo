@@ -17,44 +17,6 @@
   margin-right: 1rem;
 }
 
-.checkboxToggle {
-  display: block;
-  width: 2rem;
-  height: 2rem;
-
-  border: 1px solid $gray;
-  border-radius: 50%;
-
-  cursor: pointer;
-  transition: border-color 0.5s;
-
-  &.Pinned {
-    border-color: rgba($color: $crimson, $alpha: 0.5);
-    box-shadow: none;
-  }
-
-  &:hover {
-    border: 1px solid $green;
-    &::after {
-      @include makeChecked();
-      opacity: 0.4;
-    }
-  }
-
-  &.Active {
-    border: 1px solid $green;
-    &:hover {
-      &::after {
-        opacity: 1;
-      }
-    }
-
-    &::after {
-      @include makeChecked();
-    }
-  }
-}
-
 .ContentBlock {
   position: relative;
   right: 0;

@@ -9,6 +9,7 @@ import {
   dispatchDeleteTodo,
   disptachPinTodo
 } from 'redux/actions/actions';
+import Checkbox from 'components/UI/Checkbox/Checkbox';
 
 function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   const inputRef = React.createRef();
@@ -20,9 +21,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
     inputRef.current.focus();
   }, [inputRef]);
 
-  const checkboxClasses = classNames(classes.checkboxToggle, {
-    [classes.Active]: todo.isCompleted,
-    [classes.Pinned]: todo.isPinned,
+  const toggleBlockClasses = classNames(classes.ToggleBlock, {
     [classes.hided]: isEditingMode
   });
 
@@ -61,12 +60,13 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
 
   return (
     <div className={classes.TodoItem}>
-      <label htmlFor={todo.id} className={classes.ToggleBlock}>
-        <div
-          className={checkboxClasses}
-          onClick={onToggle.bind(this, todo.id)}
+      <div className={toggleBlockClasses}>
+        <Checkbox
+          isChecked={todo.isCompleted}
+          onCheckboxChanged={onToggle.bind(this, todo.id)}
+          type={todo.isPinned && 'pink'}
         />
-      </label>
+      </div>
 
       <div
         className={todoContentClasses}
