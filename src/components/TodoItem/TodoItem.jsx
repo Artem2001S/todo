@@ -10,6 +10,7 @@ import {
   disptachPinTodo
 } from 'redux/actions/actions';
 import Checkbox from 'components/UI/Checkbox/Checkbox';
+import { TABLET_WIDTH } from 'constants.js';
 
 function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   const inputRef = React.createRef();
@@ -53,7 +54,6 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
     setIsEditingMode(false);
   };
 
-  const TABLET_WIDTH = 768;
   const isTabletVersion = () => {
     return window.innerWidth <= TABLET_WIDTH;
   };
