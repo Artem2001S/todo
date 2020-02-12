@@ -28,7 +28,8 @@ export default function todos(state = initialState, action) {
 
   switch (action.type) {
     case actionTypes.ADD_TODO:
-      newTodos = [...newTodos, createTodoObject(action.payload.todoTitle)];
+      const { id } = action.payload;
+      newTodos = [...newTodos, createTodoObject(id, action.payload.todoTitle)];
       break;
     case actionTypes.TOGGLE_TODO:
       newTodos[index] = {

@@ -56,7 +56,8 @@ function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    sumbitHandler: todoTitle => dispatch(dispatchAddTodo(todoTitle)),
+    sumbitHandler: todoTitle =>
+      dispatch(dispatchAddTodo(new Date().valueOf(), todoTitle)),
     onToggleAll: () => dispatch(dispatchToggleAllTodos())
   };
 }

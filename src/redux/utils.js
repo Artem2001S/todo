@@ -5,9 +5,9 @@ export function getCompletedTodosCount(todos) {
   }, 0);
 }
 
-export function createTodoObject(todoTitle) {
+export function createTodoObject(id, todoTitle) {
   return {
-    id: new Date().valueOf(),
+    id,
     text: todoTitle,
     isCompleted: false,
     isPinned: false

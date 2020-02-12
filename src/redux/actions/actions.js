@@ -1,9 +1,9 @@
 import * as actionTypes from './actionTypes';
 
-export function dispatchAddTodo(todoTitle) {
+export function dispatchAddTodo(id, todoTitle) {
   return {
     type: actionTypes.ADD_TODO,
-    payload: { todoTitle }
+    payload: { todoTitle, id }
   };
 }
 
