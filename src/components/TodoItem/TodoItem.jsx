@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import { UIParametersContext } from 'Contexts/UIParametersContext';
 import classes from './TodoItem.module.scss';
-import {
-  dispatchChangeTodoTitle,
-  dispatchToggleTodo,
-  dispatchDeleteTodo,
-  disptachPinTodo
-} from 'redux/actions/actions';
 import Checkbox from 'components/UI/Checkbox/Checkbox';
 
-function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
+export default function TodoItem({
+  todo,
+  handleTodoToggle,
+  handleRemoveTodo,
+  handleChangeTodoTitle,
+  handlePinTodo
+}) {
   const inputRef = React.createRef();
 
   const [valueToUpdate, setValueToUpdate] = useState(todo.text);
@@ -43,12 +42,12 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   const endTodoEditing = () => {
     // if zero-value then delete todo, else update todo
     if (!valueToUpdate) {
-      onRemove(todo.id);
+      handleRemoveTodo(todo.id);
       return;
     }
 
     if (valueToUpdate !== todo.text) {
-      onUpdate(todo.id, valueToUpdate);
+      handleChangeTodoTitle(todo.id, valueToUpdate);
     }
 
     setIsEditingMode(false);
@@ -61,7 +60,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
       <div className={toggleBlockClasses}>
         <Checkbox
           isChecked={todo.isCompleted}
-          onCheckboxChanged={onToggle.bind(this, todo.id)}
+          onCheckboxChanged={handleTodoToggle.bind(this, todo.id)}
           type={todo.isPinned && 'pink'}
         />
       </div>
@@ -72,9 +71,9 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
         onDoubleClick={startTodoEditing}
         onContextMenu={e => {
           e.preventDefault();
-          onTodoPinning(todo.id);
+          handlePinTodo(todo.id);
         }}
-        onTouchEnd={() => onTodoPinning(todo.id)}
+        onTouchEnd={() => handlePinTodo(todo.id)}
       >
         <span className={spanClasses}>{isEditingMode ? '1' : todo.text}</span>
 
@@ -104,7 +103,7 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
         <div className={classes.actions}>
           <button
             className={classes.removeBtn}
-            onClick={onRemove.bind(this, todo.id)}
+            onClick={handleRemoveTodo.bind(this, todo.id)}
           />
 
           {isTabletVersion && (
@@ -116,16 +115,6 @@ function TodoItem({ todo, onToggle, onRemove, onUpdate, onTodoPinning }) {
   );
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onUpdate: (todoId, newTitle) =>
-      dispatch(dispatchChangeTodoTitle(todoId, newTitle)),
-    onToggle: todoId => dispatch(dispatchToggleTodo(todoId)),
-    onRemove: todoId => dispatch(dispatchDeleteTodo(todoId)),
-    onTodoPinning: todoId => dispatch(disptachPinTodo(todoId))
-  };
-}
-
 TodoItem.propTypes = {
   todo: PropTypes.exact({
     id: PropTypes.number.isRequired,
@@ -134,10 +123,8 @@ TodoItem.propTypes = {
     isPinned: PropTypes.bool.isRequired
   }),
 
-  onToggle: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  onTodoPinning: PropTypes.func.isRequired
+  handleTodoToggle: PropTypes.func.isRequired,
+  handleRemoveTodo: PropTypes.func.isRequired,
+  handleChangeTodoTitle: PropTypes.func.isRequired,
+  handlePinTodo: PropTypes.func.isRequired
 };
-
-export default connect(null, mapDispatchToProps)(TodoItem);

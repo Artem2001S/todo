@@ -12,7 +12,11 @@ import StatusBar from 'components/StatusBar/StatusBar';
 import {
   dispatchDeleteCompletedTodos,
   dispatchAddTodo,
-  dispatchToggleAllTodos
+  dispatchToggleAllTodos,
+  dispatchToggleTodo,
+  dispatchDeleteTodo,
+  disptachPinTodo,
+  dispatchChangeTodoTitle
 } from 'redux/actions/actions';
 import { bindActionCreators } from 'redux';
 
@@ -24,7 +28,9 @@ function Todo(props) {
     statusBarContnet,
     completedPercent,
     handleToggleAll,
-    handleAddTodo
+    handleAddTodo,
+    filteredTodos,
+    ...todoActions
   } = props;
 
   const todosLength = todos.length;
@@ -49,13 +55,13 @@ function Todo(props) {
         </>
       )}
 
-      <TodoList />
+      <TodoList todoList={filteredTodos} {...todoActions} />
 
-      {completedTodosCount > 0 ? (
+      {completedTodosCount > 0 && (
         <Button type={'transparent'} onClick={removeCompleted}>
           Clear completed
         </Button>
-      ) : null}
+      )}
     </div>
   );
 }
@@ -65,7 +71,8 @@ function mapStateToProps(state) {
     todos: state.todos.todoList,
     completedTodosCount: state.todos.completedTodosCount,
     statusBarContnet: state.todos.statusBarContnet,
-    completedPercent: state.todos.completedPercent
+    completedPercent: state.todos.completedPercent,
+    filteredTodos: state.todos.filteredTodos
   };
 }
 
@@ -74,13 +81,18 @@ const mapDispatchToProps = dispatch =>
     {
       removeCompleted: dispatchDeleteCompletedTodos,
       handleAddTodo: dispatchAddTodo,
-      handleToggleAll: dispatchToggleAllTodos
+      handleToggleAll: dispatchToggleAllTodos,
+      handleTodoToggle: dispatchToggleTodo,
+      handleRemoveTodo: dispatchDeleteTodo,
+      handlePinTodo: disptachPinTodo,
+      handleChangeTodoTitle: dispatchChangeTodoTitle
     },
     dispatch
   );
 
 Todo.propTypes = {
   todos: PropTypes.array.isRequired,
+  filteredTodos: PropTypes.array.isRequired,
   completedTodosCount: PropTypes.number.isRequired,
   statusBarContnet: PropTypes.string.isRequired,
   completedPercent: PropTypes.number.isRequired,

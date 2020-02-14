@@ -1,27 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import TodoItem from '../TodoItem/TodoItem';
 import classes from './TodoList.module.scss';
 
-function TodoList({ filteredTodos }) {
+export default function TodoList({ todoList, ...todoActions }) {
   return (
     <div className={classes.TodoList}>
-      {filteredTodos.map(todo => (
-        <TodoItem key={`${todo.id}a`} todo={todo} />
+      {todoList.map(todo => (
+        <TodoItem key={`${todo.id}a`} todo={todo} {...todoActions} />
       ))}
     </div>
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    filteredTodos: state.todos.filteredTodos
-  };
-}
-
 TodoList.propTypes = {
-  filteredTodos: PropTypes.array.isRequired
+  todoList: PropTypes.array.isRequired
 };
-
-export default connect(mapStateToProps)(TodoList);
