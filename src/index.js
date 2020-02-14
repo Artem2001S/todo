@@ -8,7 +8,8 @@ import rootReducer from './redux/rootReducer';
 
 const LOCAL_STORAGE_KEY = 'redux-store';
 
-const preLoadedState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || undefined;
+const preLoadedState =
+  JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || undefined;
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(

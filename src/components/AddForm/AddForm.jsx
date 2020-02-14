@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import classes from './AddForm.module.scss';
 import Alert from '../UI/Alert/Alert';
-import {
-  dispatchAddTodo,
-  dispatchToggleAllTodos
-} from '../../redux/actions/actions';
 
-function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
+export default function AddForm({
+  submitHandler,
+  onToggleAll,
+  isToggleBtnActive,
+  isEmpty
+}) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
 
@@ -27,7 +27,7 @@ function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
           return;
         }
 
-        sumbitHandler(value.trim());
+        submitHandler(new Date().valueOf(), value.trim());
         setValue('');
         setErrorMessage(false);
       }}
@@ -54,17 +54,7 @@ function AddForm({ sumbitHandler, onToggleAll, isToggleBtnActive, isEmpty }) {
   );
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    sumbitHandler: todoTitle =>
-      dispatch(dispatchAddTodo(new Date().valueOf(), todoTitle)),
-    onToggleAll: () => dispatch(dispatchToggleAllTodos())
-  };
-}
-
 AddForm.propTypes = {
-  sumbitHandler: PropTypes.func.isRequired,
+  submitHandler: PropTypes.func.isRequired,
   onToggleAll: PropTypes.func.isRequired
 };
-
-export default connect(null, mapDispatchToProps)(AddForm);

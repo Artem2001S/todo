@@ -9,7 +9,12 @@ import Filters from 'components/Filters/Filters';
 import Button from 'components/UI/Button/Button';
 import ProgressIndicator from 'components/UI/ProgressIndicator/ProgressIndicator';
 import StatusBar from 'components/StatusBar/StatusBar';
-import { dispatchDeleteCompletedTodos } from 'redux/actions/actions';
+import {
+  dispatchDeleteCompletedTodos,
+  dispatchAddTodo,
+  dispatchToggleAllTodos
+} from 'redux/actions/actions';
+import { bindActionCreators } from 'redux';
 
 function Todo(props) {
   const {
@@ -17,7 +22,9 @@ function Todo(props) {
     todos,
     completedTodosCount,
     statusBarContnet,
-    completedPercent
+    completedPercent,
+    handleToggleAll,
+    handleAddTodo
   } = props;
 
   const todosLength = todos.length;
@@ -29,6 +36,8 @@ function Todo(props) {
       <AddForm
         isToggleBtnActive={completedTodosCount === todosLength}
         isEmpty={isEmpty}
+        onToggleAll={handleToggleAll}
+        submitHandler={handleAddTodo}
       />
       {isEmpty ? null : (
         <>
@@ -60,17 +69,24 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    removeCompleted: () => dispatch(dispatchDeleteCompletedTodos())
-  };
-}
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      removeCompleted: dispatchDeleteCompletedTodos,
+      handleAddTodo: dispatchAddTodo,
+      handleToggleAll: dispatchToggleAllTodos
+    },
+    dispatch
+  );
 
 Todo.propTypes = {
   todos: PropTypes.array.isRequired,
   completedTodosCount: PropTypes.number.isRequired,
   statusBarContnet: PropTypes.string.isRequired,
-  completedPercent: PropTypes.number.isRequired
+  completedPercent: PropTypes.number.isRequired,
+  removeCompleted: PropTypes.func.isRequired,
+  handleAddTodo: PropTypes.func.isRequired,
+  handleToggleAll: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);
