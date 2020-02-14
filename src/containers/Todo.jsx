@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classes from './Todo.module.scss';
 import Header from 'components/Header/Header';
 import AddForm from 'components/AddForm/AddForm';
-import TodoList from 'components/TodoList/TodoList';
 import Filters from 'components/Filters/Filters';
 import Button from 'components/UI/Button/Button';
 import ProgressIndicator from 'components/UI/ProgressIndicator/ProgressIndicator';
@@ -12,13 +10,10 @@ import StatusBar from 'components/StatusBar/StatusBar';
 import {
   dispatchDeleteCompletedTodos,
   dispatchAddTodo,
-  dispatchToggleAllTodos,
-  dispatchToggleTodo,
-  dispatchDeleteTodo,
-  dispatchPinTodo,
-  dispatchChangeTodoTitle
+  dispatchToggleAllTodos
 } from 'redux/actions/actions';
 import { bindActionCreators } from 'redux';
+import VisibleTodoList from './VisibleTodoList';
 
 function Todo(props) {
   const {
@@ -28,16 +23,14 @@ function Todo(props) {
     statusBarContent,
     completedPercent,
     handleToggleAll,
-    handleAddTodo,
-    filteredTodos,
-    ...todoActions
+    handleAddTodo
   } = props;
 
   const todosLength = todos.length;
   const isEmpty = todosLength === 0;
 
   return (
-    <div className={classes.TodoContainer}>
+    <div>
       <Header headerContent={'To do list'} />
       <AddForm
         isToggleBtnActive={completedTodosCount === todosLength}
@@ -45,9 +38,9 @@ function Todo(props) {
         onToggleAll={handleToggleAll}
         submitHandler={handleAddTodo}
       />
-      {isEmpty ? null : (
+      {!isEmpty && (
         <>
-          <div className={classes.TodosHeader}>
+          <div className={/*classes.TodosHeader*/ ''}>
             <StatusBar statusText={statusBarContent} />
             <Filters />
           </div>
@@ -55,7 +48,7 @@ function Todo(props) {
         </>
       )}
 
-      <TodoList todoList={filteredTodos} {...todoActions} />
+      <VisibleTodoList />
 
       {completedTodosCount > 0 && (
         <Button type={'transparent'} onClick={removeCompleted}>
@@ -71,8 +64,7 @@ function mapStateToProps(state) {
     todos: state.todos.todoList,
     completedTodosCount: state.todos.completedTodosCount,
     statusBarContent: state.todos.statusBarContent,
-    completedPercent: state.todos.completedPercent,
-    filteredTodos: state.todos.filteredTodos
+    completedPercent: state.todos.completedPercent
   };
 }
 
@@ -81,18 +73,13 @@ const mapDispatchToProps = dispatch =>
     {
       removeCompleted: dispatchDeleteCompletedTodos,
       handleAddTodo: dispatchAddTodo,
-      handleToggleAll: dispatchToggleAllTodos,
-      handleTodoToggle: dispatchToggleTodo,
-      handleRemoveTodo: dispatchDeleteTodo,
-      handlePinTodo: dispatchPinTodo,
-      handleChangeTodoTitle: dispatchChangeTodoTitle
+      handleToggleAll: dispatchToggleAllTodos
     },
     dispatch
   );
 
 Todo.propTypes = {
   todos: PropTypes.array.isRequired,
-  filteredTodos: PropTypes.array.isRequired,
   completedTodosCount: PropTypes.number.isRequired,
   statusBarContent: PropTypes.string.isRequired,
   completedPercent: PropTypes.number.isRequired,

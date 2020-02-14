@@ -3,9 +3,8 @@ import {
   getCompletedTodosCount,
   createTodoObject,
   getStatusBarContent,
-  getCompletedPercent,
-  filter
-} from '../utils';
+  getCompletedPercent
+} from '../../utils';
 
 const initialState = {
   todoList: [],
@@ -61,10 +60,6 @@ export default function todos(state = initialState, action) {
         text: newTitle
       };
       break;
-    case actionTypes.APPLY_FILTER:
-      const { newFilter } = payload;
-      state.activeFilter = newFilter;
-      break;
     case actionTypes.PIN_TODO:
       newTodos[index] = {
         ...newTodos[index],
@@ -83,10 +78,8 @@ export default function todos(state = initialState, action) {
 
   return {
     todoList: newTodos,
-    filteredTodos: filter(newTodos, state.activeFilter),
     completedTodosCount: getCompletedTodosCount(newTodos),
     statusBarContent: getStatusBarContent(newTodos),
-    completedPercent: getCompletedPercent(newTodos),
-    activeFilter: state.activeFilter
+    completedPercent: getCompletedPercent(newTodos)
   };
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Todo from './containers/Todo/Todo';
+import Todo from './containers/Todo';
+import classes from './App.module.scss';
 import { UIParametersContext } from './Contexts/UIParametersContext';
 import { TABLET_WIDTH } from 'constants.js';
 import { dispatchChangeIsTabletVersion } from 'redux/actions/actions';
@@ -26,11 +27,11 @@ function App({ isTabletVersion, changeIsTabletVersion }) {
   }, [changeIsTabletVersion, isTablet]);
 
   return (
-    <>
+    <div className={classes.TodoContainer}>
       <UIParametersContext.Provider value={{ isTabletVersion }}>
         <Todo />
       </UIParametersContext.Provider>
-    </>
+    </div>
   );
 }
 

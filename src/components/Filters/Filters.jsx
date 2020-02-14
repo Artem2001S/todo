@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Button from '../UI/Button/Button';
 import classes from './Filters.module.scss';
-import { dispatchApplyFilter } from 'redux/actions/actions';
+import FilterButton from 'containers/FilterButton';
 
-function Filters({ activeFilter, changeFilter }) {
+export default function Filters() {
   const buttons = [
     { name: 'all', content: 'All' },
     { name: 'active', content: 'Active' },
@@ -15,30 +13,11 @@ function Filters({ activeFilter, changeFilter }) {
     <div className={classes.Filters}>
       {buttons.map(btn => {
         return (
-          <Button
-            key={btn.name}
-            isActive={activeFilter === btn.name}
-            onClick={changeFilter.bind(this, btn.name)}
-          >
+          <FilterButton key={btn.name} filter={btn.name}>
             {btn.content}
-          </Button>
+          </FilterButton>
         );
       })}
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    activeFilter: state.todos.activeFilter
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeFilter: newFilterValue =>
-      dispatch(dispatchApplyFilter(newFilterValue))
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filters);
