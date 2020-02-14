@@ -15,7 +15,7 @@ import {
   dispatchToggleAllTodos,
   dispatchToggleTodo,
   dispatchDeleteTodo,
-  disptachPinTodo,
+  dispatchPinTodo,
   dispatchChangeTodoTitle
 } from 'redux/actions/actions';
 import { bindActionCreators } from 'redux';
@@ -25,7 +25,7 @@ function Todo(props) {
     removeCompleted,
     todos,
     completedTodosCount,
-    statusBarContnet,
+    statusBarContent,
     completedPercent,
     handleToggleAll,
     handleAddTodo,
@@ -48,7 +48,7 @@ function Todo(props) {
       {isEmpty ? null : (
         <>
           <div className={classes.TodosHeader}>
-            <StatusBar statusText={statusBarContnet} />
+            <StatusBar statusText={statusBarContent} />
             <Filters />
           </div>
           <ProgressIndicator progressValue={completedPercent} />
@@ -70,7 +70,7 @@ function mapStateToProps(state) {
   return {
     todos: state.todos.todoList,
     completedTodosCount: state.todos.completedTodosCount,
-    statusBarContnet: state.todos.statusBarContnet,
+    statusBarContent: state.todos.statusBarContent,
     completedPercent: state.todos.completedPercent,
     filteredTodos: state.todos.filteredTodos
   };
@@ -84,7 +84,7 @@ const mapDispatchToProps = dispatch =>
       handleToggleAll: dispatchToggleAllTodos,
       handleTodoToggle: dispatchToggleTodo,
       handleRemoveTodo: dispatchDeleteTodo,
-      handlePinTodo: disptachPinTodo,
+      handlePinTodo: dispatchPinTodo,
       handleChangeTodoTitle: dispatchChangeTodoTitle
     },
     dispatch
@@ -94,7 +94,7 @@ Todo.propTypes = {
   todos: PropTypes.array.isRequired,
   filteredTodos: PropTypes.array.isRequired,
   completedTodosCount: PropTypes.number.isRequired,
-  statusBarContnet: PropTypes.string.isRequired,
+  statusBarContent: PropTypes.string.isRequired,
   completedPercent: PropTypes.number.isRequired,
   removeCompleted: PropTypes.func.isRequired,
   handleAddTodo: PropTypes.func.isRequired,

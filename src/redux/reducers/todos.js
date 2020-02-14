@@ -10,7 +10,7 @@ import {
 const initialState = {
   todoList: [],
   filteredTodos: [],
-  statusBarContnet: '0 items left',
+  statusBarContent: '0 items left',
   completedTodosCount: 0,
   completedPercent: 0,
   activeFilter: 'all'
@@ -85,7 +85,7 @@ export default function todos(state = initialState, action) {
     todoList: newTodos,
     filteredTodos: filter(newTodos, state.activeFilter),
     completedTodosCount: getCompletedTodosCount(newTodos),
-    statusBarContnet: getStatusBarContent(newTodos),
+    statusBarContent: getStatusBarContent(newTodos),
     completedPercent: getCompletedPercent(newTodos),
     activeFilter: state.activeFilter
   };

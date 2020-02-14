@@ -16,15 +16,15 @@ export function createTodoObject(id, todoTitle) {
 
 export function getStatusBarContent(todos) {
   const uncompletedTodosCount = todos.length - getCompletedTodosCount(todos);
-  let statusBarContnet = `${uncompletedTodosCount} item`;
+  let statusBarContent = `${uncompletedTodosCount} item`;
 
   if (uncompletedTodosCount === 1) {
-    statusBarContnet += ' left';
+    statusBarContent += ' left';
   } else {
-    statusBarContnet += 's left';
+    statusBarContent += 's left';
   }
 
-  return statusBarContnet;
+  return statusBarContent;
 }
 
 export function getCompletedPercent(todos) {

@@ -47,7 +47,7 @@ export function dispatchApplyFilter(newFilter) {
   };
 }
 
-export function disptachPinTodo(todoId) {
+export function dispatchPinTodo(todoId) {
   return {
     type: actionTypes.PIN_TODO,
     payload: { todoId }
