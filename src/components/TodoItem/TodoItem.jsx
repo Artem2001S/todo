@@ -21,19 +21,18 @@ export default function TodoItem({
     inputRef.current.focus();
   }, [inputRef]);
 
-  const toggleBlockClasses = classNames(classes.ToggleBlock, {
-    [classes.hided]: isEditingMode
-  });
-
-  const todoContentClasses = classNames(classes.ContentBlock, {
-    [classes.Pinned]: todo.isPinned
-  });
-
-  const inputClasses = classNames(classes.inputForEdit, {
-    [classes.hided]: !isEditingMode
-  });
-
-  const spanClasses = classNames({ [classes.Completed]: todo.isCompleted });
+  const calculatedClasses = {
+    toggleBlockClasses: classNames(classes.ToggleBlock, {
+      [classes.hided]: isEditingMode
+    }),
+    todoContentClasses: classNames(classes.ContentBlock, {
+      [classes.Pinned]: todo.isPinned
+    }),
+    inputClasses: classNames(classes.inputForEdit, {
+      [classes.hided]: !isEditingMode
+    }),
+    spanClasses: classNames({ [classes.Completed]: todo.isCompleted })
+  };
 
   const startTodoEditing = () => {
     setIsEditingMode(true);
@@ -57,7 +56,7 @@ export default function TodoItem({
 
   return (
     <div className={classes.TodoItem}>
-      <div className={toggleBlockClasses}>
+      <div className={calculatedClasses.toggleBlockClasses}>
         <Checkbox
           isChecked={todo.isCompleted}
           onCheckboxChanged={handleTodoToggle.bind(this, todo.id)}
@@ -66,7 +65,7 @@ export default function TodoItem({
       </div>
 
       <div
-        className={todoContentClasses}
+        className={calculatedClasses.todoContentClasses}
         title="Double click to edit"
         onDoubleClick={startTodoEditing}
         onContextMenu={e => {
@@ -75,13 +74,15 @@ export default function TodoItem({
         }}
         onTouchEnd={() => handlePinTodo(todo.id)}
       >
-        <span className={spanClasses}>{isEditingMode ? '1' : todo.text}</span>
+        <span className={calculatedClasses.spanClasses}>
+          {isEditingMode ? '1' : todo.text}
+        </span>
 
         {/* input for edit todo */}
         <input
           ref={inputRef}
           type="text"
-          className={inputClasses}
+          className={calculatedClasses.inputClasses}
           value={valueToUpdate}
           onChange={e => {
             setValueToUpdate(e.target.value);
@@ -99,6 +100,7 @@ export default function TodoItem({
           }}
         />
       </div>
+
       {isEditingMode || (
         <div className={classes.actions}>
           <button
