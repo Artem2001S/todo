@@ -22,7 +22,7 @@ export default function AddForm({
       className={classes.AddForm}
       onSubmit={e => {
         e.preventDefault();
-        if (value === '') {
+        if (!value.trim()) {
           setErrorMessage(true);
           return;
         }

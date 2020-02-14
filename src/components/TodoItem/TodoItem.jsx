@@ -40,7 +40,7 @@ export default function TodoItem({
 
   const endTodoEditing = () => {
     // if zero-value then delete todo, else update todo
-    if (!valueToUpdate) {
+    if (!valueToUpdate.trim()) {
       handleRemoveTodo(todo.id);
       return;
     }
