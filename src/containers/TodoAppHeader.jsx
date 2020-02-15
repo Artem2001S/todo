@@ -30,7 +30,7 @@ function TodoAppHeader(props) {
   const completedPercent = getCompletedPercent(todos);
 
   return (
-    <div>
+    <>
       <Header headerContent={'To do list'} />
       <AddForm
         isToggleBtnActive={completedTodosCount === todosLength}
@@ -40,10 +40,8 @@ function TodoAppHeader(props) {
       />
       {!isEmpty && (
         <>
-          <div className={/*classes.TodosHeader*/ ''}>
-            <StatusBar statusText={statusBarContent} />
-            <Filters />
-          </div>
+          <StatusBar statusText={statusBarContent} />
+          <Filters />
           <ProgressIndicator progressValue={completedPercent} />
         </>
       )}
@@ -53,7 +51,7 @@ function TodoAppHeader(props) {
           Clear completed
         </Button>
       )}
-    </div>
+    </>
   );
 }
 

@@ -14,6 +14,7 @@ export default function TodoItem({
 }) {
   const inputRef = React.createRef();
 
+  const { isTabletVersion } = useContext(UIParametersContext);
   const [valueToUpdate, setValueToUpdate] = useState(todo.text);
   const [isEditingMode, setIsEditingMode] = useState(false);
 
@@ -51,8 +52,6 @@ export default function TodoItem({
 
     setIsEditingMode(false);
   };
-
-  const { isTabletVersion } = useContext(UIParametersContext);
 
   return (
     <div className={classes.TodoItem}>
