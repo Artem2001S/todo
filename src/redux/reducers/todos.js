@@ -7,12 +7,7 @@ import {
 } from '../../utils';
 
 const initialState = {
-  todoList: [],
-  filteredTodos: [],
-  statusBarContent: '0 items left',
-  completedTodosCount: 0,
-  completedPercent: 0,
-  activeFilter: 'all'
+  todoList: []
 };
 
 export default function todos(state = initialState, action) {
@@ -77,9 +72,6 @@ export default function todos(state = initialState, action) {
   }
 
   return {
-    todoList: newTodos,
-    completedTodosCount: getCompletedTodosCount(newTodos),
-    statusBarContent: getStatusBarContent(newTodos),
-    completedPercent: getCompletedPercent(newTodos)
+    todoList: newTodos
   };
 }

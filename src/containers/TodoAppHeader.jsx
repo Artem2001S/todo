@@ -13,20 +13,21 @@ import {
   dispatchToggleAllTodos
 } from 'redux/actions/actions';
 import { bindActionCreators } from 'redux';
+import {
+  getCompletedTodosCount,
+  getStatusBarContent,
+  getCompletedPercent
+} from 'utils';
 
 function TodoAppHeader(props) {
-  const {
-    removeCompleted,
-    todos,
-    completedTodosCount,
-    statusBarContent,
-    completedPercent,
-    handleToggleAll,
-    handleAddTodo
-  } = props;
+  const { removeCompleted, todos, handleToggleAll, handleAddTodo } = props;
 
   const todosLength = todos.length;
   const isEmpty = todosLength === 0;
+
+  const completedTodosCount = getCompletedTodosCount(todos);
+  const statusBarContent = getStatusBarContent(todos);
+  const completedPercent = getCompletedPercent(todos);
 
   return (
     <div>
@@ -77,9 +78,6 @@ const mapDispatchToProps = dispatch =>
 
 TodoAppHeader.propTypes = {
   todos: PropTypes.array.isRequired,
-  completedTodosCount: PropTypes.number.isRequired,
-  statusBarContent: PropTypes.string.isRequired,
-  completedPercent: PropTypes.number.isRequired,
   removeCompleted: PropTypes.func.isRequired,
   handleAddTodo: PropTypes.func.isRequired,
   handleToggleAll: PropTypes.func.isRequired
