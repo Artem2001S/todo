@@ -34,6 +34,7 @@ export default function Todos({
         onToggleAll={handleToggleAll}
         submitHandler={handleAddTodo}
       />
+
       {!isEmpty && (
         <>
           <div className={classes.TodosHeader}>
@@ -43,7 +44,9 @@ export default function Todos({
           <ProgressIndicator progressValue={completedPercent} />
         </>
       )}
+
       <TodoList todoList={visibleTodoList} {...todoActions} />
+
       {completedTodosCount > 0 && (
         <Button type={'transparent'} onClick={removeCompleted}>
           Clear completed

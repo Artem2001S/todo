@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import classes from './App.module.scss';
 import { UIParametersContext } from './Contexts/UIParametersContext';
 import { TABLET_WIDTH } from 'constants.js';
 import { dispatchChangeIsTabletVersion } from 'redux/actions/actions';
-import TodoAppHeader from 'containers/TodoAppHeader';
-import VisibleTodoList from 'containers/VisibleTodoList';
 import TodosContainer from 'containers/TodosContainer';
 
 function App({ isTabletVersion, changeIsTabletVersion }) {
@@ -29,13 +26,9 @@ function App({ isTabletVersion, changeIsTabletVersion }) {
   }, [changeIsTabletVersion, isTablet]);
 
   return (
-    <div>
-      <UIParametersContext.Provider value={{ isTabletVersion }}>
-        {/* <TodoAppHeader />
-        <VisibleTodoList /> */}
-        <TodosContainer />
-      </UIParametersContext.Provider>
-    </div>
+    <UIParametersContext.Provider value={{ isTabletVersion }}>
+      <TodosContainer />
+    </UIParametersContext.Provider>
   );
 }
 
