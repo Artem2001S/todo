@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Todo from './containers/Todo';
 import classes from './App.module.scss';
 import { UIParametersContext } from './Contexts/UIParametersContext';
 import { TABLET_WIDTH } from 'constants.js';
 import { dispatchChangeIsTabletVersion } from 'redux/actions/actions';
+import TodoAppHeader from 'containers/TodoAppHeader';
+import VisibleTodoList from 'containers/VisibleTodoList';
 
 function App({ isTabletVersion, changeIsTabletVersion }) {
   const [isTablet, setIsTablet] = useState(isTabletVersion);
@@ -29,7 +30,8 @@ function App({ isTabletVersion, changeIsTabletVersion }) {
   return (
     <div className={classes.TodoContainer}>
       <UIParametersContext.Provider value={{ isTabletVersion }}>
-        <Todo />
+        <TodoAppHeader />
+        <VisibleTodoList />
       </UIParametersContext.Provider>
     </div>
   );

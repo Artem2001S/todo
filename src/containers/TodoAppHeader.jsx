@@ -13,9 +13,8 @@ import {
   dispatchToggleAllTodos
 } from 'redux/actions/actions';
 import { bindActionCreators } from 'redux';
-import VisibleTodoList from './VisibleTodoList';
 
-function Todo(props) {
+function TodoAppHeader(props) {
   const {
     removeCompleted,
     todos,
@@ -48,8 +47,6 @@ function Todo(props) {
         </>
       )}
 
-      <VisibleTodoList />
-
       {completedTodosCount > 0 && (
         <Button type={'transparent'} onClick={removeCompleted}>
           Clear completed
@@ -78,7 +75,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-Todo.propTypes = {
+TodoAppHeader.propTypes = {
   todos: PropTypes.array.isRequired,
   completedTodosCount: PropTypes.number.isRequired,
   statusBarContent: PropTypes.string.isRequired,
@@ -88,4 +85,4 @@ Todo.propTypes = {
   handleToggleAll: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoAppHeader);
