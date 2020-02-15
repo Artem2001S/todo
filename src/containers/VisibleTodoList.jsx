@@ -10,7 +10,7 @@ import {
 } from 'redux/actions/actions';
 
 const mapStateToProps = state => ({
-  todoList: filter(state.todos.todoList, state.filter)
+  todoList: filter(state.todos, state.filter)
 });
 
 const mapDispatchToProps = dispatch =>

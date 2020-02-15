@@ -1,77 +1,46 @@
 import * as actionTypes from '../actions/actionTypes';
-import {
-  getCompletedTodosCount,
-  createTodoObject,
-  getStatusBarContent,
-  getCompletedPercent
-} from '../../utils';
+import { getCompletedTodosCount, createTodoObject } from '../../utils';
 
-const initialState = {
-  todoList: []
-};
+const initialState = [];
 
 export default function todos(state = initialState, action) {
-  let newTodos = [...state.todoList];
   const { payload } = action;
-
-  let index;
-
-  if (payload !== undefined && payload.todoId) {
-    index = newTodos.findIndex(todo => todo.id === payload.todoId);
-  }
 
   switch (action.type) {
     case actionTypes.ADD_TODO:
-      const { id } = action.payload;
-      newTodos = [...newTodos, createTodoObject(id, action.payload.todoTitle)];
-      break;
+      return [...state, createTodoObject(payload.id, payload.todoTitle)];
     case actionTypes.TOGGLE_TODO:
-      newTodos[index] = {
-        ...newTodos[index],
-        isCompleted: !newTodos[index].isCompleted
-      };
-      break;
+      return state.map(todo =>
+        todo.id === payload.todoId
+          ? { ...todo, isCompleted: !todo.isCompleted }
+          : todo
+      );
     case actionTypes.DELETE_TODO:
-      newTodos.splice(index, 1);
-      break;
+      return state.filter(todo => todo.id !== payload.todoId);
     case actionTypes.DELETE_COMPLETED_TODOS:
-      newTodos = newTodos.filter(todo => !todo.isCompleted);
-      break;
+      return state.filter(todo => !todo.isCompleted);
     case actionTypes.TOGGLE_ALL_TODOS:
-      if (newTodos.length === getCompletedTodosCount(newTodos)) {
-        newTodos = newTodos.map(todo => {
-          return { ...todo, isCompleted: false };
-        });
-      } else {
-        newTodos = newTodos.map(todo => {
-          return { ...todo, isCompleted: true };
-        });
-      }
-      break;
+      return state.length === getCompletedTodosCount(state)
+        ? state.map(todo => ({ ...todo, isCompleted: false }))
+        : state.map(todo => ({ ...todo, isCompleted: true }));
     case actionTypes.CHANGE_TODO_TITLE:
-      const { newTitle } = payload;
-      newTodos[index] = {
-        ...newTodos[index],
-        text: newTitle
-      };
-      break;
+      return state.map(todo =>
+        todo.id === payload.todoId ? { ...todo, text: payload.newTitle } : todo
+      );
     case actionTypes.PIN_TODO:
-      newTodos[index] = {
-        ...newTodos[index],
-        isPinned: !newTodos[index].isPinned
-      };
-      newTodos.sort((a, b) => {
-        if (a.isPinned && !b.isPinned) return -1;
-        if (a.isPinned && b.isPinned) return 0;
-        if (!a.isPinned && b.isPinned) return 1;
-        return 0;
-      });
-      break;
+      return state
+        .map(todo =>
+          todo.id === payload.todoId
+            ? { ...todo, isPinned: !todo.isPinned }
+            : todo
+        )
+        .sort((a, b) => {
+          if (a.isPinned && !b.isPinned) return -1;
+          if (a.isPinned && b.isPinned) return 0;
+          if (!a.isPinned && b.isPinned) return 1;
+          return 0;
+        });
     default:
       return state;
   }
-
-  return {
-    todoList: newTodos
-  };
 }
