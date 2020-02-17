@@ -12,9 +12,7 @@ export default function Checkbox({ onCheckboxChanged, isChecked, type }) {
   return (
     <div
       className={checkboxClasses}
-      onClick={() => {
-        onCheckboxChanged();
-      }}
+      onClick={onCheckboxChanged}
     />
   );
 }

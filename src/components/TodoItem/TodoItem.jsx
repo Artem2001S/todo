@@ -58,8 +58,8 @@ export default function TodoItem({
       <div className={calculatedClasses.toggleBlockClasses}>
         <Checkbox
           isChecked={todo.isCompleted}
-          onCheckboxChanged={handleTodoToggle.bind(this, todo.id)}
           type={todo.isPinned && 'pink'}
+          onCheckboxChanged={handleTodoToggle.bind(this, todo.id)}
         />
       </div>
 
