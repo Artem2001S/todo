@@ -3,7 +3,7 @@
 .Alert {
   position: fixed;
   bottom: 0.5rem;
-  left: -100%;
+  left: 15px;
 
   padding: 12px;
 
@@ -11,12 +11,18 @@
   background-color: $crimson;
   font-size: 0.9rem;
   color: $white;
-
-  transition: opacity 2s, left 0.8s;
-  opacity: 0.5;
 }
 
 .AlertAnimated {
   opacity: 1;
   left: 15px;
+}
+
+.to-right-appear {
+  left: -200px;
+}
+
+.to-right-appear.to-right-appear-active {
+  left: 15px;
+  transition: left 1.5s;
 }

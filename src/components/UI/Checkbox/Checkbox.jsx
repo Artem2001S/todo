@@ -9,12 +9,7 @@ export default function Checkbox({ onCheckboxChanged, isChecked, type }) {
     [classes.Pinned]: type === 'pink'
   });
 
-  return (
-    <div
-      className={checkboxClasses}
-      onClick={onCheckboxChanged}
-    />
-  );
+  return <div className={checkboxClasses} onClick={onCheckboxChanged} />;
 }
 
 Checkbox.propTypes = {
