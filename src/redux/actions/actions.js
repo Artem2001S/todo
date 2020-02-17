@@ -1,60 +1,60 @@
 import * as actionTypes from './actionTypes';
 
-export function dispatchAddTodo(id, todoTitle) {
+export function addTodo(id, todoTitle) {
   return {
     type: actionTypes.ADD_TODO,
     payload: { todoTitle, id }
   };
 }
 
-export function dispatchToggleTodo(todoId) {
+export function toggleTodo(todoId) {
   return {
     type: actionTypes.TOGGLE_TODO,
     payload: { todoId }
   };
 }
 
-export function dispatchDeleteTodo(todoId) {
+export function deleteTodo(todoId) {
   return {
     type: actionTypes.DELETE_TODO,
     payload: { todoId }
   };
 }
 
-export function dispatchDeleteCompletedTodos() {
+export function deleteCompletedTodos() {
   return {
     type: actionTypes.DELETE_COMPLETED_TODOS
   };
 }
 
-export function dispatchToggleAllTodos() {
+export function toggleAllTodos() {
   return {
     type: actionTypes.TOGGLE_ALL_TODOS
   };
 }
 
-export function dispatchChangeTodoTitle(todoId, newTitle) {
+export function changeTodoTitle(todoId, newTitle) {
   return {
     type: actionTypes.CHANGE_TODO_TITLE,
     payload: { todoId, newTitle }
   };
 }
 
-export function dispatchApplyFilter(newFilter) {
+export function applyFilter(newFilter) {
   return {
     type: actionTypes.APPLY_FILTER,
     payload: { newFilter }
   };
 }
 
-export function dispatchPinTodo(todoId) {
+export function pinTodo(todoId) {
   return {
     type: actionTypes.PIN_TODO,
     payload: { todoId }
   };
 }
 
-export function dispatchChangeIsTabletVersion(newValue) {
+export function changeIsTabletVersion(newValue) {
   return {
     type: actionTypes.CHANGE_IS_TABLET_VERSION,
     payload: { newValue }

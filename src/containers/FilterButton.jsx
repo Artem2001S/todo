@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { dispatchApplyFilter } from 'redux/actions/actions';
+import { applyFilter } from 'redux/actions/actions';
 import Button from 'components/UI/Button/Button';
 
 const mapStateToProps = (state, props) => ({
@@ -7,7 +7,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  onClick: () => dispatch(dispatchApplyFilter(props.filter))
+  onClick: () => dispatch(applyFilter(props.filter))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Button);

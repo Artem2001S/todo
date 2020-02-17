@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { UIParametersContext } from './Contexts/UIParametersContext';
 import { TABLET_WIDTH } from 'constants.js';
-import { dispatchChangeIsTabletVersion } from 'redux/actions/actions';
+import { changeIsTabletVersion } from 'redux/actions/actions';
 import TodosContainer from 'containers/TodosContainer';
 
 function App({ isTabletVersion, changeIsTabletVersion }) {
@@ -40,8 +40,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeIsTabletVersion: newValue =>
-      dispatch(dispatchChangeIsTabletVersion(newValue))
+    changeIsTabletVersion: newValue => dispatch(changeIsTabletVersion(newValue))
   };
 }
 

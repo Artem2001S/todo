@@ -11,13 +11,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      removeCompleted: actions.dispatchDeleteCompletedTodos,
-      handleToggleAll: actions.dispatchToggleAllTodos,
-      handleAddTodo: actions.dispatchAddTodo,
-      handleTodoToggle: actions.dispatchToggleTodo,
-      handleRemoveTodo: actions.dispatchDeleteTodo,
-      handlePinTodo: actions.dispatchPinTodo,
-      handleChangeTodoTitle: actions.dispatchChangeTodoTitle
+      removeCompleted: actions.deleteCompletedTodos,
+      handleToggleAll: actions.toggleAllTodos,
+      handleAddTodo: actions.addTodo,
+      handleTodoToggle: actions.toggleTodo,
+      handleRemoveTodo: actions.deleteTodo,
+      handlePinTodo: actions.pinTodo,
+      handleChangeTodoTitle: actions.changeTodoTitle
     },
     dispatch
   );
