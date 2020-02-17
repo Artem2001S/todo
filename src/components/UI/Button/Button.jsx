@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import classes from './Button.module.scss';
 
 export default function Button({ onClick, children, isActive, type }) {
-  const clazz = [classes.Button];
-  if (isActive) clazz.push(classes.Active);
-  if (type === 'transparent') clazz.push(classes.Transparent);
+  const btnClasses = classNames(classes.Button, {
+    [classes.Transparent]: type === 'transparent',
+    [classes.Active]: isActive
+  });
 
   return (
-    <button className={clazz.join(' ')} onClick={onClick}>
+    <button className={btnClasses} onClick={onClick}>
       {children}
     </button>
   );

@@ -5,9 +5,9 @@ export function getCompletedTodosCount(todos) {
   }, 0);
 }
 
-export function createTodoObject(todoTitle) {
+export function createTodoObject(id, todoTitle) {
   return {
-    id: new Date().valueOf(),
+    id,
     text: todoTitle,
     isCompleted: false,
     isPinned: false
@@ -16,15 +16,15 @@ export function createTodoObject(todoTitle) {
 
 export function getStatusBarContent(todos) {
   const uncompletedTodosCount = todos.length - getCompletedTodosCount(todos);
-  let statusBarContnet = `${uncompletedTodosCount} item`;
+  let statusBarContent = `${uncompletedTodosCount} item`;
 
   if (uncompletedTodosCount === 1) {
-    statusBarContnet += ' left';
+    statusBarContent += ' left';
   } else {
-    statusBarContnet += 's left';
+    statusBarContent += 's left';
   }
 
-  return statusBarContnet;
+  return statusBarContent;
 }
 
 export function getCompletedPercent(todos) {

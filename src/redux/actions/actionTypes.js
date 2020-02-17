@@ -6,3 +6,6 @@ export const TOGGLE_ALL_TODOS = 'TOGGLE_ALL_TODOS';
 export const CHANGE_TODO_TITLE = 'CHANGE_TODO_TITLE';
 export const APPLY_FILTER = 'APPLY_FILTER';
 export const PIN_TODO = 'PIN_TODO';
+
+// UIParameters
+export const CHANGE_IS_TABLET_VERSION = 'CHANGE_IS_TABLET_VERSION';
