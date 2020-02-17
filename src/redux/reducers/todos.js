@@ -20,9 +20,10 @@ export default function todos(state = initialState, action) {
     case actionTypes.DELETE_COMPLETED_TODOS:
       return state.filter(todo => !todo.isCompleted);
     case actionTypes.TOGGLE_ALL_TODOS:
-      return state.length === getCompletedTodosCount(state)
-        ? state.map(todo => ({ ...todo, isCompleted: false }))
-        : state.map(todo => ({ ...todo, isCompleted: true }));
+      return state.map(todo => ({
+        ...todo,
+        isCompleted: state.length !== getCompletedTodosCount(state)
+      }));
     case actionTypes.CHANGE_TODO_TITLE:
       return state.map(todo =>
         todo.id === payload.todoId ? { ...todo, text: payload.newTitle } : todo
