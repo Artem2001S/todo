@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { UIParametersContext } from 'Contexts/UIParametersContext';
@@ -17,6 +17,16 @@ export default function TodoItem({
   const { isTabletVersion } = useContext(UIParametersContext);
   const [valueToUpdate, setValueToUpdate] = useState(todo.text);
   const [isEditingMode, setIsEditingMode] = useState(false);
+
+  const removeTodo = useCallback(() => handleRemoveTodo(todo.id), [
+    todo.id,
+    handleRemoveTodo
+  ]);
+
+  const toggleTodo = useCallback(() => handleTodoToggle(todo.id), [
+    todo.id,
+    handleTodoToggle
+  ]);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -59,7 +69,7 @@ export default function TodoItem({
         <Checkbox
           isChecked={todo.isCompleted}
           type={todo.isPinned && 'pink'}
-          onCheckboxChanged={handleTodoToggle.bind(this, todo.id)}
+          onCheckboxChanged={toggleTodo}
         />
       </div>
 
@@ -102,10 +112,7 @@ export default function TodoItem({
 
       {isEditingMode || (
         <div className={classes.actions}>
-          <button
-            className={classes.removeBtn}
-            onClick={handleRemoveTodo.bind(this, todo.id)}
-          />
+          <button className={classes.removeBtn} onClick={removeTodo} />
 
           {isTabletVersion && (
             <button className={classes.editBtn} onClick={startTodoEditing} />
