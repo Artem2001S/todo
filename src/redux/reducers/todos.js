@@ -35,12 +35,7 @@ export default function todos(state = initialState, action) {
             ? { ...todo, isPinned: !todo.isPinned }
             : todo
         )
-        .sort((a, b) => {
-          if (a.isPinned && !b.isPinned) return -1;
-          if (a.isPinned && b.isPinned) return 0;
-          if (!a.isPinned && b.isPinned) return 1;
-          return 0;
-        });
+        .sort((a, b) => b.isPinned - a.isPinned);
     default:
       return state;
   }
