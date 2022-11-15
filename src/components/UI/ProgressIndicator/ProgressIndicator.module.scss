@@ -1,4 +1,4 @@
-@import "../../../globalStyles/variables.scss";
+@import '../../../globalStyles/variables.scss';
 
 .ProgressIndicator {
   position: relative;
@@ -7,7 +7,7 @@
   align-items: center;
 
   width: 70%;
-  margin: 5px auto;
+  margin: 15px auto;
 }
 
 $borderRadius: 8px;
@@ -17,7 +17,7 @@ $borderRadius: 8px;
   position: relative;
 
   width: 90%;
-  height: 8px;
+  height: 15px;
 
   border-radius: $borderRadius;
   background-color: $gray;
@@ -26,7 +26,8 @@ $borderRadius: 8px;
 .ProgressValue {
   color: $gray_dark;
   font-weight: 600;
-  font-size: 0.9rem;
+  margin-right: 10px;
+  font-size: 1.6rem;
 }
 
 .ProgressDone {

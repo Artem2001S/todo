@@ -1,4 +1,4 @@
-@import "../../globalStyles/variables.scss";
+@import '../../globalStyles/variables.scss';
 
 .AddForm {
   position: relative;
@@ -10,12 +10,12 @@
 .Input {
   display: block;
   width: 100%;
-  padding: 1rem;
-  padding-left: 2.55rem;
+  padding: 0.7rem;
+  padding-left: 1.15rem;
 
   border: 1px solid rgba($gray, 0.5);
   color: $gray_dark;
-  font-size: 1.1rem;
+  font-size: 1.8rem;
   outline: none;
 
   &::placeholder {

@@ -6,8 +6,10 @@ import { filter } from 'utils.js';
 
 const mapStateToProps = state => ({
   visibleTodoList: filter(state.todos, state.filter),
-  todoList: state.todos
+  todoList: state.todos,
+  selectedDate: state.filter.selectedDate
 });
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
@@ -17,6 +19,7 @@ const mapDispatchToProps = dispatch =>
       handleTodoToggle: actions.toggleTodo,
       handleRemoveTodo: actions.deleteTodo,
       handlePinTodo: actions.pinTodo,
+      handleSetDate: actions.setDate,
       handleChangeTodoTitle: actions.changeTodoTitle
     },
     dispatch

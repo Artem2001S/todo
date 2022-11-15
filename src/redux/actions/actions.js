@@ -7,10 +7,17 @@ export function addTodo(id, todoTitle) {
   };
 }
 
-export function toggleTodo(todoId) {
+export function toggleTodo(todoId, authorName, date) {
   return {
     type: actionTypes.TOGGLE_TODO,
-    payload: { todoId }
+    payload: { todoId, authorName, date }
+  };
+}
+
+export function setDate(date) {
+  return {
+    type: actionTypes.SET_DATE,
+    payload: date
   };
 }
 

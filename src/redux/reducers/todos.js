@@ -12,7 +12,12 @@ export default function todos(state = initialState, action) {
     case actionTypes.TOGGLE_TODO:
       return state.map(todo =>
         todo.id === payload.todoId
-          ? { ...todo, isCompleted: !todo.isCompleted }
+          ? {
+              ...todo,
+              isCompleted: !todo.isCompleted,
+              authorName: payload.authorName || todo.authorName,
+              completedDate: payload.date
+            }
           : todo
       );
     case actionTypes.DELETE_TODO:

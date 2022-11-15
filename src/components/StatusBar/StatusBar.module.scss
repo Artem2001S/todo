@@ -1,5 +1,7 @@
-@import "../../globalStyles/variables.scss";
+@import '../../globalStyles/variables.scss';
 
 .StatusLine {
   color: $gray_dark;
+  margin-right: 15px;
+  font-size: 1.5rem;
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import classes from './AddForm.module.scss';
 import Alert from '../UI/Alert/Alert';
+import soundfile from './sirena.mp3';
 
 export default function AddForm({
   submitHandler,
@@ -30,20 +31,22 @@ export default function AddForm({
         submitHandler(new Date().valueOf(), value.trim());
         setValue('');
         setErrorMessage(false);
+        const audio = new Audio(soundfile);
+        audio.play();
       }}
     >
       {errorMessage && <Alert>Enter data!</Alert>}
       <div>
-        {!isEmpty && (
+        {/* {!isEmpty && (
           <div onClick={onToggleAll} className={toggleAllBtnClasses}>
             ❯
           </div>
-        )}
+        )} */}
 
         <input
           className={classes.Input}
           type="text"
-          placeholder="What needs to be done ?"
+          placeholder="Название задачи"
           value={value}
           onChange={e => {
             setValue(e.target.value);

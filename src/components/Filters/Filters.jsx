@@ -4,9 +4,9 @@ import FilterButton from 'containers/FilterButton';
 
 export default function Filters() {
   const buttons = [
-    { name: 'all', content: 'All' },
-    { name: 'active', content: 'Active' },
-    { name: 'completed', content: 'Completed' }
+    { name: 'all', content: 'Все' },
+    { name: 'active', content: 'Активные' },
+    { name: 'completed', content: 'Выполненные' }
   ];
 
   return (

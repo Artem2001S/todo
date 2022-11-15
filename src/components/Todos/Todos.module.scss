@@ -1,8 +1,36 @@
-@import "../../globalStyles/variables.scss";
+@import '../../globalStyles/variables.scss';
+
+.root {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.calendarWrapper {
+  margin-top: 100px;
+  margin: 60px auto 0;
+}
+
+.leftSide {
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.center {
+  margin: 0 auto;
+  width: 25rem;
+}
+
+.logoAbsolute {
+  position: absolute;
+  top: 0px !important;
+}
 
 .TodosContainer {
-  padding: 0 23%;
+  padding: 0 5%;
   margin: 2.5rem auto;
+  flex: 1;
 
   @include media-laptop() {
     padding: 0 13%;
@@ -15,6 +43,24 @@
   @include media-mobile_S {
     margin: 2rem auto;
   }
+}
+
+.rootSettings {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px 20%;
+}
+
+.logoContainer {
+  width: 20rem;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.logoIcon {
+  width: 100%;
 }
 
 .TodosHeader {

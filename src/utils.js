@@ -1,3 +1,5 @@
+import { isSameDay } from 'date-fns';
+
 export function getCompletedTodosCount(todos) {
   return todos.reduce((accum, todo) => {
     if (todo.isCompleted) return accum + 1;
@@ -10,19 +12,14 @@ export function createTodoObject(id, todoTitle) {
     id,
     text: todoTitle,
     isCompleted: false,
-    isPinned: false
+    isPinned: false,
+    createdAt: new Date().valueOf()
   };
 }
 
 export function getStatusBarContent(todos) {
   const uncompletedTodosCount = todos.length - getCompletedTodosCount(todos);
-  let statusBarContent = `${uncompletedTodosCount} item`;
-
-  if (uncompletedTodosCount === 1) {
-    statusBarContent += ' left';
-  } else {
-    statusBarContent += 's left';
-  }
+  let statusBarContent = `Осталось задач: ${uncompletedTodosCount}`;
 
   return statusBarContent;
 }
@@ -34,14 +31,20 @@ export function getCompletedPercent(todos) {
 }
 
 export function filter(todos, filter) {
-  switch (filter) {
-    case 'all':
-      return todos;
+  let todos_ = todos;
+
+  switch (filter.filterType) {
     case 'active':
-      return todos.filter(item => !item.isCompleted);
+      todos_ = todos.filter(item => !item.isCompleted);
+      break;
     case 'completed':
-      return todos.filter(item => item.isCompleted);
+      todos_ = todos.filter(item => item.isCompleted);
+      break;
     default:
-      return todos;
+      todos_ = todos;
   }
+
+  return todos_.filter(todo => {
+    return isSameDay(todo.createdAt, filter.selectedDate);
+  });
 }

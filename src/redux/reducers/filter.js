@@ -1,11 +1,13 @@
-import { APPLY_FILTER } from 'redux/actions/actionTypes';
+import { APPLY_FILTER, SET_DATE } from 'redux/actions/actionTypes';
 
-const initialState = 'all';
+const initialState = { filterType: 'all', selectedDate: new Date().valueOf() };
 
 export default function filterReducer(state = initialState, action) {
   switch (action.type) {
     case APPLY_FILTER:
-      return action.payload.newFilter;
+      return { ...state, filterType: action.payload.newFilter };
+    case SET_DATE:
+      return { ...state, selectedDate: action.payload };
     default:
       return state;
   }
