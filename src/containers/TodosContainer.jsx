@@ -18,6 +18,8 @@ const mapDispatchToProps = dispatch =>
       handleAddTodo: actions.addTodo,
       handleTodoToggle: actions.toggleTodo,
       handleRemoveTodo: actions.deleteTodo,
+      handleToggleUrgent: actions.toggleUrgentTodo,
+      setTodo: actions.setTodo,
       handlePinTodo: actions.pinTodo,
       handleSetDate: actions.setDate,
       handleChangeTodoTitle: actions.changeTodoTitle

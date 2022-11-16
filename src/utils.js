@@ -13,7 +13,9 @@ export function createTodoObject(id, todoTitle) {
     text: todoTitle,
     isCompleted: false,
     isPinned: false,
-    createdAt: new Date().valueOf()
+    createdAt: new Date().valueOf(),
+    isUrgent: false,
+    progress: 0
   };
 }
 

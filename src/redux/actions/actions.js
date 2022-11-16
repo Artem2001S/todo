@@ -14,6 +14,20 @@ export function toggleTodo(todoId, authorName, date) {
   };
 }
 
+export function toggleUrgentTodo(todoId) {
+  return {
+    type: actionTypes.TOGGLE_URGENT_TODO,
+    payload: { todoId }
+  };
+}
+
+export function setTodo(todo) {
+  return {
+    type: actionTypes.SET_TODO,
+    payload: todo
+  };
+}
+
 export function setDate(date) {
   return {
     type: actionTypes.SET_DATE,

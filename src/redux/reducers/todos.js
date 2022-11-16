@@ -8,7 +8,13 @@ export default function todos(state = initialState, action) {
 
   switch (action.type) {
     case actionTypes.ADD_TODO:
-      return [...state, createTodoObject(payload.id, payload.todoTitle)];
+      return [createTodoObject(payload.id, payload.todoTitle), ...state];
+    case actionTypes.SET_TODO:
+      const exists = state.find(todo => todo.id === payload?.id);
+      if (exists) {
+        return state.map(todo => (todo.id === payload.id ? payload : todo));
+      }
+      return [payload, ...state];
     case actionTypes.TOGGLE_TODO:
       return state.map(todo =>
         todo.id === payload.todoId
@@ -17,6 +23,15 @@ export default function todos(state = initialState, action) {
               isCompleted: !todo.isCompleted,
               authorName: payload.authorName || todo.authorName,
               completedDate: payload.date
+            }
+          : todo
+      );
+    case actionTypes.TOGGLE_URGENT_TODO:
+      return state.map(todo =>
+        todo.id === payload.todoId
+          ? {
+              ...todo,
+              isUrgent: !todo.isUrgent
             }
           : todo
       );

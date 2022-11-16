@@ -1,18 +1,48 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useMemo
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { UIParametersContext } from 'Contexts/UIParametersContext';
 import classes from './TodoItem.module.scss';
+import { getTrackBackground, Range } from 'react-range';
+
 import Checkbox from 'components/UI/Checkbox/Checkbox';
 import { format } from 'date-fns';
 import sound from './icq.mp3';
+import { debounce } from 'lodash';
+
+function makeDoubleClick(doubleClickCallback, singleClickCallback) {
+  var clicks = 0,
+    timeout;
+  return function() {
+    clicks++;
+    console.log('clicks', clicks);
+    if (clicks === 1) {
+      timeout = setTimeout(function() {
+        singleClickCallback && singleClickCallback.apply(this, arguments);
+        clicks = 0;
+      }, 300);
+    } else {
+      timeout && clearTimeout(timeout);
+      doubleClickCallback && doubleClickCallback.apply(this, arguments);
+      clicks = 0;
+    }
+  };
+}
 
 export default function TodoItem({
   todo,
+  openModal,
   handleTodoToggle,
   handleRemoveTodo,
   handleChangeTodoTitle,
-  handlePinTodo
+  handlePinTodo,
+  handleToggleUrgent
 }) {
   const inputRef = React.createRef();
   const [enterAuthor, setEnterAuthor] = useState(false);
@@ -25,6 +55,28 @@ export default function TodoItem({
     todo.id,
     handleRemoveTodo
   ]);
+
+  const [progressValues, setProgressValues] = useState([todo.progress || 0]);
+  const toggleUrgent = useCallback(() => handleToggleUrgent(todo.id), [
+    todo.id,
+    handleToggleUrgent
+  ]);
+
+  const debouncedUpdateProgress = useMemo(
+    () =>
+      debounce(value => {
+        // todo
+        // updateUstavkaWs(value);
+      }, 450),
+    []
+  );
+
+  useEffect(() => {
+    debouncedUpdateProgress(progressValues[0]);
+    return () => {
+      debouncedUpdateProgress.cancel();
+    };
+  }, [debouncedUpdateProgress, progressValues]);
 
   const toggleTodo = useCallback(() => {
     const audio = new Audio(sound);
@@ -51,12 +103,15 @@ export default function TodoItem({
       [classes.hided]: isEditingMode
     }),
     todoContentClasses: classNames(classes.ContentBlock, {
-      [classes.Pinned]: todo.isPinned
+      [classes.Pinned]: todo.isPinned,
+      [classes.urgent]: todo.isUrgent,
+      [classes.completedBlock]: todo.isCompleted
     }),
     inputClasses: classNames(classes.inputForEdit, {
       [classes.hided]: !isEditingMode
     }),
     spanClasses: classNames(classes.title, {
+      [classes.urgentSpan]: todo.isUrgent,
       [classes.Completed]: todo.isCompleted
     })
   };
@@ -99,6 +154,7 @@ export default function TodoItem({
             className={calculatedClasses.todoContentClasses}
             title="Double click to edit"
             onDoubleClick={startTodoEditing}
+            onClick={makeDoubleClick(startTodoEditing, () => openModal(todo))}
             onContextMenu={e => {
               e.preventDefault();
               handlePinTodo(todo.id);
@@ -109,7 +165,12 @@ export default function TodoItem({
               {isEditingMode ? '1' : todo.text}
             </span>
             {!isEditingMode && (
-              <b className={classes.titleDate}>
+              <b
+                className={classNames(classes.titleDate, {
+                  [classes.urgentSpan]: todo.isUrgent,
+                  [classes.Completed]: todo.isCompleted
+                })}
+              >
                 {format(todo.createdAt, 'dd.MM в HH:mm')}
               </b>
             )}
@@ -139,7 +200,21 @@ export default function TodoItem({
 
           {isEditingMode || (
             <div className={classes.actions}>
-              <button className={classes.removeBtn} onClick={removeTodo} />
+              <button
+                className={classNames(classes.removeBtn, {
+                  [classes.removeBtnUrgent]: todo.isUrgent || todo.isCompleted
+                })}
+                onClick={removeTodo}
+              />
+              {!todo.isCompleted && (
+                <div className={classes.urgentBtn} onClick={toggleUrgent}>
+                  <img
+                    className={classes.urgentIcon}
+                    src={require('./alarm.png')}
+                    alt="img"
+                  />
+                </div>
+              )}
               {isTabletVersion && (
                 <button
                   className={classes.editBtn}
@@ -149,12 +224,12 @@ export default function TodoItem({
             </div>
           )}
           <div
-            className={classNames({
-              [classes.bottom]: todo.isCompleted || enterAuthor
+            className={classNames(classes.bottom, {
+              [classes.bottom]: enterAuthor
             })}
           >
             {!enterAuthor ? (
-              todo.isCompleted && (
+              todo.isCompleted ? (
                 <div className={classes.createdTitle}>
                   {todo.authorName && (
                     <div>
@@ -165,6 +240,49 @@ export default function TodoItem({
                     </div>
                   )}
                 </div>
+              ) : (
+                <>
+                  <Range
+                    step={1}
+                    min={0}
+                    max={100}
+                    values={progressValues}
+                    onChange={values => setProgressValues(values)}
+                    renderTrack={({ props, children }) => (
+                      <div
+                        {...props}
+                        style={{
+                          ...props.style,
+                          height: '15px',
+                          width: '100%',
+                          borderRadius: '10px',
+                          background: getTrackBackground({
+                            values: progressValues,
+                            colors: ['crimson', '#fff'],
+                            min: 0,
+                            max: 100
+                          })
+                        }}
+                      >
+                        {children}
+                      </div>
+                    )}
+                    renderThumb={({ props }) => (
+                      <div
+                        {...props}
+                        style={{
+                          ...props.style,
+                          height: '30px',
+                          borderRadius: '20px',
+                          outline: 'none',
+
+                          width: '30px',
+                          backgroundColor: 'crimson'
+                        }}
+                      />
+                    )}
+                  />
+                </>
               )
             ) : (
               <div className={classes.editAuthorRoot}>
@@ -199,7 +317,10 @@ TodoItem.propTypes = {
     isPinned: PropTypes.bool.isRequired,
     createdAt: PropTypes.number,
     authorName: PropTypes.string,
-    completedDate: PropTypes.number
+    completedDate: PropTypes.number,
+    isUrgent: PropTypes.bool,
+    progress: PropTypes.number,
+    comment: PropTypes.string
   }),
 
   handleTodoToggle: PropTypes.func.isRequired,
