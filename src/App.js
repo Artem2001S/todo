@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { UIParametersContext } from './Contexts/UIParametersContext';
 import { TABLET_WIDTH } from 'constants.js';
-import { changeIsTabletVersion } from 'redux/actions/actions';
+import { changeIsTabletVersion, loadTodos } from 'redux/actions/actions';
 import TodosContainer from 'containers/TodosContainer';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { getTodos } from 'firebaseHelpers';
 
 function App({ isTabletVersion, changeIsTabletVersion }) {
   const [isTablet, setIsTablet] = useState(isTabletVersion);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,6 +27,20 @@ function App({ isTabletVersion, changeIsTabletVersion }) {
       window.removeEventListener('resize', handleResize);
     };
   }, [changeIsTabletVersion, isTablet]);
+
+  useEffect(() => {
+    getTodos(data => {
+      dispatch(
+        loadTodos(
+          Object.keys(data)
+            .map(id => {
+              return data[id];
+            })
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        )
+      );
+    });
+  }, [dispatch]);
 
   return (
     <UIParametersContext.Provider value={{ isTabletVersion }}>

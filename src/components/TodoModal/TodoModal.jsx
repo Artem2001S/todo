@@ -4,6 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import Modal from 'react-modal';
 import Button from 'components/UI/Button/Button';
+import { addOrSetTodo } from 'firebaseHelpers';
 
 const customStyles = {
   overlay: {
@@ -41,9 +42,11 @@ const TodoModal = function({ isOpen, close, onSave, todo }) {
     setValue(todo?.comment);
   }, [todo]);
   const save = () => {
-    onSave({ ...todo, comment: value });
+    addOrSetTodo({ ...todo, comment: value });
+    // onSave({ ...todo, comment: value });
     close();
   };
+
   return (
     <Modal
       onRequestClose={close}

@@ -7,6 +7,8 @@ export default function todos(state = initialState, action) {
   const { payload } = action;
 
   switch (action.type) {
+    case actionTypes.LOAD_TODOS:
+      return payload.todos;
     case actionTypes.ADD_TODO:
       return [createTodoObject(payload.id, payload.todoTitle), ...state];
     case actionTypes.SET_TODO:

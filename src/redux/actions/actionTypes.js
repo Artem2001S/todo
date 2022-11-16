@@ -9,6 +9,7 @@ export const SET_DATE = 'SET_DATE';
 export const PIN_TODO = 'PIN_TODO';
 export const TOGGLE_URGENT_TODO = 'TOGGLE_URGENT_TODO';
 export const SET_TODO = 'SET_TODO';
+export const LOAD_TODOS = 'LOAD_TODOS';
 
 // UIParameters
 export const CHANGE_IS_TABLET_VERSION = 'CHANGE_IS_TABLET_VERSION';

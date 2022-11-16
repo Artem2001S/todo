@@ -15,7 +15,15 @@ const store = createStore(
 /* eslint-enable */
 
 store.subscribe(() => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(store.getState()));
+  const state = store.getState();
+
+  localStorage.setItem(
+    LOCAL_STORAGE_KEY,
+    JSON.stringify({
+      UIParameters: state.UIParameters,
+      filter: state.filter
+    })
+  );
 });
 
 export default store;

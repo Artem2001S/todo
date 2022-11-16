@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import classes from './AddForm.module.scss';
 import Alert from '../UI/Alert/Alert';
 import soundfile from './sirena.mp3';
+import { addOrSetTodo } from 'firebaseHelpers/index';
+import { createTodoObject } from 'utils';
 
 export default function AddForm({
   submitHandler,
@@ -28,8 +30,10 @@ export default function AddForm({
           return;
         }
 
-        submitHandler(new Date().valueOf(), value.trim());
+        const id = new Date().valueOf();
+        submitHandler(id, value.trim());
         setValue('');
+        addOrSetTodo(createTodoObject(id, value.trim()));
         setErrorMessage(false);
         const audio = new Audio(soundfile);
         audio.play();

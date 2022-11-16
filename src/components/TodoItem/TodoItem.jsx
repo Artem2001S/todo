@@ -15,13 +15,13 @@ import Checkbox from 'components/UI/Checkbox/Checkbox';
 import { format } from 'date-fns';
 import sound from './icq.mp3';
 import { debounce } from 'lodash';
+import { addOrSetTodo, removeTodoFb } from 'firebaseHelpers';
 
 function makeDoubleClick(doubleClickCallback, singleClickCallback) {
   var clicks = 0,
     timeout;
   return function() {
     clicks++;
-    console.log('clicks', clicks);
     if (clicks === 1) {
       timeout = setTimeout(function() {
         singleClickCallback && singleClickCallback.apply(this, arguments);
@@ -51,24 +51,22 @@ export default function TodoItem({
   const [valueToUpdate, setValueToUpdate] = useState(todo.text);
   const [isEditingMode, setIsEditingMode] = useState(false);
 
-  const removeTodo = useCallback(() => handleRemoveTodo(todo.id), [
-    todo.id,
-    handleRemoveTodo
-  ]);
+  const removeTodo = useCallback(() => {
+    removeTodoFb(todo.id);
+    // handleRemoveTodo(todo.id);
+  }, [todo.id]);
 
   const [progressValues, setProgressValues] = useState([todo.progress || 0]);
-  const toggleUrgent = useCallback(() => handleToggleUrgent(todo.id), [
-    todo.id,
-    handleToggleUrgent
-  ]);
+  const toggleUrgent = useCallback(() => {
+    addOrSetTodo({ ...todo, isUrgent: !todo.isUrgent });
+  }, [todo]);
 
   const debouncedUpdateProgress = useMemo(
     () =>
       debounce(value => {
-        // todo
-        // updateUstavkaWs(value);
+        addOrSetTodo({ ...todo, progress: value });
       }, 450),
-    []
+    [todo]
   );
 
   useEffect(() => {
@@ -81,18 +79,26 @@ export default function TodoItem({
   const toggleTodo = useCallback(() => {
     const audio = new Audio(sound);
     if (todo.isCompleted) {
-      handleTodoToggle(todo.id);
+      // handleTodoToggle(todo.id);
+      addOrSetTodo({ ...todo, isCompleted: !todo.isCompleted });
       audio.play();
     } else {
       if (enterAuthor) {
-        handleTodoToggle(todo.id, authorName, new Date().valueOf());
+        // handleTodoToggle(todo.id, authorName, new Date().valueOf());
+        addOrSetTodo({
+          ...todo,
+          isCompleted: !todo.isCompleted,
+          authorName,
+          completedDate: new Date().valueOf()
+        });
+
         setEnterAuthor(false);
         audio.play();
       } else {
         setEnterAuthor(true);
       }
     }
-  }, [todo.isCompleted, todo.id, handleTodoToggle, enterAuthor, authorName]);
+  }, [todo, enterAuthor, authorName]);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -123,12 +129,14 @@ export default function TodoItem({
   const endTodoEditing = () => {
     // if zero-value then delete todo, else update todo
     if (!valueToUpdate.trim()) {
-      handleRemoveTodo(todo.id);
+      removeTodo();
+      // handleRemoveTodo(todo.id);
       return;
     }
 
     if (valueToUpdate !== todo.text) {
-      handleChangeTodoTitle(todo.id, valueToUpdate);
+      // handleChangeTodoTitle(todo.id, valueToUpdate);
+      addOrSetTodo({ ...todo, text: valueToUpdate });
     }
 
     setIsEditingMode(false);
@@ -154,12 +162,14 @@ export default function TodoItem({
             className={calculatedClasses.todoContentClasses}
             title="Double click to edit"
             onDoubleClick={startTodoEditing}
-            onClick={makeDoubleClick(startTodoEditing, () => openModal(todo))}
+            onClick={makeDoubleClick(startTodoEditing, () => {
+              !isEditingMode && openModal(todo);
+            })}
             onContextMenu={e => {
               e.preventDefault();
-              handlePinTodo(todo.id);
+              addOrSetTodo({ ...todo, isPinned: !todo.isPinned });
             }}
-            onTouchEnd={() => handlePinTodo(todo.id)}
+            // onTouchEnd={() => handlePinTodo(todo.id)}
           >
             <span className={calculatedClasses.spanClasses}>
               {isEditingMode ? '1' : todo.text}

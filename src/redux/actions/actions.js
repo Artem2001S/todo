@@ -1,5 +1,12 @@
 import * as actionTypes from './actionTypes';
 
+export function loadTodos(todos) {
+  return {
+    type: actionTypes.LOAD_TODOS,
+    payload: { todos }
+  };
+}
+
 export function addTodo(id, todoTitle) {
   return {
     type: actionTypes.ADD_TODO,
