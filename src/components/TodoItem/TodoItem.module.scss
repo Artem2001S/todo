@@ -12,6 +12,36 @@
   border-radius: 25px;
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0 rgba($color: $crimson, $alpha: 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+.comment {
+  position: absolute;
+  right: -38px;
+  top: 8px;
+  width: 20px;
+  background-color: $crimson;
+  border-radius: 10px;
+  height: 20px;
+  filter: drop-shadow(0px 0px 6px $crimson);
+
+  transform: scale(1);
+  animation: pulse 2s infinite;
+}
+
 .bottom {
   border-bottom-right-radius: 12px;
   border-bottom-left-radius: 12px;

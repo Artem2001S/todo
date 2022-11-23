@@ -14,6 +14,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import classNames from 'classnames';
+import { removeTodoFb } from 'firebaseHelpers';
 
 export default function Todos({
   todoList,
@@ -70,12 +71,21 @@ export default function Todos({
         </>
       )}
       {completedTodosCount > 0 && (
-        <Button type={'transparent'} onClick={removeCompleted}>
+        <Button
+          type={'transparent'}
+          onClick={() => {
+            todoList.forEach(todo => {
+              if (todo.isCompleted) {
+                removeTodoFb(todo.id);
+              }
+            });
+          }}
+        >
           Удалить выполненные задачи
         </Button>
       )}
       <div className={classes.calendarWrapper}>
-        <Calendar value={value} onChange={onChange} />
+        {/* <Calendar value={value} onChange={onChange} /> */}
       </div>
     </div>
   ) : (

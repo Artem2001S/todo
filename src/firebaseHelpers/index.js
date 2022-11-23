@@ -1,5 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import { get, getDatabase, onValue, ref, set } from 'firebase/database';
+import {
+  getDatabase,
+  onChildAdded,
+  onValue,
+  ref,
+  set,
+  onChildChanged,
+  update
+} from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC_qvjiREHQxllAAN47pKb6MOQ6vuPL0w0',
@@ -18,14 +26,34 @@ const db = getDatabase(app);
 
 export const getTodos = async onValueProp => {
   const todosRef = ref(db, 'todos');
-  onValue(todosRef, snapshot => {
+  return onValue(todosRef, snapshot => {
     const data = snapshot.val();
     onValueProp && onValueProp(data);
   });
 };
 
+export const subscribeChildAdded = onChildAdded_ => {
+  const todosRef = ref(db, 'todos');
+  return onChildAdded(todosRef, snapshot => {
+    const data = snapshot.val();
+    onChildAdded_ && onChildAdded_(data);
+  });
+};
+
+export const subscribeTodoChange = async onChange => {
+  const todoRef = ref(db, `todos`);
+  const unsubscribe = await onChildChanged(todoRef, snapshot => {
+    onChange && onChange(snapshot.val());
+  });
+  return unsubscribe;
+};
+
 export const addOrSetTodo = async todo => {
   return set(ref(db, 'todos/' + todo.id), todo);
+};
+
+export const updateTodo = async todo => {
+  return update(ref(db, 'todos/' + todo.id), todo);
 };
 
 export const removeTodoFb = async id => {

@@ -1,6 +1,6 @@
 import { APPLY_FILTER, SET_DATE } from 'redux/actions/actionTypes';
 
-const initialState = { filterType: 'all', selectedDate: new Date().valueOf() };
+const initialState = { filterType: 'none', selectedDate: new Date().valueOf() };
 
 export default function filterReducer(state = initialState, action) {
   switch (action.type) {

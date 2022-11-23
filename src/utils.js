@@ -1,4 +1,4 @@
-import { isSameDay } from 'date-fns';
+import { isBefore, isSameDay, startOfDay } from 'date-fns';
 
 export function getCompletedTodosCount(todos) {
   return todos.reduce((accum, todo) => {
@@ -36,17 +36,21 @@ export function filter(todos, filter) {
   let todos_ = todos;
 
   switch (filter.filterType) {
+    case 'all':
+      return todos;
     case 'active':
       todos_ = todos.filter(item => !item.isCompleted);
       break;
     case 'completed':
-      todos_ = todos.filter(item => item.isCompleted);
-      break;
+      return todos.filter(item => item.isCompleted);
     default:
       todos_ = todos;
   }
 
   return todos_.filter(todo => {
-    return isSameDay(todo.createdAt, filter.selectedDate);
+    return (
+      isSameDay(todo.createdAt, new Date()) ||
+      (!todo.isCompleted && isBefore(todo.createdAt, startOfDay(new Date())))
+    );
   });
 }

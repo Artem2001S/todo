@@ -61,27 +61,14 @@ export default function TodoItem({
     addOrSetTodo({ ...todo, isUrgent: !todo.isUrgent });
   }, [todo]);
 
-  const debouncedUpdateProgress = useMemo(
-    () =>
-      debounce(value => {
-        addOrSetTodo({ ...todo, progress: value });
-      }, 450),
-    [todo]
-  );
-
   useEffect(() => {
-    debouncedUpdateProgress(progressValues[0]);
-    return () => {
-      debouncedUpdateProgress.cancel();
-    };
-  }, [debouncedUpdateProgress, progressValues]);
+    setProgressValues([todo.progress]);
+  }, [todo]);
 
   const toggleTodo = useCallback(() => {
-    const audio = new Audio(sound);
     if (todo.isCompleted) {
       // handleTodoToggle(todo.id);
       addOrSetTodo({ ...todo, isCompleted: !todo.isCompleted });
-      audio.play();
     } else {
       if (enterAuthor) {
         // handleTodoToggle(todo.id, authorName, new Date().valueOf());
@@ -93,7 +80,6 @@ export default function TodoItem({
         });
 
         setEnterAuthor(false);
-        audio.play();
       } else {
         setEnterAuthor(true);
       }
@@ -158,6 +144,7 @@ export default function TodoItem({
             [classes.white]: enterAuthor
           })}
         >
+          {todo.comment && <div className={classes.comment} />}
           <div
             className={calculatedClasses.todoContentClasses}
             title="Double click to edit"
@@ -257,7 +244,10 @@ export default function TodoItem({
                     min={0}
                     max={100}
                     values={progressValues}
-                    onChange={values => setProgressValues(values)}
+                    onChange={values => {
+                      addOrSetTodo({ ...todo, progress: values[0] });
+                      setProgressValues(values);
+                    }}
                     renderTrack={({ props, children }) => (
                       <div
                         {...props}

@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { UIParametersContext } from './Contexts/UIParametersContext';
 import { TABLET_WIDTH } from 'constants.js';
 import { changeIsTabletVersion, loadTodos } from 'redux/actions/actions';
 import TodosContainer from 'containers/TodosContainer';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { getTodos } from 'firebaseHelpers';
+import {
+  getTodos,
+  subscribeChildAdded,
+  subscribeTodoChange
+} from 'firebaseHelpers';
+import sound from './components/AddForm/sirena.mp3';
+import checkSound from './components/TodoItem/icq.mp3';
 
 function App({ isTabletVersion, changeIsTabletVersion }) {
   const [isTablet, setIsTablet] = useState(isTabletVersion);
   const dispatch = useDispatch();
+  const todos = useSelector(state => state.todos);
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,19 +35,64 @@ function App({ isTabletVersion, changeIsTabletVersion }) {
     };
   }, [changeIsTabletVersion, isTablet]);
 
+  const isInitialized = useRef(false);
+
   useEffect(() => {
     getTodos(data => {
-      dispatch(
-        loadTodos(
-          Object.keys(data)
-            .map(id => {
-              return data[id];
-            })
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        )
-      );
+      isInitialized.current = true;
+      if (data) {
+        dispatch(
+          loadTodos(
+            Object.keys(data)
+              .map(id => {
+                return data[id];
+              })
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .sort((a, b) => b.isPinned - a.isPinned)
+          )
+        );
+      } else {
+        dispatch(loadTodos([]));
+      }
     });
+
+    return () => {
+      // unsubscribe();
+    };
   }, [dispatch]);
+
+  const handlers = useRef(null);
+
+  useEffect(() => {
+    const init = async () => {
+      handlers.current = await subscribeTodoChange(data => {
+        const prev = data && todos.find(todo => todo.id === data.id);
+        if (data && data?.isCompleted && !prev.isCompleted) {
+          const audio = new Audio(checkSound);
+          audio.play();
+        }
+      });
+    };
+    init();
+    return () => {
+      if (handlers.current) {
+        handlers.current();
+      }
+    };
+  }, [todos]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeChildAdded(() => {
+      if (isInitialized.current) {
+        const audio = new Audio(sound);
+        audio.play();
+        console.log('playe');
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <UIParametersContext.Provider value={{ isTabletVersion }}>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import classes from './AddForm.module.scss';
 import Alert from '../UI/Alert/Alert';
-import soundfile from './sirena.mp3';
 import { addOrSetTodo } from 'firebaseHelpers/index';
 import { createTodoObject } from 'utils';
 
@@ -35,8 +34,6 @@ export default function AddForm({
         setValue('');
         addOrSetTodo(createTodoObject(id, value.trim()));
         setErrorMessage(false);
-        const audio = new Audio(soundfile);
-        audio.play();
       }}
     >
       {errorMessage && <Alert>Enter data!</Alert>}
