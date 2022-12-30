@@ -50,6 +50,7 @@ export function filter(todos, filter) {
   return todos_.filter(todo => {
     return (
       isSameDay(todo.createdAt, new Date()) ||
+      isSameDay(todo.completedDate, new Date()) ||
       (!todo.isCompleted && isBefore(todo.createdAt, startOfDay(new Date())))
     );
   });
