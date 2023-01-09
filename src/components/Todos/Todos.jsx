@@ -26,6 +26,7 @@ export default function Todos({
   handleAddTodo,
   ...todoActions
 }) {
+  document.body.style.zoom = '50%';
   const todosLength = todoList.length;
   const isEmpty = todosLength === 0;
   const [value, onChange] = useState(new Date());

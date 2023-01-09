@@ -14,6 +14,9 @@ import sound from './components/AddForm/sirena.mp3';
 import checkSound from './components/TodoItem/icq.mp3';
 
 function App({ isTabletVersion, changeIsTabletVersion }) {
+  useEffect(() => {
+    document.body.style.zoom = '50%';
+  }, []);
   const [isTablet, setIsTablet] = useState(isTabletVersion);
   const dispatch = useDispatch();
   const todos = useSelector(state => state.todos);
